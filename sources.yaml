@@ -1,0 +1,36 @@
+# KI-Wissensdatenbank — Quellen
+# Neue Quelle = drei Zeilen, committen, fertig.
+
+rss:
+  - name: "Superhuman AI (Zain Kahn)"
+    url: "https://superhuman.beehiiv.com/feed"
+    chapters: [all]
+  - name: "The Code"
+    url: "https://codenewsletter.ai/feed"
+    chapters: ["01-plattform-architektur", "02-use-cases"]
+
+websites:
+  - name: "Digitale Verwaltung Schweiz"
+    url: "https://www.digitale-verwaltung-schweiz.ch"
+    chapters: [all]
+  - name: "NCSC"
+    url: "https://www.ncsc.admin.ch"
+    chapters: ["03-datenschutz-informationssicherheit", "05-regulatorik"]
+  - name: "EDÖB"
+    url: "https://www.edoeb.admin.ch"
+    chapters: ["03-datenschutz-informationssicherheit", "05-regulatorik"]
+  - name: "EU AI Policy"
+    url: "https://digital-strategy.ec.europa.eu/en/policies/european-approach-artificial-intelligence"
+    chapters: ["05-regulatorik"]
+  - name: "BK Digitale Transformation"
+    url: "https://www.bk.admin.ch/bk/de/home/digitale-transformation-ikt-lenkung.html"
+    chapters: ["04-governance-betriebsmodell", "01-plattform-architektur"]
+
+archives:
+  - name: "DVS Newsletter-Archiv"
+    url: "https://www.digital-public-services-switzerland.ch/newsletters/"
+    frequency: bimonthly
+    chapters: [all]
+
+gmail:
+  enabled: false

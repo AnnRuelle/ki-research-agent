@@ -1,0 +1,18 @@
+{
+  "finding_id": "2026-04-14-azgw-001",
+  "chapter": "01-plattform-architektur",
+  "subpage": "ai-gateway.md",
+  "title": "Azure AI Gateway Prompt Caching",
+  "summary": "Azure AI Gateway unterstützt seit März 2026 Prompt Caching, was die Latenz um bis zu 40% reduziert.",
+  "source": {
+    "name": "Microsoft Tech Blog",
+    "url": "https://techcommunity.microsoft.com/blog/azure-ai-gateway-caching",
+    "date": "2026-04-12",
+    "type": "vendor"
+  },
+  "confidence": 0.92,
+  "credibility": "high",
+  "geographic_origin": "global",
+  "operation": "update_text",
+  "tags": ["performance", "azure", "caching"]
+}

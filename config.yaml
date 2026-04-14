@@ -1,0 +1,57 @@
+# KI-Wissensdatenbank — Zentrale Steuerung
+# Editierbar via github.dev (Browser). Kein Code-Change nötig.
+
+# Provider pro Agent — eine Zeile ändern = Provider wechseln
+agents:
+  researcher:           { provider: azure_openai, model: gpt-4o-mini, retries: 3, timeout: 60 }
+  writer:               { provider: azure_openai, model: gpt-4o-mini, retries: 3, timeout: 90 }
+  critic:               { provider: azure_openai, model: gpt-4o,      retries: 3, timeout: 90 }
+  resolver:             { provider: azure_openai, model: gpt-4o,      retries: 3, timeout: 90 }
+  consistency_checker:  { provider: azure_openai, model: gpt-4o,      retries: 3, timeout: 120 }
+  qa:                   { provider: azure_openai, model: gpt-4o,      retries: 3, timeout: 60, max_context_chapters: 5 }
+
+# Zeitplan (UTC)
+schedule:
+  rss_ingest: "daily 06:00"
+  web_archive_check: "sunday 05:00"
+  research_pipeline: "sunday 06:00"
+  consistency_check: "sunday 08:00"
+  newsletter_send: "monday 07:00"
+
+# Newsletter
+newsletter:
+  sender: "ki-kb@example.com"
+  recipients: ["rahel@example.com"]
+  batch_approve_threshold: 10
+
+# Auto-Merge (erst nach Kalibrierung aktivieren)
+auto_merge:
+  enabled: false
+  rules:
+    critic_verdict: approve
+    critic_severity_max: minor
+    operations: [update_text, add_source]
+  always_manual_chapters: ["05-regulatorik", "07-markt-anbieter"]
+  always_manual_tags: ["rechtsgrundlage"]
+  always_manual_origins: ["CN"]
+
+# Geographischer Scope pro Kapitel
+chapter_scope:
+  01-plattform-architektur:    { ch: true, dach: true, global: true,  chinese: true  }
+  02-use-cases:                { ch: true, dach: true, global: true,  chinese: false }
+  03-datenschutz:              { ch: true, dach: true, global: true,  chinese: false }
+  04-governance:               { ch: true, dach: true, global: true,  chinese: true  }
+  05-regulatorik:              { ch: true, dach: true, global: true,  chinese: true  }
+  06-change-management:        { ch: true, dach: true, global: true,  chinese: false }
+  07-markt-anbieter:           { ch: true, dach: true, global: true,  chinese: true  }
+  08-integration:              { ch: true, dach: true, global: false, chinese: false }
+  09-kosten:                   { ch: true, dach: true, global: true,  chinese: false }
+  10-referenzprojekte:         { ch: true, dach: true, global: true,  chinese: true  }
+  11-erfolgsmessung:           { ch: true, dach: true, global: true,  chinese: false }
+  12-beschaffung:              { ch: true, dach: true, global: false, chinese: false }
+  13-sustainable-it:           { ch: true, dach: true, global: true,  chinese: true  }
+
+# Logging
+logging:
+  level: INFO
+  format: json

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KI-KB Update — KW {{ week }}/{{ year }}</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 700px; margin: 0 auto; padding: 20px; color: #333; }
+    h1 { border-bottom: 2px solid #2563eb; padding-bottom: 8px; }
+    h2 { margin-top: 24px; }
+    .category { margin-bottom: 20px; }
+    .item { padding: 8px 0; border-bottom: 1px solid #eee; }
+    .item-title { font-weight: 600; }
+    .item-meta { color: #666; font-size: 0.9em; }
+    .actions { margin-top: 8px; }
+    .actions a { display: inline-block; padding: 4px 12px; margin-right: 8px; border-radius: 4px; text-decoration: none; font-size: 0.85em; }
+    .btn-approve { background: #dcfce7; color: #166534; }
+    .btn-reject { background: #fee2e2; color: #991b1b; }
+    .btn-batch { background: #2563eb; color: #fff; padding: 8px 16px; margin-top: 12px; }
+    .stats { background: #f8fafc; padding: 16px; border-radius: 8px; margin-top: 24px; }
+    .stats dt { font-weight: 600; display: inline; }
+    .stats dd { display: inline; margin-right: 16px; }
+  </style>
+</head>
+<body>
+  <h1>KI-KB Update — KW {{ week }}/{{ year }}</h1>
+
+  {% if added %}
+  <div class="category">
+    <h2>📗 Neu hinzugefügt ({{ added | length }})</h2>
+    {% for item in added %}
+    <div class="item">
+      <div class="item-title">{{ item.chapter }} → {{ item.subpage }}</div>
+      <div class="item-meta">{{ item.title }} · {{ item.source }} · Critic: {{ item.critic_verdict }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if flagged %}
+  <div class="category">
+    <h2>🟡 Braucht dein Go ({{ flagged | length }})</h2>
+    {% for item in flagged %}
+    <div class="item">
+      <div class="item-title">{{ item.chapter }} → {{ item.subpage }}</div>
+      <div class="item-meta">{{ item.title }} · {{ item.flag_reason }}</div>
+      <div class="actions">
+        <a href="{{ item.approve_url }}" class="btn-approve">► Freigeben</a>
+        <a href="{{ item.reject_url }}" class="btn-reject">► Verwerfen</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if new_pages %}
+  <div class="category">
+    <h2>🆕 Neue Seite vorgeschlagen</h2>
+    {% for item in new_pages %}
+    <div class="item">
+      <div class="item-title">{{ item.chapter }} → {{ item.filename }}</div>
+      <div class="item-meta">{{ item.reason }}</div>
+      <div class="actions">
+        <a href="{{ item.approve_url }}" class="btn-approve">► Freigeben</a>
+        <a href="{{ item.reject_url }}" class="btn-reject">► Verwerfen</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if obsolete %}
+  <div class="category">
+    <h2>🔶 Veraltet</h2>
+    {% for item in obsolete %}
+    <div class="item">
+      <div class="item-title">{{ item.chapter }} → {{ item.subpage }}</div>
+      <div class="item-meta">{{ item.description }}</div>
+      <div class="actions">
+        <a href="{{ item.approve_url }}" class="btn-approve">► Korrektur freigeben</a>
+        <a href="{{ item.reject_url }}" class="btn-reject">► Verwerfen</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if contradictions %}
+  <div class="category">
+    <h2>⚡ Widersprüche</h2>
+    {% for item in contradictions %}
+    <div class="item">
+      <div class="item-title">{{ item.chapter_a }} vs. {{ item.chapter_b }}</div>
+      <div class="item-meta">{{ item.description }}</div>
+      <div class="actions">
+        <a href="{{ item.fix_a_url }}" class="btn-approve">► Kap. A anpassen</a>
+        <a href="{{ item.fix_b_url }}" class="btn-approve">► Kap. B anpassen</a>
+        <a href="{{ item.review_url }}" class="btn-reject">► Beide prüfen</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if batch_actions %}
+  <div class="category">
+    <h2>Batch-Aktionen</h2>
+    <a href="{{ batch_approve_text_url }}" class="btn-batch">► Alle Text-Updates freigeben</a>
+    <a href="{{ batch_approve_sources_url }}" class="btn-batch">► Alle Quellen freigeben</a>
+  </div>
+  {% endif %}
+
+  <div class="stats">
+    <h2>Stats</h2>
+    <dl>
+      <dt>Gescannt:</dt><dd>{{ stats.scanned }}</dd>
+      <dt>Auto-merged:</dt><dd>{{ stats.auto_merged }}</dd>
+      <dt>Flagged:</dt><dd>{{ stats.flagged }}</dd>
+      <dt>Verworfen:</dt><dd>{{ stats.rejected }}</dd>
+      <dt>Kosten Azure:</dt><dd>${{ stats.cost_azure }}</dd>
+      <dt>Kosten Claude:</dt><dd>${{ stats.cost_claude }}</dd>
+    </dl>
+  </div>
+</body>
+</html>
