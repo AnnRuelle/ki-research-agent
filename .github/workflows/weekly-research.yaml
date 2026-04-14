@@ -1,0 +1,50 @@
+name: Weekly Research Pipeline
+
+on:
+  schedule:
+    - cron: "0 6 * * 0"  # Sonntag 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      chapter:
+        description: "Single chapter to process (blank = all)"
+        required: false
+        default: ""
+
+env:
+  AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+  AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+  AZURE_OPENAI_API_VERSION: "2024-12-01-preview"
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run full pipeline
+        run: python -m tests.run_full_pipeline ${{ github.event.inputs.chapter }}
+
+      - name: Run automated checks
+        run: python -m pytest tests/ -m unit --tb=short
+
+      - name: Commit results
+        run: |
+          git config user.name "ki-kb-bot"
+          git config user.email "ki-kb-bot@users.noreply.github.com"
+          git add chapters/ updates/ index.md CHANGELOG.md SUMMARY.md
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "[agent:pipeline] Weekly research: $(date +%Y-%m-%d)"
+            git push
+          fi

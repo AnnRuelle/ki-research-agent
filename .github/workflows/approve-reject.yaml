@@ -1,0 +1,54 @@
+name: Approve / Reject
+
+on:
+  workflow_dispatch:
+    inputs:
+      item_id:
+        description: "Item ID to approve/reject"
+        required: true
+      action:
+        description: "Action: approve, reject, fix_a, fix_b, review"
+        required: true
+        default: "approve"
+
+env:
+  AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+  AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+  AZURE_OPENAI_API_VERSION: "2024-12-01-preview"
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Process approval/rejection
+        run: |
+          echo "Processing: ${{ github.event.inputs.item_id }} -> ${{ github.event.inputs.action }}"
+          # TODO: Implement approval processing logic
+          # This will:
+          # 1. Find the flagged item by ID
+          # 2. If approve: merge the change via agents/merger.py
+          # 3. If reject: move to rejected.json
+          # 4. Update dashboard and indexes
+
+      - name: Commit changes
+        run: |
+          git config user.name "ki-kb-bot"
+          git config user.email "ki-kb-bot@users.noreply.github.com"
+          git add chapters/ updates/ index.md CHANGELOG.md
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "[agent:approve] ${{ github.event.inputs.action }}: ${{ github.event.inputs.item_id }}"
+            git push
+          fi
