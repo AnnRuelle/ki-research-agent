@@ -3,12 +3,12 @@
 
 # Provider pro Agent — eine Zeile ändern = Provider wechseln
 agents:
-  researcher:           { provider: azure_openai, model: gpt-4o-mini, retries: 3, timeout: 60 }
-  writer:               { provider: azure_openai, model: gpt-4o-mini, retries: 3, timeout: 90 }
-  critic:               { provider: azure_openai, model: gpt-4o,      retries: 3, timeout: 90 }
-  resolver:             { provider: azure_openai, model: gpt-4o,      retries: 3, timeout: 90 }
-  consistency_checker:  { provider: azure_openai, model: gpt-4o,      retries: 3, timeout: 120 }
-  qa:                   { provider: azure_openai, model: gpt-4o,      retries: 3, timeout: 60, max_context_chapters: 5 }
+  researcher:           { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
+  writer:               { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 90 }
+  critic:               { provider: anthropic, model: claude-sonnet-4-6,         retries: 3, timeout: 90 }
+  resolver:             { provider: anthropic, model: claude-sonnet-4-6,         retries: 3, timeout: 90 }
+  consistency_checker:  { provider: anthropic, model: claude-sonnet-4-6,         retries: 3, timeout: 120 }
+  qa:                   { provider: anthropic, model: claude-sonnet-4-6,         retries: 3, timeout: 60, max_context_chapters: 5 }
 
 # Zeitplan (UTC)
 schedule:

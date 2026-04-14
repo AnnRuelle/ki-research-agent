@@ -2,6 +2,71 @@
 # Neue Quelle = drei Zeilen, committen, fertig.
 
 rss:
+  # === Schweiz: AI & Verwaltung ===
+  - name: "AlgorithmWatch CH"
+    url: "https://algorithmwatch.ch/en/feed"
+    chapters: [all]
+  - name: "Inside IT (inside-it.ch)"
+    url: "https://www.inside-it.ch/rss.xml"
+    chapters: [all]
+  - name: "Netzwoche News"
+    url: "https://www.netzwoche.ch/taxonomy/term/31/feed"
+    chapters: [all]
+  - name: "Netzwoche Studien"
+    url: "https://www.netzwoche.ch/taxonomy/term/42/feed"
+    chapters: ["06-change-management", "11-erfolgsmessung"]
+  - name: "SWI swissinfo Sci&Tech"
+    url: "https://www.swissinfo.ch/service/eng/rssxml/sci-tech/rss"
+    chapters: [all]
+  - name: "Republik.ch"
+    url: "https://www.republik.ch/feed.xml"
+    chapters: ["05-regulatorik", "04-governance-betriebsmodell", "03-datenschutz-informationssicherheit"]
+
+  # === AI Regulierung & Policy ===
+  - name: "EU AI Act (artificialintelligenceact.eu)"
+    url: "https://artificialintelligenceact.eu/feed/"
+    chapters: ["05-regulatorik"]
+  - name: "EC Digital Strategy"
+    url: "https://digital-strategy.ec.europa.eu/en/rss.xml"
+    chapters: ["05-regulatorik", "04-governance-betriebsmodell"]
+  - name: "netzpolitik.org"
+    url: "https://netzpolitik.org/feed/"
+    chapters: ["03-datenschutz-informationssicherheit", "05-regulatorik"]
+  - name: "AlgorithmWatch International"
+    url: "https://algorithmwatch.org/en/feed"
+    chapters: ["05-regulatorik", "04-governance-betriebsmodell"]
+
+  # === Cloud & Anbieter ===
+  - name: "AWS Public Sector Blog"
+    url: "https://aws.amazon.com/blogs/publicsector/feed/"
+    chapters: ["01-plattform-architektur", "07-markt-anbieter"]
+  - name: "Google Cloud Public Sector"
+    url: "https://cloudblog.withgoogle.com/topics/public-sector/rss/"
+    chapters: ["01-plattform-architektur", "07-markt-anbieter"]
+
+  # === AI Markt & Technologie ===
+  - name: "MIT Technology Review AI"
+    url: "https://www.technologyreview.com/topic/artificial-intelligence/feed"
+    chapters: ["01-plattform-architektur", "02-use-cases", "07-markt-anbieter"]
+  - name: "The Register AI/ML"
+    url: "https://www.theregister.com/software/ai_ml/headlines.atom"
+    chapters: ["07-markt-anbieter", "01-plattform-architektur"]
+
+  # === DACH IT & Verwaltung ===
+  - name: "heise IT"
+    url: "https://www.heise.de/rss/heise-Rubrik-IT-atom.xml"
+    chapters: [all]
+  - name: "heise Netzpolitik"
+    url: "https://www.heise.de/rss/heise-Rubrik-Netzpolitik-atom.xml"
+    chapters: ["03-datenschutz-informationssicherheit", "05-regulatorik"]
+  - name: "iX Magazine"
+    url: "https://www.heise.de/ix/feed.xml"
+    chapters: ["01-plattform-architektur", "08-integration-it-landschaft"]
+  - name: "Behoerden Spiegel"
+    url: "https://www.behoerden-spiegel.de/feed/"
+    chapters: ["04-governance-betriebsmodell", "12-beschaffung", "06-change-management"]
+
+  # === Newsletters (originale, beibehalten falls Feeds repariert werden) ===
   - name: "Superhuman AI (Zain Kahn)"
     url: "https://superhuman.beehiiv.com/feed"
     chapters: [all]
@@ -16,7 +81,7 @@ websites:
   - name: "NCSC"
     url: "https://www.ncsc.admin.ch"
     chapters: ["03-datenschutz-informationssicherheit", "05-regulatorik"]
-  - name: "EDÖB"
+  - name: "EDOEB"
     url: "https://www.edoeb.admin.ch"
     chapters: ["03-datenschutz-informationssicherheit", "05-regulatorik"]
   - name: "EU AI Policy"

@@ -11,6 +11,7 @@ from pathlib import Path
 from agents.config_schema import load_config, load_sources
 from agents.llm.factory import create_provider
 from agents.llm.provider import LLMProvider, LLMResponse
+from agents.web_search import search_for_chapter
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +73,7 @@ Wenn du nichts Relevantes findest, gib ein leeres Array zurück: []
 """
 
 
-def _build_user_prompt(chapter_id: str, chapter_content: str, ingested_sources: str) -> str:
+def _build_user_prompt(chapter_id: str, chapter_content: str, ingested_sources: str, web_results: str) -> str:
     """Build the user prompt for the researcher."""
     return f"""\
 ## Kapitel: {chapter_id}
@@ -83,8 +84,12 @@ def _build_user_prompt(chapter_id: str, chapter_content: str, ingested_sources: 
 ### Neue Quellen seit letztem Scan:
 {ingested_sources}
 
+### Web-Search-Ergebnisse:
+{web_results}
+
 Finde neue, relevante Informationen für dieses Kapitel. Prüfe die Quellen auf Relevanz, \
-Glaubwürdigkeit und Neuheit. Ignoriere Informationen die bereits im Kapitel enthalten sind."""
+Glaubwürdigkeit und Neuheit. Ignoriere Informationen die bereits im Kapitel enthalten sind. \
+Nutze sowohl die Ingest-Quellen als auch die Web-Search-Ergebnisse."""
 
 
 def _load_chapter_content(chapter_id: str) -> str:
@@ -193,7 +198,16 @@ def research_chapter(
 
     chapter_content = _load_chapter_content(chapter_id)
     ingested_sources = _load_ingested_sources()
-    user_prompt = _build_user_prompt(chapter_id, chapter_content, ingested_sources)
+
+    # Web search for fresh results
+    chapter_title = chapter_id.split("-", 1)[1].replace("-", " ").title() if "-" in chapter_id else chapter_id
+    web_search_results = search_for_chapter(chapter_id, chapter_title)
+    web_results_text = "\n".join(
+        f"- [{r.title}]({r.url}) (score: {r.score:.2f})\n  {r.content[:300]}"
+        for r in web_search_results
+    ) if web_search_results else "(Keine Web-Search-Ergebnisse — TAVILY_API_KEY nicht gesetzt?)"
+
+    user_prompt = _build_user_prompt(chapter_id, chapter_content, ingested_sources, web_results_text)
 
     logger.info("Researching chapter: %s", chapter_id)
     response = provider.complete(system=SYSTEM_PROMPT, user=user_prompt, temperature=0.3)
