@@ -69,12 +69,14 @@ def search(
 
     results: list[SearchResult] = []
     for item in response.get("results", []):
-        results.append(SearchResult(
-            title=item.get("title", ""),
-            url=item.get("url", ""),
-            content=item.get("content", ""),
-            score=float(item.get("score", 0.0)),
-        ))
+        results.append(
+            SearchResult(
+                title=item.get("title", ""),
+                url=item.get("url", ""),
+                content=item.get("content", ""),
+                score=float(item.get("score", 0.0)),
+            )
+        )
 
     logger.info("Web search: %d results for '%s'", len(results), query[:60])
     return results
@@ -102,8 +104,11 @@ def search_for_chapter(chapter_id: str, chapter_title: str, scope: str = "ch") -
 
     # Search with Swiss/gov focus
     swiss_domains = [
-        "admin.ch", "digitale-verwaltung-schweiz.ch", "ncsc.admin.ch",
-        "edoeb.admin.ch", "bk.admin.ch",
+        "admin.ch",
+        "digitale-verwaltung-schweiz.ch",
+        "ncsc.admin.ch",
+        "edoeb.admin.ch",
+        "bk.admin.ch",
     ]
 
     # Do two searches: one focused on Swiss gov, one broader

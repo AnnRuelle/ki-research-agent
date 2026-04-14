@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
 
-from agents.changelog_trimmer import trim_changelog, trim_all_changelogs, update_global_changelog
+from agents.changelog_trimmer import trim_changelog, update_global_changelog
 from agents.merger import _extract_last_date, _freshness_indicator
-from agents.parser import parse
-from datetime import datetime, timezone
 
 
 @pytest.mark.unit
@@ -17,11 +16,7 @@ class TestChangelogTrimmer:
     """Tests for changelog trimming logic."""
 
     def test_trim_removes_old_entries(self) -> None:
-        changelog = (
-            "- 2026-04-14: Neu hinzugefuegt\n"
-            "- 2026-03-01: Update\n"
-            "- 2025-12-01: Sehr alter Eintrag\n"
-        )
+        changelog = "- 2026-04-14: Neu hinzugefuegt\n- 2026-03-01: Update\n- 2025-12-01: Sehr alter Eintrag\n"
         trimmed = trim_changelog(changelog, "2026-01-01")
         assert "2026-04-14" in trimmed
         assert "2026-03-01" in trimmed
@@ -79,6 +74,7 @@ class TestMergerIntegration:
     def test_update_dashboard(self) -> None:
         """Dashboard update should not crash on stub chapters."""
         from agents.merger import update_dashboard
+
         update_dashboard()
         dashboard = Path("index.md").read_text(encoding="utf-8")
         assert "Status Dashboard" in dashboard
@@ -88,6 +84,7 @@ class TestMergerIntegration:
     def test_update_chapter_index(self) -> None:
         """Chapter index update should list subpages."""
         from agents.merger import update_chapter_index
+
         update_chapter_index("01-plattform-architektur")
         index = Path("chapters/01-plattform-architektur/index.md").read_text(encoding="utf-8")
         assert "ai-gateway.md" in index

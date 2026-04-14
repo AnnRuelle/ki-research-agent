@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 from dataclasses import dataclass
@@ -53,10 +54,8 @@ def _load_update_files(updates_dir: Path) -> dict[str, list[dict[str, object]]]:
     for key in result:
         f = latest / f"{key}.json"
         if f.exists():
-            try:
+            with contextlib.suppress(json.JSONDecodeError):
                 result[key] = json.loads(f.read_text(encoding="utf-8"))
-            except json.JSONDecodeError:
-                pass
 
     return result
 
@@ -105,51 +104,61 @@ def generate_newsletter(
     contradictions: list[dict[str, str]] = []
 
     for item in updates.get("merged", []):
-        added.append({
-            "chapter": str(item.get("chapter", "")),
-            "subpage": str(item.get("subpage", "")),
-            "title": str(item.get("title", "")),
-            "source": str(item.get("source_name", "")),
-            "critic_verdict": str(item.get("critic_verdict", "approve")),
-        })
+        added.append(
+            {
+                "chapter": str(item.get("chapter", "")),
+                "subpage": str(item.get("subpage", "")),
+                "title": str(item.get("title", "")),
+                "source": str(item.get("source_name", "")),
+                "critic_verdict": str(item.get("critic_verdict", "approve")),
+            }
+        )
 
     for item in updates.get("flagged", []):
         operation = str(item.get("operation", ""))
 
         if operation == "new_page":
-            new_pages.append({
-                "chapter": str(item.get("chapter", "")),
-                "filename": str(item.get("subpage", "")),
-                "reason": str(item.get("reason", "")),
-                "approve_url": _build_approve_url(repo, str(item.get("id", "")), "approve"),
-                "reject_url": _build_approve_url(repo, str(item.get("id", "")), "reject"),
-            })
+            new_pages.append(
+                {
+                    "chapter": str(item.get("chapter", "")),
+                    "filename": str(item.get("subpage", "")),
+                    "reason": str(item.get("reason", "")),
+                    "approve_url": _build_approve_url(repo, str(item.get("id", "")), "approve"),
+                    "reject_url": _build_approve_url(repo, str(item.get("id", "")), "reject"),
+                }
+            )
         elif operation == "obsolescence":
-            obsolete.append({
-                "chapter": str(item.get("chapter", "")),
-                "subpage": str(item.get("subpage", "")),
-                "description": str(item.get("description", "")),
-                "approve_url": _build_approve_url(repo, str(item.get("id", "")), "approve"),
-                "reject_url": _build_approve_url(repo, str(item.get("id", "")), "reject"),
-            })
+            obsolete.append(
+                {
+                    "chapter": str(item.get("chapter", "")),
+                    "subpage": str(item.get("subpage", "")),
+                    "description": str(item.get("description", "")),
+                    "approve_url": _build_approve_url(repo, str(item.get("id", "")), "approve"),
+                    "reject_url": _build_approve_url(repo, str(item.get("id", "")), "reject"),
+                }
+            )
         elif operation == "contradiction":
-            contradictions.append({
-                "chapter_a": str(item.get("chapter_a", "")),
-                "chapter_b": str(item.get("chapter_b", "")),
-                "description": str(item.get("description", "")),
-                "fix_a_url": _build_approve_url(repo, str(item.get("id", "")), "fix_a"),
-                "fix_b_url": _build_approve_url(repo, str(item.get("id", "")), "fix_b"),
-                "review_url": _build_approve_url(repo, str(item.get("id", "")), "review"),
-            })
+            contradictions.append(
+                {
+                    "chapter_a": str(item.get("chapter_a", "")),
+                    "chapter_b": str(item.get("chapter_b", "")),
+                    "description": str(item.get("description", "")),
+                    "fix_a_url": _build_approve_url(repo, str(item.get("id", "")), "fix_a"),
+                    "fix_b_url": _build_approve_url(repo, str(item.get("id", "")), "fix_b"),
+                    "review_url": _build_approve_url(repo, str(item.get("id", "")), "review"),
+                }
+            )
         else:
-            flagged.append({
-                "chapter": str(item.get("chapter", "")),
-                "subpage": str(item.get("subpage", "")),
-                "title": str(item.get("title", "")),
-                "flag_reason": str(item.get("flag_reason", "")),
-                "approve_url": _build_approve_url(repo, str(item.get("id", "")), "approve"),
-                "reject_url": _build_approve_url(repo, str(item.get("id", "")), "reject"),
-            })
+            flagged.append(
+                {
+                    "chapter": str(item.get("chapter", "")),
+                    "subpage": str(item.get("subpage", "")),
+                    "title": str(item.get("title", "")),
+                    "flag_reason": str(item.get("flag_reason", "")),
+                    "approve_url": _build_approve_url(repo, str(item.get("id", "")), "approve"),
+                    "reject_url": _build_approve_url(repo, str(item.get("id", "")), "reject"),
+                }
+            )
 
     batch_threshold = 10
     batch_actions = (len(flagged) + len(new_pages) + len(obsolete)) > batch_threshold
@@ -198,7 +207,7 @@ def main() -> None:
 
     setup_logging()
     html = generate_newsletter()
-    print(f"Newsletter preview: tests/output/newsletter_preview.html")
+    print("Newsletter preview: tests/output/newsletter_preview.html")
     print(f"HTML length: {len(html)} chars")
 
 

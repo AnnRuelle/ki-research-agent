@@ -8,8 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from agents.config_schema import RSSSource, SourcesConfig, WebsiteSource
-from agents.ingest.rss_poller import RSSItem, _hash_item, _load_seen_hashes, poll_feed
+from agents.ingest.rss_poller import RSSItem, _hash_item, _load_seen_hashes
 from agents.ingest.web_archive_checker import (
     WebChange,
     _content_hash,

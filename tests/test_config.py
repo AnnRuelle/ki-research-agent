@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from agents.config_schema import AppConfig, SourcesConfig, load_config, load_sources
+from agents.config_schema import AppConfig, load_config, load_sources
 
 ROOT = Path(__file__).parent.parent
 

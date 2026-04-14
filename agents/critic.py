@@ -159,23 +159,28 @@ def critique_draft(
 
     # Add zone violation if detected
     if not own_notes_intact:
-        issues.insert(0, CriticIssue(
-            severity="major",
-            category="zone_violation",
-            description="Die 'Eigene Notizen'-Zone wurde vom Writer verändert",
-            suggested_fix="Eigene Notizen aus dem Original wiederherstellen",
-            location="Eigene Notizen",
-        ))
+        issues.insert(
+            0,
+            CriticIssue(
+                severity="major",
+                category="zone_violation",
+                description="Die 'Eigene Notizen'-Zone wurde vom Writer verändert",
+                suggested_fix="Eigene Notizen aus dem Original wiederherstellen",
+                location="Eigene Notizen",
+            ),
+        )
 
     for raw_issue in raw.get("issues", []):
         try:
-            issues.append(CriticIssue(
-                severity=raw_issue.get("severity", "minor"),
-                category=raw_issue.get("category", "accuracy"),
-                description=raw_issue["description"],
-                suggested_fix=raw_issue.get("suggested_fix", ""),
-                location=raw_issue.get("location", "Überblick"),
-            ))
+            issues.append(
+                CriticIssue(
+                    severity=raw_issue.get("severity", "minor"),
+                    category=raw_issue.get("category", "accuracy"),
+                    description=raw_issue["description"],
+                    suggested_fix=raw_issue.get("suggested_fix", ""),
+                    location=raw_issue.get("location", "Überblick"),
+                )
+            )
         except KeyError as e:
             logger.warning("Skipping malformed issue: %s", e)
 

@@ -8,7 +8,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-from agents.config_schema import load_config, load_sources
+from agents.config_schema import load_config
 from agents.llm.factory import create_provider
 from agents.llm.provider import LLMProvider, LLMResponse
 from agents.web_search import search_for_chapter
@@ -41,7 +41,8 @@ class Finding:
 SYSTEM_PROMPT = """\
 Du bist ein Research-Agent für eine Wissensdatenbank über KI-Plattformen für kantonale Verwaltungen in der Schweiz.
 
-Deine Aufgabe: Finde neue, relevante Informationen zu einem bestimmten Kapitel basierend auf den bereitgestellten Quellen.
+Deine Aufgabe: Finde neue, relevante Informationen zu einem bestimmten Kapitel \
+basierend auf den bereitgestellten Quellen.
 
 Regeln:
 - Fokus auf Schweiz (CH), DACH-Raum und global relevante Entwicklungen
@@ -160,7 +161,7 @@ def _parse_findings(response: LLMResponse, chapter_id: str) -> list[Finding]:
     for i, raw in enumerate(raw_findings):
         try:
             finding = Finding(
-                finding_id=f"{date_str}-{chapter_id[:4]}-{i+1:03d}",
+                finding_id=f"{date_str}-{chapter_id[:4]}-{i + 1:03d}",
                 chapter=chapter_id,
                 subpage=raw.get("suggested_subpage", "index.md"),
                 title=raw["title"],
@@ -202,10 +203,11 @@ def research_chapter(
     # Web search for fresh results
     chapter_title = chapter_id.split("-", 1)[1].replace("-", " ").title() if "-" in chapter_id else chapter_id
     web_search_results = search_for_chapter(chapter_id, chapter_title)
-    web_results_text = "\n".join(
-        f"- [{r.title}]({r.url}) (score: {r.score:.2f})\n  {r.content[:300]}"
-        for r in web_search_results
-    ) if web_search_results else "(Keine Web-Search-Ergebnisse — TAVILY_API_KEY nicht gesetzt?)"
+    web_results_text = (
+        "\n".join(f"- [{r.title}]({r.url}) (score: {r.score:.2f})\n  {r.content[:300]}" for r in web_search_results)
+        if web_search_results
+        else "(Keine Web-Search-Ergebnisse — TAVILY_API_KEY nicht gesetzt?)"
+    )
 
     user_prompt = _build_user_prompt(chapter_id, chapter_content, ingested_sources, web_results_text)
 
@@ -235,11 +237,11 @@ def main() -> None:
     chapter = sys.argv[1] if len(sys.argv) > 1 else "01-plattform-architektur"
     findings = research_chapter(chapter)
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Researcher: {len(findings)} Funde fuer {chapter}")
     for f in findings:
         print(f"  - [{f.confidence:.2f}] {f.title} ({f.credibility}, {f.geographic_origin})")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":

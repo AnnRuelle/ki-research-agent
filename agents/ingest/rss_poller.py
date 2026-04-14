@@ -66,9 +66,7 @@ def _load_seen_hashes(output_dir: Path) -> set[str]:
     return seen
 
 
-def poll_feed(
-    name: str, url: str, chapters: list[str], seen_hashes: set[str]
-) -> list[RSSItem]:
+def poll_feed(name: str, url: str, chapters: list[str], seen_hashes: set[str]) -> list[RSSItem]:
     """Poll a single RSS feed and return new items."""
     logger.info("Polling RSS feed: %s", name)
     try:
@@ -147,11 +145,11 @@ def main() -> None:
 
     setup_logging()
     items = poll_all()
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"RSS Ingest complete: {len(items)} new items")
     for item in items:
         print(f"  - [{item.source_name}] {item.title}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":

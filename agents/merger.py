@@ -9,7 +9,7 @@ import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
-from agents.parser import FourZoneDocument, parse
+from agents.parser import parse
 
 logger = logging.getLogger(__name__)
 
@@ -126,8 +126,7 @@ def update_dashboard() -> None:
         focus_display = focus if focus else "*Noch kein Inhalt*"
 
         rows.append(
-            f"| [{display_name}](chapters/{chapter_id}/index.md) "
-            f"| {focus_display} | {date_display} | {freshness} |"
+            f"| [{display_name}](chapters/{chapter_id}/index.md) | {focus_display} | {date_display} | {freshness} |"
         )
 
     dashboard_content = f"""\

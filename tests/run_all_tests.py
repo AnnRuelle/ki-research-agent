@@ -34,14 +34,15 @@ def run_checks() -> list[CheckResult]:
         try:
             findings = json.loads(researcher_file.read_text(encoding="utf-8"))
             valid = isinstance(findings, list) and all(
-                "title" in f and "summary" in f and "confidence" in f
-                for f in findings
+                "title" in f and "summary" in f and "confidence" in f for f in findings
             )
-            results.append(CheckResult(
-                "Researcher: valides JSON, Pflichtfelder",
-                valid,
-                f"{len(findings)} findings" if valid else "Missing required fields",
-            ))
+            results.append(
+                CheckResult(
+                    "Researcher: valides JSON, Pflichtfelder",
+                    valid,
+                    f"{len(findings)} findings" if valid else "Missing required fields",
+                )
+            )
         except json.JSONDecodeError as e:
             results.append(CheckResult("Researcher: valides JSON", False, str(e)))
     else:
@@ -52,11 +53,13 @@ def run_checks() -> list[CheckResult]:
     if writer_file.exists():
         try:
             doc = parse(writer_file.read_text(encoding="utf-8"))
-            results.append(CheckResult(
-                "Writer: alle vier Zonen vorhanden",
-                True,
-                f"Title: {doc.title}",
-            ))
+            results.append(
+                CheckResult(
+                    "Writer: alle vier Zonen vorhanden",
+                    True,
+                    f"Title: {doc.title}",
+                )
+            )
         except Exception as e:
             results.append(CheckResult("Writer: vier Zonen", False, str(e)))
 
@@ -67,11 +70,13 @@ def run_checks() -> list[CheckResult]:
                 sample.read_text(encoding="utf-8"),
                 writer_file.read_text(encoding="utf-8"),
             )
-            results.append(CheckResult(
-                "Writer: Eigene Notizen unverändert",
-                intact,
-                "INTACT" if intact else "VIOLATED",
-            ))
+            results.append(
+                CheckResult(
+                    "Writer: Eigene Notizen unverändert",
+                    intact,
+                    "INTACT" if intact else "VIOLATED",
+                )
+            )
     else:
         results.append(CheckResult("Writer: Output vorhanden", False, "File missing"))
 
@@ -81,11 +86,13 @@ def run_checks() -> list[CheckResult]:
         try:
             review = json.loads(critic_file.read_text(encoding="utf-8"))
             valid = "verdict" in review and "issues" in review
-            results.append(CheckResult(
-                "Critic: valides JSON mit verdict + issues",
-                valid,
-                f"Verdict: {review.get('verdict', '?')}",
-            ))
+            results.append(
+                CheckResult(
+                    "Critic: valides JSON mit verdict + issues",
+                    valid,
+                    f"Verdict: {review.get('verdict', '?')}",
+                )
+            )
         except json.JSONDecodeError as e:
             results.append(CheckResult("Critic: valides JSON", False, str(e)))
     else:
@@ -96,11 +103,13 @@ def run_checks() -> list[CheckResult]:
     if resolver_file.exists():
         content = resolver_file.read_text(encoding="utf-8")
         has_changelog = "## Changelog" in content
-        results.append(CheckResult(
-            "Resolver: Changelog-Eintrag vorhanden",
-            has_changelog,
-            "Changelog section found" if has_changelog else "Missing ## Changelog",
-        ))
+        results.append(
+            CheckResult(
+                "Resolver: Changelog-Eintrag vorhanden",
+                has_changelog,
+                "Changelog section found" if has_changelog else "Missing ## Changelog",
+            )
+        )
     else:
         results.append(CheckResult("Resolver: Output vorhanden", False, "File missing"))
 
@@ -109,11 +118,13 @@ def run_checks() -> list[CheckResult]:
     if newsletter_file.exists():
         html = newsletter_file.read_text(encoding="utf-8")
         valid_html = "<html" in html and "</html>" in html
-        results.append(CheckResult(
-            "Newsletter: valides HTML",
-            valid_html,
-            f"{len(html)} chars",
-        ))
+        results.append(
+            CheckResult(
+                "Newsletter: valides HTML",
+                valid_html,
+                f"{len(html)} chars",
+            )
+        )
     else:
         results.append(CheckResult("Newsletter: Output vorhanden", False, "File missing"))
 
@@ -122,15 +133,18 @@ def run_checks() -> list[CheckResult]:
     if dashboard.exists():
         content = dashboard.read_text(encoding="utf-8")
         all_chapters = all(f"{i:02d}" in content for i in range(1, 14))
-        results.append(CheckResult(
-            "Dashboard: alle 13 Kapitel gelistet",
-            all_chapters,
-            "All chapters present" if all_chapters else "Missing chapters",
-        ))
+        results.append(
+            CheckResult(
+                "Dashboard: alle 13 Kapitel gelistet",
+                all_chapters,
+                "All chapters present" if all_chapters else "Missing chapters",
+            )
+        )
 
     # Config
     try:
         from agents.config_schema import load_config, load_sources
+
         load_config()
         load_sources()
         results.append(CheckResult("Config: yaml fehlerfrei", True, "OK"))
@@ -147,24 +161,28 @@ def run_checks() -> list[CheckResult]:
             draft_words = len(draft_doc.overview.split())
             if orig_words > 0:
                 pct = ((draft_words - orig_words) / orig_words) * 100
-                results.append(CheckResult(
-                    f"Writer: Längenänderung {pct:+.0f}%",
-                    abs(pct) <= 20,
-                    f"{orig_words} -> {draft_words} words",
-                    hard=False,
-                ))
+                results.append(
+                    CheckResult(
+                        f"Writer: Längenänderung {pct:+.0f}%",
+                        abs(pct) <= 20,
+                        f"{orig_words} -> {draft_words} words",
+                        hard=False,
+                    )
+                )
         except Exception:
             pass
 
     if researcher_file.exists():
         try:
             findings = json.loads(researcher_file.read_text(encoding="utf-8"))
-            results.append(CheckResult(
-                "Researcher: mindestens 1 Fund",
-                len(findings) >= 1,
-                f"{len(findings)} findings",
-                hard=False,
-            ))
+            results.append(
+                CheckResult(
+                    "Researcher: mindestens 1 Fund",
+                    len(findings) >= 1,
+                    f"{len(findings)} findings",
+                    hard=False,
+                )
+            )
         except Exception:
             pass
 
@@ -175,9 +193,9 @@ def main() -> None:
     """Run all checks and print report."""
     results = run_checks()
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("AUTOMATED QUALITY CHECKS")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     hard_pass = 0
     hard_fail = 0
@@ -199,10 +217,10 @@ def main() -> None:
         if not r.passed:
             print(f"         {r.message}")
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  Hard: {hard_pass} passed, {hard_fail} failed")
     print(f"  Soft: {soft_warn} warnings")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     if hard_fail > 0:
         sys.exit(1)

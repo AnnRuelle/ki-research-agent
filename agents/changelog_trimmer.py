@@ -31,9 +31,8 @@ def trim_changelog(changelog: str, cutoff_date: str) -> str:
         stripped = line.strip()
         if stripped.startswith("- ") and len(stripped) > 12:
             date_part = stripped[2:12]
-            if len(date_part) == 10 and date_part[4] == "-" and date_part[7] == "-":
-                if date_part < cutoff_date:
-                    continue  # Skip old entry
+            if len(date_part) == 10 and date_part[4] == "-" and date_part[7] == "-" and date_part < cutoff_date:
+                continue  # Skip old entry
         kept.append(line)
 
     return "\n".join(kept)

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from agents.newsletter import generate_newsletter, _build_approve_url
+from agents.newsletter import _build_approve_url, generate_newsletter
 
 
 @pytest.mark.unit
@@ -35,6 +35,7 @@ class TestNewsletter:
     def test_newsletter_html_file_created(self) -> None:
         """Preview file should be created."""
         from pathlib import Path
+
         output_dir = Path("tests/output")
         generate_newsletter(output_dir=output_dir)
         assert (output_dir / "newsletter_preview.html").exists()

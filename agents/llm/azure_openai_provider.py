@@ -5,7 +5,8 @@ from __future__ import annotations
 import logging
 import os
 
-from openai import APITimeoutError, AzureOpenAI, RateLimitError as OpenAIRateLimitError
+from openai import APITimeoutError, AzureOpenAI
+from openai import RateLimitError as OpenAIRateLimitError
 
 from agents.llm.provider import (
     InvalidResponseError,

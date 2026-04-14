@@ -185,7 +185,11 @@ def write_draft(
 
     logger.info(
         "Writer: %s/%s — %d -> %d words (%+.0f%%)",
-        chapter_id, subpage, orig_words, new_words, pct_change,
+        chapter_id,
+        subpage,
+        orig_words,
+        new_words,
+        pct_change,
     )
 
     # Save outputs
@@ -210,8 +214,8 @@ def main() -> None:
     subpage = sys.argv[3] if len(sys.argv) > 3 else "ai-gateway.md"
 
     write_draft(chapter, subpage, finding_path=Path(finding))
-    print(f"\nDraft: tests/output/writer_draft.md")
-    print(f"Diff:  tests/output/writer_diff.md")
+    print("\nDraft: tests/output/writer_draft.md")
+    print("Diff:  tests/output/writer_diff.md")
 
 
 if __name__ == "__main__":

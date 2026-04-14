@@ -1,3 +1,128 @@
 # Changelog
 
-*Noch keine Eintraege.*
+- **Überblick ** `03-datenschutz-informationssicherheit\ndsg.md`: rukturiert in 4 Themenblöcke: Regulatorischer Rahmen, Datenschutzkonforme Implementierung, Strategische Governance, Praktische Herausforderungen
+- **Überblick ** `09-kosten-lizenzmodelle\tco-modelle.md`: rukturiert mit praktischen Beispielen, Pooling-Modellen, Use-Case-Ansätzen und Empfehlungen für TCO-Kalkulationen
+- **[nit] 'sch** `07-markt-anbieter\swiss-anbieter.md`: izer' → 'Schweizer' (Grossschreibung als Nationalitätsadjektiv) durchgehend korrigiert
+- **[nit/style** `05-regulatorik\ch-rechtsgrundlagen.md`: Wertenden Satz zu Haftungs- und Transparenzrelevanz gestrichen (entfällt mit Verschiebung des Abschnitts)
+- **[nit/style** `06-change-management\veraenderungsbereitschaft.md`: Handlungsfelder-Einleitung von normativ («Kantone sollten… priorisieren») auf deskriptiv («sind folgende Aspekte relevant») umformuliert
+- **[nit fix] ** `11-erfolgsmessung\kpis.md`: nleitungsformulierung der KPI-Kategorien neutraler gestaltet («legen nahe, KPIs … zu strukturieren»)
+- **[minor] Qu** `07-markt-anbieter\swiss-anbieter.md`: verweis zur Index-Seite für Ostschweizer-Kantone-Fund eingefügt (laut Metadaten dort zugeordnet)
+- **[minor] Qu** `07-markt-anbieter\swiss-anbieter.md`: verweise zur Bewertungsraster-Seite für AlgorithmWatch- und DVS-Inhalte eingefügt (laut Metadaten dort zugeordnet)
+- **[minor] Pl** `07-markt-anbieter\swiss-anbieter.md`: eforme Tripartite: Kontext zu den 550+ Teilnehmern ergänzt ('aus Bund, Kantonen und Gemeinden')
+- **[minor/com** `05-regulatorik\ch-rechtsgrundlagen.md`: eteness] Formulierung zum DVS-Umsetzungsplan abgeschwächt: «angestrebte Etablierung von Standards» statt «Etablierung von Standards»
+- **[minor/com** `06-change-management\veraenderungsbereitschaft.md`: eteness] Liechtenstein korrekt als «Fürstentum Liechtenstein» statt «Kanton Liechtenstein» bezeichnet
+- **[minor/com** `06-change-management\veraenderungsbereitschaft.md`: eteness] Kein Querverweis auf schulungskonzept.md eingefügt (thematische Relevanz gegeben, kein zwingender Fix laut Critic)
+- **[minor/acc** `05-regulatorik\ch-rechtsgrundlagen.md`: acy] Quellenangabe zur Teilnehmerzahl der Plateforme Tripartite als Angabe des Centre for Digital Responsibility gekennzeichnet
+- **[minor/acc** `06-change-management\veraenderungsbereitschaft.md`: acy] DVS-Schwerpunktbericht-Eintrag in Schlüsselquellen mit Hinweis versehen, dass kein Direktlink verfügbar ist
+- **[minor fix** `11-erfolgsmessung\kpis.md`: AlgorithmWatch CH als zivilgesellschaftliche/Medienorganisation mit mittlerem Confidence-Wert gekennzeichnet; Credibility in Quelltabelle auf «Medium» angepasst
+- **[minor fix** `11-erfolgsmessung\kpis.md`: KDK-Veröffentlichungsdatum vorsichtiger formuliert: «Stand 2025» statt «hat 2025 veröffentlicht»
+- **[minor fix** `11-erfolgsmessung\kpis.md`: KPI-Kategorien als redaktionelle Synthese explizit gekennzeichnet
+- **[minor fix** `11-erfolgsmessung\kpis.md`: Changelog-Datum von «2025-04-XX» auf «2026-04-14» korrigiert
+- **[major] TG** `07-markt-anbieter\swiss-anbieter.md`: -Quelle als separate Schlüsselquelle mit korrekter URL aus Fund ergänzt; Hinweis auf abweichende URL aufgenommen
+- **[major] Hi** `07-markt-anbieter\swiss-anbieter.md`: eis-Box im Überblick ergänzt: Seite bildet Marktkontext ab, keine kommerziellen Anbieter erfasst
+- **[major] Ch** `07-markt-anbieter\swiss-anbieter.md`: gelog-Datum von '2025-12-15' auf '2026-04-14' korrigiert (Halluzination, nicht durch Funde belegt)
+- **[major/zon** `06-change-management\veraenderungsbereitschaft.md`: violation] Eigene-Notizen-Zone auf exakt ursprüngliche Formatierung geprüft und belassen
+- **[major/hal** `05-regulatorik\ch-rechtsgrundlagen.md`: cination] Fürstentum Liechtenstein als Teilnehmer der gemeinsamen Ostschweizer KI-Plattform ergänzt (war im Draft fälschlicherweise ausgelassen)
+- **[major/hal** `06-change-management\veraenderungsbereitschaft.md`: cination] Pilotprojekt-Timing korrigiert: «seit H1 2026 läuft» ersetzt durch «laut DVS-Newsletter (Dez. 2025) gestartet», da der Quellartikel (2025-12-15) den Zeitpunkt H1 2026 nicht belegen kann
+- **[major/com** `05-regulatorik\ch-rechtsgrundlagen.md`: eteness] Inhalte aus Findings r-008, r-009, r-011 (AlgorithmWatch Accountability, Impact Assessment Tool, Diskriminierung in HR) aus dem Fliesstext entfernt und mit Querverweis auf haftung-transparenz.md versehen; zugehörige Schlüsselquellen ebenfalls verschoben und durch Hinweis referenziert
+- **[major/bia** `06-change-management\veraenderungsbereitschaft.md`:  CM Informatik AG im Fliesstext explizit als Anbieter-Perspektive mit mittlerer Glaubwürdigkeit gekennzeichnet
+- **[major/acc** `05-regulatorik\ch-rechtsgrundlagen.md`: acy] Abkürzung «KDK» für «Konferenz der Kantonalen Datenschutzbeauftragten» entfernt; vollständiger Name wird durchgehend verwendet, um Kollision mit der etablierten Abkürzung KDK (Konferenz der Kantonsregierungen) zu vermeiden
+- **[major fix** `11-erfolgsmessung\kpis.md`: Kantonsaufzählung Ostschweizer KI-Analyse korrigiert: «fünf Kantone (u.a. St. Gallen, Appenzell, Graubünden, Thurgau)» statt fälschlich vollständiger Aufzählung von nur vier Kantonen
+- **[major fix** `11-erfolgsmessung\kpis.md`: Zeitangabe Ostschweizer KI-Analyse korrigiert: «Ende 2025» entfernt, Quelle korrekt als März 2026 datiert ausgewiesen
+- **[major fix** `11-erfolgsmessung\kpis.md`: Querverweishinweis für Basel-Stadt KDKP und Ostschweizer KI-Analyse ergänzt (primäre Zuordnung zu `pilotauswertung.md` explizit gekennzeichnet)
+- **Umsetzungs** `06-change-management\veraenderungsbereitschaft.md`: an DVS 2026 (2025-10-27)
+- **TG4U Proje** `07-markt-anbieter\swiss-anbieter.md`:  Betriebsmodelle
+- **Struktur: ** `02-use-cases\katalog.md`: erblick mit vier Hauptabschnitten (zentrale Use-Cases, Governance, Empfehlungen, Schlüsselquellen)
+- **Struktur: ** `12-beschaffung\pflichtenheft-ki.md`: erblick in 6 Themenblöcke gegliedert (Rechtlicher Rahmen, Koordination, Regionale Ansätze, Governance, Fairness, Struktur)
+- **Schwerpunk** `06-change-management\veraenderungsbereitschaft.md`: ericht KI Perspektiven (DVS, 2025-08-20)
+- **SSGI/BEGAS** `05-regulatorik\ch-rechtsgrundlagen.md`: T-Projekt: Souveräne KI-Plattform für 6 Kantone und 100+ Gemeinden
+- **RAISD-Proj** `05-regulatorik\ch-rechtsgrundlagen.md`: t zu KI-Auswirkungen auf Demokratie und Gesellschaft
+- **Querverwei** `04-governance-betriebsmodell\rollenmodell.md`: auf Betriebsverantwortung ergänzt (gemeinsame KI-Plattform Schweizer Kantone)
+- **Quellen: 1** `12-beschaffung\pflichtenheft-ki.md`: Schlüsselquellen dokumentiert mit Datum und URL
+- **Plateforme** `05-regulatorik\ch-rechtsgrundlagen.md`: ripartite mit 550+ Teilnehmenden zur föderalen Koordination
+- **Pilotproje** `06-change-management\veraenderungsbereitschaft.md`:  KI-Plattform Obfelden/Wädenswil/Winterthur (DVS Newsletter, 2025-12-15)
+- **Ostschweiz** `07-markt-anbieter\swiss-anbieter.md`:  Kantone KI-Potenzial-Analyse (ab März 2026)
+- **Ostschweiz** `11-erfolgsmessung\kpis.md`:  KI-Analyse (5 Kantone + Liechtenstein) als regionales Benchmark-Projekt dokumentiert
+- **Nationale ** `11-erfolgsmessung\kpis.md`: Government-Studie 2025 integriert (empirische Grundlagen für KPI-Definition)
+- **Nationale ** `13-sustainable-it-ki\index.md`: Government-Studie 2025 mit KI-Schwerpunkt (01.04.2025)
+- **Monitoring** `13-sustainable-it-ki\index.md`: richt Strategie Digitale Schweiz 2025 (Bundeskanzlei, 01.03.2025)
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: major/hallucination): Kostenbandbreite CHF 800–1'200 entfernt; nur belegter Einzelwert CHF 800/Lizenz/Jahr (Koeniz/SwissGPT) mit expliziter Kennzeichnung als Einzelbeispiel
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: major/hallucination): Aussage zu Bundesrat-Fördermassnahmen abgeschwächt; kein Beleg für konkrete Auswirkung auf kantonale Kosten
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: major/hallucination): Aussage zum Monitoringbericht auf Umsetzungsmonitoring beschränkt; unbelegte Kostenrahmen-Behauptung entfernt
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: major/hallucination): E-Government-Studie nur noch als potenzielle Referenzquelle gekennzeichnet, nicht als gesicherte Kostendatenquelle
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: minor/hallucination): «signifikante Einsparungen» ersetzt durch «Einsparungen, deren Höhe bislang nicht quantifiziert ist»
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: minor/bias): Abraxas Magazin als Anbieter-Publikation gekennzeichnet (Überblick und Schlüsselquellen)
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: minor/accuracy): Changelog-Datum von «2025-12-XX» auf «2026-04-14» korrigiert
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: minor/completeness): Kanton Zürich-Vorhaben als Postulat/Untersuchungsanfrage klargestellt, nicht als laufendes Projekt
+- **Korrigiert** `09-kosten-lizenzmodelle\tco-modelle.md`: nit/style): «essentiell für die Kalibrierung» ersetzt durch neutrale Formulierung «kann als Referenz dienen»
+- **Kantonales** `13-sustainable-it-ki\index.md`: raxisbeispiel: IT-Umweltauswirkungen und Digitalpolitik (26.03.2025)
+- **KPI-Katego** `11-erfolgsmessung\kpis.md`: en (Effizienz, Qualität, Governance, Innovation, Vertrauen) definiert
+- **KI-Regulie** `07-markt-anbieter\swiss-anbieter.md`: ngslandschaft Schweiz 2025 (Plateforme Tripartite)
+- **KI-Potenzi** `06-change-management\veraenderungsbereitschaft.md`: analyse Ostschweiz/Liechtenstein (Kanton St. Gallen, 2026-03-31)
+- **KI-Plattfo** `07-markt-anbieter\swiss-anbieter.md`:  Pilotprojekt Obfelden/Wädenswil/Winterthur (H1 2026)
+- **KI+ Lösung** `06-change-management\veraenderungsbereitschaft.md`: M Informatik AG (2025-11-20)
+- **KDK-Ausleg** `05-regulatorik\ch-rechtsgrundlagen.md`: rdnung 2025 zur KI-Regulierung in Kantonen (Bundesrat-Ziele, Zeitplan bis Ende 2026)
+- **KDK KI-Aus** `11-erfolgsmessung\kpis.md`: geordnung 2025 als regulatorischer Rahmen hinzugefügt (3 Regulierungsziele)
+- **Integriert** `02-use-cases\katalog.md`: Nationale E-Government-Studie 2025 (föderale Koordination, 60% Kantone mit E-Government-Vereinbarungen)
+- **Integriert** `02-use-cases\katalog.md`: Umsetzungsplan DVS 2025-2026 (zentrale Publikationsplattformen, Anforderungsmanagement)
+- **Integriert** `02-use-cases\katalog.md`: KI-Briefing November 2025 (konkrete Use-Cases: Bürokratt, Chatbots, Baueingaben-Prüfung)
+- **Integriert** `02-use-cases\katalog.md`: DeepO-Plattform (automatisierte Dokumentverarbeitung und Datenerfassung)
+- **Integriert** `02-use-cases\katalog.md`: AlgorithmWatch CH – Diskriminierung in Einstellungsprozessen (Fairness-Anforderungen)
+- **Integriert** `02-use-cases\katalog.md`: IRP-HSG – KI-Regulierung in der Schweiz (Governance-Anforderungen)
+- **Integriert** `02-use-cases\katalog.md`: AlgorithmWatch CH – AI Impact Assessment Tool (Bewertungsrahmen für Fairness)
+- **Integriert** `02-use-cases\katalog.md`: AlgorithmWatch CH – KI und Regierungsentscheidungen (Kontrollmechanismen bei Chatbots)
+- **Integriert** `02-use-cases\katalog.md`: AlgorithmWatch CH – RAISD-Rahmen (demokratische und gesellschaftliche Auswirkungen)
+- **Integriert** `03-datenschutz-informationssicherheit\ndsg.md`: KI-Regulierung Schweiz und Europarats-Konvention (Abraxas, 2025-02-01)
+- **Integriert** `03-datenschutz-informationssicherheit\ndsg.md`: KI DSG-konforme Anforderungen 2026 (einclick.ch, 2025-01-01)
+- **Integriert** `03-datenschutz-informationssicherheit\ndsg.md`: Kanton Aargau – Datenschutz und Cloud-Datenbearbeitung (2025-01-01)
+- **Integriert** `03-datenschutz-informationssicherheit\ndsg.md`: DVS Aufgabenliste zur KI-Strategie (2025-01-01)
+- **Integriert** `03-datenschutz-informationssicherheit\ndsg.md`: DVS Umsetzungsplan 2026 mit Pilotprojekten (2025-10-27)
+- **Integriert** `04-governance-betriebsmodell\rollenmodell.md`: KI-Governance-Strukturen im Kanton Aargau (Digitale Verwaltung Schweiz)
+- **Integriert** `04-governance-betriebsmodell\rollenmodell.md`: Föderale Governance-Modelle – zentral vs. dezentral (Digital Chiefs)
+- **Integriert** `04-governance-betriebsmodell\rollenmodell.md`: Verantwortungsklärung – 14%-Statistik (Digital Chiefs)
+- **Integriert** `04-governance-betriebsmodell\rollenmodell.md`: Impact Assessment Tool für verantwortungsvolle KI (AlgorithmWatch CH)
+- **Integriert** `04-governance-betriebsmodell\rollenmodell.md`: Einfluss von KI-Chatbots auf Verwaltungsentscheidungen (AlgorithmWatch CH)
+- **Integriert** `04-governance-betriebsmodell\rollenmodell.md`: Bundesweite KI-Strategie und Governance-Anpassungen (IRP-HSG)
+- **Integriert** `04-governance-betriebsmodell\rollenmodell.md`: ICT-Lenkung auf Bundesebene (Bundeskanzlei)
+- **Integriert** `04-governance-betriebsmodell\rollenmodell.md`: KI-Regulierung und Freigabeprozesse (KdK)
+- **Integriert** `09-kosten-lizenzmodelle\tco-modelle.md`: SwissGPT TCO-Beispiel Gemeinde Koeniz (CHF 120'000/150 Lizenzen)
+- **Integriert** `09-kosten-lizenzmodelle\tco-modelle.md`: Kantonale Pooling-Initiative (6 Kantone: AR, NW, OW, SH, SZ, ZG)
+- **Integriert** `09-kosten-lizenzmodelle\tco-modelle.md`: Use-Case-Analyse Baubewilligungsverfahren Kanton Zürich
+- **Integriert** `09-kosten-lizenzmodelle\tco-modelle.md`: Nationale E-Government-Studie 2025 (Benchmarking)
+- **Integriert** `09-kosten-lizenzmodelle\tco-modelle.md`: Bundesrat KI-Regulierung und Fördermassnahmen
+- **Integriert** `09-kosten-lizenzmodelle\tco-modelle.md`: Monitoringbericht Strategie Digitale Schweiz 2025
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: Vertragliche Aspekte KI-Beschaffung Kanton Zürich (föderale Kompetenzverteilung)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: DVS Umsetzungsplan 2026 (kantonale Anforderungen ins Pflichtenheft)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: DVS-Arbeitsgruppe Beschaffungen gegründet (Koordinationsstelle, Best Practices)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: Analyse KI-Potenzial Ostschweizer Kantone (regionale Beschaffungsansätze)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: Gemeinsame KI-Plattform-Ausschreibung Zentralschweizer Kantone (IVoeB, Zuschlagskriterien)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: KI-Sandbox Kanton Zürich (Erprobungsansätze)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: AlgorithmWatch CH – AI Impact Assessment Tool (Governance, Transparenz, Accountability)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: AlgorithmWatch CH – Framework Conditions for Algorithms & AI (regulatorische Anforderungen)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: AlgorithmWatch CH – Diskriminierung durch KI (Fairness, Bias-Mitigation)
+- **Integriert** `12-beschaffung\pflichtenheft-ki.md`: KI-Assistent Freiburger Gemeinden (praktisches Beschaffungsbeispiel Gemeindeebene)
+- **Impact Ass** `05-regulatorik\ch-rechtsgrundlagen.md`: sment Tool für KI-Governance
+- **Gemeinsame** `05-regulatorik\ch-rechtsgrundlagen.md`: I-Plattform der Kantone AR, AI, GR, TG, SG (seit Frühjahr 2026)
+- **Gemeinsame** `13-sustainable-it-ki\index.md`: I-Plattform-Ausschreibung Zentralschweizer Kantone — föderale Zusammenarbeit (01.11.2025)
+- **Freiburger** `07-markt-anbieter\swiss-anbieter.md`: emeindeverband KI-Assistent (Feb 2025)
+- **Flag für P** `12-beschaffung\pflichtenheft-ki.md`:  Critic-Pipeline prüfen – strukturiertes JSON-Output sicherstellen
+- **Europarats** `06-change-management\veraenderungsbereitschaft.md`: nvention KI & Beirat Digitale Schweiz (BAFU, 2026-02-10)
+- **Draft unve** `12-beschaffung\pflichtenheft-ki.md`: ndert übernommen, da keine umsetzbaren Revisionspunkte vorlagen
+- **DVS-Umsetz** `05-regulatorik\ch-rechtsgrundlagen.md`: gsplan 2026 mit Standards für KI-Plattformen
+- **DVS Umsetz** `07-markt-anbieter\swiss-anbieter.md`: gsplan 2026 KI-Anforderungen
+- **Critic-Fee** `12-beschaffung\pflichtenheft-ki.md`: ack enthielt Parse-Fehler (`"Critic output parse error"`) ohne auswertbare Issues
+- **Bundesrat-** `13-sustainable-it-ki\index.md`: undsätze für KI-Einsatz in der Verwaltung (21.03.2025)
+- **Bundeskanz** `05-regulatorik\ch-rechtsgrundlagen.md`: i-Monitoringbericht zur Strategie Digitale Schweiz 2025
+- **Berner KI-** `05-regulatorik\ch-rechtsgrundlagen.md`: itlinien als kantonales Referenzmodell (gültig ab Januar 2026)
+- **Basler KDK** `11-erfolgsmessung\kpis.md`: Implementierungsprojekt (CHF 7.1 Mio.) als Praxisbeispiel aufgenommen
+- **Aufgabenli** `06-change-management\veraenderungsbereitschaft.md`: e KI-Strategie (DVS, 2026-01-05)
+- **Analysen z** `05-regulatorik\ch-rechtsgrundlagen.md`: Diskriminierungsrisiken in automatisierten HR-Prozessen
+- **AlgorithmW** `05-regulatorik\ch-rechtsgrundlagen.md`: ch CH Framework für KI-Regulierung
+- **AlgorithmW** `05-regulatorik\ch-rechtsgrundlagen.md`: ch CH Analysen zu Accountability und Verantwortlichkeit in Verwaltungen
+- **AlgorithmW** `06-change-management\veraenderungsbereitschaft.md`: ch Responsible AI Framework (2025-06-15)
+- **AlgorithmW** `07-markt-anbieter\swiss-anbieter.md`: ch CH Impact Assessment Tool
+- **AlgorithmW** `07-markt-anbieter\swiss-anbieter.md`: ch CH Framework für Algorithmen & KI
+- **AlgorithmW** `11-erfolgsmessung\kpis.md`: ch CH Impact Assessment Tool und AI Regulation Framework als praktische Frameworks dokumentiert
+- **AlgorithmW** `13-sustainable-it-ki\index.md`: ch CH Impact Assessment Tool für verantwortungsvollen KI-Einsatz (ca. 2024)
+- **AlgorithmW** `13-sustainable-it-ki\index.md`: ch CH Analyse: Rechenzentrum-Expansion in Europa und Nachhaltigkeitsauswirkungen (ca. 2024)
+- **5 DSG-rele** `03-datenschutz-informationssicherheit\ndsg.md`: nte Quellen in Schlüsselquellen dokumentiert (ISDS-spezifische Quellen ausgelagert)

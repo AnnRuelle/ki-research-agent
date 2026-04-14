@@ -9,7 +9,6 @@ import yaml
 
 from agents.llm.factory import create_provider
 from agents.llm.provider import LLMProvider
-from agents.parser import parse
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +44,15 @@ def _select_relevant_chapters(question: str, max_chapters: int = 5) -> list[str]
     Simple keyword-based selection. In production, this could use embeddings.
     """
     chapter_keywords: dict[str, list[str]] = {
-        "01-plattform-architektur": ["architektur", "gateway", "cloud", "hybrid", "plattform", "modell", "infrastruktur"],
+        "01-plattform-architektur": [
+            "architektur",
+            "gateway",
+            "cloud",
+            "hybrid",
+            "plattform",
+            "modell",
+            "infrastruktur",
+        ],
         "02-use-cases": ["use case", "anwendung", "pilot", "katalog", "prioris"],
         "03-datenschutz-informationssicherheit": ["datenschutz", "sicherheit", "ndsg", "isds", "klassifikation"],
         "04-governance-betriebsmodell": ["governance", "betrieb", "rolle", "freigabe", "organisation"],
@@ -178,14 +185,14 @@ def main() -> None:
     setup_logging()
 
     if len(sys.argv) < 2:
-        print("Usage: python -m agents.qa \"Deine Frage\"")
+        print('Usage: python -m agents.qa "Deine Frage"')
         sys.exit(1)
 
     question = " ".join(sys.argv[1:])
     answer = ask(question)
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(answer)
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     print("\nGespeichert: tests/output/qa_answer.md")
 
 

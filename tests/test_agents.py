@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -19,22 +17,24 @@ class TestResearcherParsing:
     def test_parse_valid_findings(self) -> None:
         """Valid JSON array should produce Finding objects."""
         response = LLMResponse(
-            content=json.dumps([
-                {
-                    "title": "Test Finding",
-                    "summary": "A test finding.",
-                    "source_name": "Test Source",
-                    "source_url": "https://example.com",
-                    "source_date": "2026-04-14",
-                    "source_type": "vendor",
-                    "confidence": 0.9,
-                    "credibility": "high",
-                    "geographic_origin": "ch",
-                    "operation": "update_text",
-                    "tags": ["test"],
-                    "suggested_subpage": "test.md",
-                }
-            ]),
+            content=json.dumps(
+                [
+                    {
+                        "title": "Test Finding",
+                        "summary": "A test finding.",
+                        "source_name": "Test Source",
+                        "source_url": "https://example.com",
+                        "source_date": "2026-04-14",
+                        "source_type": "vendor",
+                        "confidence": 0.9,
+                        "credibility": "high",
+                        "geographic_origin": "ch",
+                        "operation": "update_text",
+                        "tags": ["test"],
+                        "suggested_subpage": "test.md",
+                    }
+                ]
+            ),
             model="test",
         )
         findings = _parse_findings(response, "01-plattform-architektur")
@@ -67,10 +67,12 @@ class TestResearcherParsing:
     def test_parse_malformed_finding_skipped(self) -> None:
         """Finding missing required fields should be skipped."""
         response = LLMResponse(
-            content=json.dumps([
-                {"title": "Good", "summary": "OK", "source_name": "S"},
-                {"bad_field": "no title"},
-            ]),
+            content=json.dumps(
+                [
+                    {"title": "Good", "summary": "OK", "source_name": "S"},
+                    {"bad_field": "no title"},
+                ]
+            ),
             model="test",
         )
         findings = _parse_findings(response, "01")

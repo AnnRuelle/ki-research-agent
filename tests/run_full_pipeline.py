@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
@@ -16,9 +15,9 @@ def run_pipeline(chapter_id: str) -> None:
     setup_logging(level="INFO")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     print(f"Full Pipeline: {chapter_id}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # Step 1: Researcher
     print("\n[1/6] Researcher...")
@@ -92,13 +91,13 @@ def run_pipeline(chapter_id: str) -> None:
     print(f"  -> Newsletter: {len(html)} chars")
 
     # Summary
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("PIPELINE COMPLETE")
     print(f"  Findings:      {len(findings)}")
     print(f"  Critic:        {review.verdict} ({len(review.issues)} issues)")
     print(f"  Own Notes:     {'INTACT' if review.own_notes_intact else 'VIOLATED!'}")
     print(f"  Word Change:   {review.word_count_change_pct:+.0f}%")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     print(f"\nOutputs in {OUTPUT_DIR}/:")
     for f in sorted(OUTPUT_DIR.glob("*")):
         print(f"  - {f.name}")

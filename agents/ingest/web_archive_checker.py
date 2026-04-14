@@ -37,8 +37,8 @@ class WebChange:
 def _fetch_url(url: str) -> str | None:
     """Fetch URL content as text. Returns None on failure."""
     try:
-        req = Request(url, headers={"User-Agent": USER_AGENT})  # noqa: S310
-        with urlopen(req, timeout=TIMEOUT_SECONDS) as resp:  # noqa: S310
+        req = Request(url, headers={"User-Agent": USER_AGENT})
+        with urlopen(req, timeout=TIMEOUT_SECONDS) as resp:
             content_bytes = resp.read(MAX_CONTENT_BYTES)
             charset = resp.headers.get_content_charset() or "utf-8"
             return content_bytes.decode(charset, errors="replace")
@@ -80,9 +80,7 @@ def _save_hash_index(index_file: Path, index: dict[str, str]) -> None:
     )
 
 
-def check_all(
-    sources: SourcesConfig | None = None, output_dir: Path | None = None
-) -> list[WebChange]:
+def check_all(sources: SourcesConfig | None = None, output_dir: Path | None = None) -> list[WebChange]:
     """Check all websites and archives for changes. Returns list of changes."""
     if sources is None:
         sources = load_sources()
@@ -93,9 +91,7 @@ def check_all(
     index_file = output_dir / "_hash_index.json"
     hash_index = _load_hash_index(index_file)
 
-    all_sources = [
-        (s.name, s.url, s.chapters) for s in sources.websites
-    ] + [
+    all_sources = [(s.name, s.url, s.chapters) for s in sources.websites] + [
         (s.name, s.url, s.chapters) for s in sources.archives
     ]
 
@@ -157,12 +153,12 @@ def main() -> None:
 
     setup_logging()
     changes = check_all()
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Web Archive Check complete: {len(changes)} changes detected")
     for change in changes:
         status = "NEW" if change.previous_hash is None else "CHANGED"
         print(f"  - [{status}] {change.source_name}: {change.url}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":

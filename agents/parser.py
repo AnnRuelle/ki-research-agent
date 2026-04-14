@@ -94,10 +94,7 @@ def parse(markdown: str) -> FourZoneDocument:
     # Extract content between zone headers
     for i, (pos, header) in enumerate(zone_positions):
         start = pos + len(header)
-        if i + 1 < len(zone_positions):
-            end = zone_positions[i + 1][0]
-        else:
-            end = len(remaining)
+        end = zone_positions[i + 1][0] if i + 1 < len(zone_positions) else len(remaining)
         zones[header] = remaining[start:end].strip()
 
     return FourZoneDocument(
