@@ -19,9 +19,10 @@ Deine Aufgabe: Integriere einen neuen Fund in den bestehenden Überblick-Text ei
 
 Regeln:
 - Schreibe sachlich, präzise und für Entscheidungsträger in der öffentlichen Verwaltung
-- Integriere den Fund nahtlos in den bestehenden Text — kein Anhängen, sondern Einarbeiten
+- Integriere ALLE bereitgestellten Funde nahtlos in den bestehenden Text — kein Anhängen, sondern Einarbeiten
+- Verarbeite JEDEN einzelnen Fund. Ignoriere keinen.
 - Halte das Soft-Limit von ~2000 Wörtern ein. Kürze wenn nötig ältere Details
-- Aktualisiere die Schlüsselquellen-Sektion mit der neuen Quelle
+- Aktualisiere die Schlüsselquellen-Sektion mit den neuen Quellen
 - Ändere NIEMALS die "Eigene Notizen"-Zone — gib sie exakt so zurück wie sie ist
 - Bereite einen Changelog-Eintrag vor
 - Sprache: Deutsch, Fachbegriffe auf Englisch okay
@@ -39,17 +40,19 @@ Antwort-Format: Gib das komplette Markdown-Dokument zurück im Vier-Zonen-Format
 """
 
 
-def _build_user_prompt(doc: FourZoneDocument, finding_json: str) -> str:
+def _build_user_prompt(doc: FourZoneDocument, findings_json: str, finding_count: int) -> str:
     """Build the user prompt for the writer."""
     return f"""\
 ## Aktuelle Seite:
 {doc.to_markdown()}
 
-## Neuer Fund:
-{finding_json}
+## Funde ({finding_count} Stück — ALLE verarbeiten!):
+{findings_json}
 
-Integriere diesen Fund in den Überblick-Text. Behalte den bestehenden Inhalt bei und ergänze ihn sinnvoll.
-Die "Eigene Notizen"-Zone muss EXAKT unverändert bleiben."""
+Integriere ALLE {finding_count} Funde in den Überblick-Text. Jeder Fund muss im Text oder in den \
+Schlüsselquellen verarbeitet werden. Behalte den bestehenden Inhalt bei und ergänze ihn sinnvoll.
+Die "Eigene Notizen"-Zone muss EXAKT unverändert bleiben.
+Der Changelog-Eintrag muss ALLE verarbeiteten Funde referenzieren."""
 
 
 def _generate_diff(original: FourZoneDocument, updated: FourZoneDocument) -> str:
@@ -111,16 +114,18 @@ def write_draft(
     subpage: str,
     finding_path: Path | None = None,
     finding_data: dict[str, object] | None = None,
+    findings_list: list[dict[str, object]] | None = None,
     provider: LLMProvider | None = None,
     output_dir: Path | None = None,
 ) -> FourZoneDocument:
-    """Write a draft integrating a finding into a chapter subpage.
+    """Write a draft integrating findings into a chapter subpage.
 
     Args:
         chapter_id: Chapter identifier (e.g. "01-plattform-architektur").
         subpage: Subpage filename (e.g. "ai-gateway.md").
-        finding_path: Path to finding JSON file.
-        finding_data: Finding data dict (alternative to finding_path).
+        finding_path: Path to findings JSON file (array or single object).
+        finding_data: Single finding data dict.
+        findings_list: List of finding dicts (preferred for multiple findings).
         provider: LLM provider (created from config if None).
         output_dir: Output directory for draft and diff.
 
@@ -131,14 +136,20 @@ def write_draft(
         output_dir = Path("tests/output")
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Load finding
-    if finding_data is not None:
-        finding_json = json.dumps(finding_data, ensure_ascii=False, indent=2)
+    # Load findings — support single or multiple
+    if findings_list is not None:
+        all_findings = findings_list
+    elif finding_data is not None:
+        all_findings = [finding_data]
     elif finding_path is not None:
-        finding_json = finding_path.read_text(encoding="utf-8")
+        raw = json.loads(finding_path.read_text(encoding="utf-8"))
+        all_findings = raw if isinstance(raw, list) else [raw]
     else:
-        msg = "Either finding_path or finding_data must be provided"
+        msg = "Either finding_path, finding_data, or findings_list must be provided"
         raise ValueError(msg)
+
+    finding_json = json.dumps(all_findings, ensure_ascii=False, indent=2)
+    finding_count = len(all_findings)
 
     # Load current page
     page_path = Path("chapters") / chapter_id / subpage
@@ -157,7 +168,7 @@ def write_draft(
         provider = create_provider(config.agents["writer"])
 
     # Call LLM
-    user_prompt = _build_user_prompt(original_doc, finding_json)
+    user_prompt = _build_user_prompt(original_doc, finding_json, finding_count)
     logger.info("Writer: drafting update for %s/%s", chapter_id, subpage)
     response = provider.complete(system=SYSTEM_PROMPT, user=user_prompt, temperature=0.3)
 
