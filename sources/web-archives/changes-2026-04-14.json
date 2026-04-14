@@ -1,0 +1,38 @@
+[
+  {
+    "source_name": "NCSC",
+    "url": "https://www.ncsc.admin.ch",
+    "chapters": [
+      "03-datenschutz-informationssicherheit",
+      "05-regulatorik"
+    ],
+    "detected_at": "2026-04-14T15:11:56.300654+00:00",
+    "content_hash": "9ace9c054fd9fb16b8b9",
+    "previous_hash": "3b74dc58181a87bf5f72",
+    "snippet": "BACS Startseite body{display:none !important;} var styleElement = document.createElement('STYLE'); styleElement.setAttribute('id', 'antiClickjack'); styleElement.setAttribute('type', 'text/css'); styleElement.innerHTML = 'body {display:none !important;}'; document.getElementsByTagName('HEAD')[0].appendChild(styleElement); if (self === top) { var antiClickjack = document.getElementById(\"antiClickjack\"); antiClickjack.parentNode.removeChild(antiClickjack); } else { top.location = self.location; } "
+  },
+  {
+    "source_name": "EDÖB",
+    "url": "https://www.edoeb.admin.ch",
+    "chapters": [
+      "03-datenschutz-informationssicherheit",
+      "05-regulatorik"
+    ],
+    "detected_at": "2026-04-14T15:11:57.058086+00:00",
+    "content_hash": "daa8ddaffe24845f4fef",
+    "previous_hash": "1faa9fe014ee40bacf8a",
+    "snippet": "Willkommen beim EDÖB Zum Hauptinhalt springen Alle Schweizer Bundesbehörden Sprach Dropdown Deutsch ausgewählt DE FR IT EN Eidgenössischer Datenschutz- und Öffentlichkeitsbeauftragter &nbsp; (EDÖB) Eidgenössischer Datenschutz- und Öffentlichkeitsbeauftragter (EDÖB) Eidgenössischer Datenschutz- und Öffentlichkeitsbeauftragter (EDÖB) Suche Suche FAQ Meldeportale Kontakt Willkommen beim EDÖB Als unabhängige Behörde obliegen dem Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) Auf"
+  },
+  {
+    "source_name": "BK Digitale Transformation",
+    "url": "https://www.bk.admin.ch/bk/de/home/digitale-transformation-ikt-lenkung.html",
+    "chapters": [
+      "04-governance-betriebsmodell",
+      "01-plattform-architektur"
+    ],
+    "detected_at": "2026-04-14T15:11:57.510559+00:00",
+    "content_hash": "9353a310477ea61fb85d",
+    "previous_hash": "00c9fb2a0383082c7fdb",
+    "snippet": "Digitale Transformation und IKT-Lenkung body{display:none !important;} var styleElement = document.createElement('STYLE'); styleElement.setAttribute('id', 'antiClickjack'); styleElement.setAttribute('type', 'text/css'); styleElement.innerHTML = 'body {display:none !important;}'; document.getElementsByTagName('HEAD')[0].appendChild(styleElement); if (self === top) { var antiClickjack = document.getElementById(\"antiClickjack\"); antiClickjack.parentNode.removeChild(antiClickjack); } else { top.loca"
+  }
+]

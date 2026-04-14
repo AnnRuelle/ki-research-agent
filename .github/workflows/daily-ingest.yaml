@@ -1,0 +1,40 @@
+name: Daily Ingest
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # 06:00 UTC täglich
+  workflow_dispatch:       # Manuell auslösbar
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run RSS Poller
+        run: python -m agents.ingest.rss_poller
+
+      - name: Run Web Archive Checker (Sunday only)
+        if: github.event.schedule == '0 6 * * 0' || github.event_name == 'workflow_dispatch'
+        run: python -m agents.ingest.web_archive_checker
+
+      - name: Commit new sources
+        run: |
+          git config user.name "ki-kb-bot"
+          git config user.email "ki-kb-bot@users.noreply.github.com"
+          git add sources/
+          if git diff --staged --quiet; then
+            echo "No new sources to commit"
+          else
+            git commit -m "[agent:ingest] RSS + Web Archive: $(date +%Y-%m-%d)"
+            git push
+          fi
