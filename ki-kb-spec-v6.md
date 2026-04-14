@@ -233,7 +233,61 @@ Die Kapitel-Index-Seiten folgen ebenfalls dem Vier-Zonen-Template. Die Unterseit
 - Älteres nur in Git-History
 - Automatisch vom Merger gepflegt
 
-### 5.4 Soft-Limits
+### 5.4 Strukturierte Vergleichsdaten
+
+Bestimmte Unterseiten enthalten Wissen, das als Tabelle nützlicher ist als als Fliesstext. Diese Seiten führen zusätzlich zum Markdown eine **strukturierte YAML-Datei** mit, die Vergleiche, Filterung und Weiterverwendung (z.B. in Briefings) ermöglicht.
+
+**Welche Seiten:**
+
+| Kapitel | Unterseite | Datenstruktur |
+|---|---|---|
+| 07 Markt & Anbieter | `bewertungsraster.md` | Anbietervergleich: Name, Deployment, Datenhaltung, Zertifizierungen, Preismodell, Stärken, Schwächen |
+| 07 Markt & Anbieter | `azure-openai.md`, `aws-bedrock.md`, etc. | Pro Anbieter: Modelle, Region, Compliance, Preise, Referenzen CH |
+| 09 Kosten | `anbietervergleich.md` | TCO-Vergleich: Anbieter, Setup-Kosten, Betriebskosten/Monat, Inklusivleistungen, Skalierung |
+| 10 Referenzprojekte | `zuerich.md`, `bern.md`, etc. | Pro Kanton: Anbieter, Use Cases, Status, Lessons Learned, Kontakt |
+| 05 Regulatorik | `eu-ai-act.md` | Risikoklassen: Kategorie, Anforderungen, Relevanz für Kanton, Frist |
+| 12 Beschaffung | `zuschlagskriterien.md` | Kriterien: Name, Gewichtung, Beschreibung, Messbarkeit |
+| 13 Sustainable IT | `green-it-beschaffungskriterien.md` | Kriterien: Name, Gewichtung, Nachweis, Referenzwerte |
+
+**Format:**
+
+Jede strukturierte Seite hat eine Companion-Datei `{name}.data.yaml`:
+
+```yaml
+# chapters/07-markt-anbieter/bewertungsraster.data.yaml
+schema_version: 1
+last_updated: 2026-04-14
+columns:
+  - name: Anbieter
+  - name: Deployment
+  - name: Datenstandort
+  - name: Zertifizierungen
+  - name: Preismodell
+  - name: Stärken
+  - name: Schwächen
+
+rows:
+  - anbieter: "Azure OpenAI Service"
+    deployment: "Cloud (CH-Region verfügbar)"
+    datenstandort: "Schweiz (Switzerland North)"
+    zertifizierungen: "ISO 27001, SOC 2, C5"
+    preismodell: "Pay-per-Token"
+    staerken: "Breites Modellportfolio, CH-Region, Enterprise-Support"
+    schwaechen: "Vendor Lock-in, komplexe Kostenprognose"
+
+  - anbieter: "AWS Bedrock"
+    deployment: "Cloud (Zürich-Region)"
+    # ...
+```
+
+**Regeln:**
+- Der Writer aktualisiert sowohl `.md` als auch `.data.yaml` — die Tabelle im Markdown wird aus der YAML-Datei generiert
+- Der Critic prüft Konsistenz zwischen Markdown-Text und YAML-Daten
+- Neue Zeilen in der YAML = neuer Eintrag im Bewertungsraster (immer Flagged)
+- Gelöschte Zeilen = Obsoleszenz-Meldung (immer Flagged)
+- Die YAML-Daten dienen auch dem Q&A-Agent als strukturierte Quelle
+
+### 5.5 Soft-Limits
 
 | Element | Limit | Bei Überschreitung |
 |---|---|---|
@@ -264,7 +318,58 @@ Researcher ──► Writer ──► Critic ──► Resolver ──► Merger
 
 Provider pro Agent jederzeit umstellbar: eine Zeile in config.yaml.
 
-### 6.2 Operationen
+### 6.2 Q&A-Agent (On-Demand)
+
+Der Q&A-Agent ist kein Teil der wöchentlichen Pipeline, sondern ein **On-Demand-Tool** das die PL jederzeit nutzen kann, um Fragen an ihre eigene Wissensdatenbank zu stellen.
+
+**Aufruf:**
+```bash
+python agents/qa.py "Welche Kantone setzen auf Azure und was waren die Probleme?"
+python agents/qa.py "Argumente für und gegen Cloud vs. On-Premise bei NDSG-Anforderungen?"
+python agents/qa.py "Was sagt der EU AI Act zu Chatbots im Bürgerservice?"
+```
+
+**Funktionsweise:**
+1. Frage wird analysiert → relevante Kapitel und Unterseiten identifiziert
+2. Markdown-Texte + `.data.yaml`-Dateien der relevanten Seiten werden als Kontext geladen
+3. LLM generiert Antwort **ausschliesslich basierend auf KB-Inhalten** (keine externen Quellen)
+4. Jede Aussage wird mit Link zur Unterseite belegt
+
+**Output-Format:**
+```markdown
+## Antwort
+
+Zürich setzt Azure OpenAI ein (Pilotprojekt Steuerverwaltung, seit Q1/2026).
+Hauptproblem: Latenz bei On-Premise-Gateway.
+→ [chapters/10/zuerich.md](chapters/10/zuerich.md)
+
+Aargau evaluiert AWS Bedrock, Entscheid ausstehend.
+→ [chapters/10/aargau.md](chapters/10/aargau.md)
+
+Vergleich der Plattformen im Bewertungsraster:
+→ [chapters/07/bewertungsraster.md](chapters/07/bewertungsraster.md)
+
+## Verwendete Quellen
+- chapters/10/zuerich.md (Letzte Änderung: 2026-04-14)
+- chapters/10/aargau.md (Letzte Änderung: 2026-04-07)
+- chapters/07/bewertungsraster.md (Letzte Änderung: 2026-04-01)
+- chapters/07/bewertungsraster.data.yaml
+```
+
+**Regeln:**
+- Antwortet nur mit Wissen aus der KB — halluziniert keine externen Fakten
+- Wenn die KB keine Antwort hat: sagt das explizit ("Dazu gibt es in der KB noch keine Informationen. Relevante Kapitel wären: ...")
+- Nutzt `.data.yaml`-Dateien für strukturierte Vergleiche (Tabellen in der Antwort)
+- Default-Provider: konfigurierbar in `config.yaml` (`agents.qa`)
+- Kann auch via GitHub Action (workflow_dispatch) ausgelöst werden — Antwort als Issue-Kommentar
+
+**Config:**
+```yaml
+agents:
+  qa: { provider: azure_openai, model: gpt-4o, max_context_chapters: 5 }
+```
+
+### 6.3 Operationen
 
 | # | Operation | Auto-Merge möglich? |
 |---|---|---|
@@ -277,7 +382,7 @@ Provider pro Agent jederzeit umstellbar: eine Zeile in config.yaml.
 
 Kalibrierungsphase: 4-6 Wochen alles Flagged. Auto-Merge aktivieren via config.yaml: `auto_merge.enabled: true`.
 
-### 6.3 Review-Kriterien
+### 6.4 Review-Kriterien
 
 Kapitel die immer manuell bleiben (konfigurierbar in config.yaml):
 - 05-regulatorik
@@ -440,6 +545,7 @@ class LLMProvider(ABC):
     def resolve(self, draft, critique) -> LLMResponse: ...
     def check_consistency(self, chapters) -> LLMResponse: ...
     def translate(self, text, target_lang) -> LLMResponse: ...
+    def qa(self, question, context_chapters) -> LLMResponse: ...
 
 # Implementierungen:
 # AzureOpenAIProvider  — Default, Projektkosten
@@ -474,13 +580,15 @@ tests/
 │   ├── resolver_final.md          # Finale Version nach Critic-Feedback
 │   ├── resolver_diff.md           # Diff: Writer-Draft vs. Resolver-Final
 │   ├── consistency_report.json    # Widersprüche zwischen Kapiteln
-│   └── newsletter_preview.html    # So sieht der Newsletter aus
+│   ├── newsletter_preview.html    # So sieht der Newsletter aus
+│   └── qa_answer.md               # Antwort des Q&A-Agents
 ├── run_researcher.py              # Einzeln ausführbar
 ├── run_writer.py
 ├── run_critic.py
 ├── run_resolver.py
 ├── run_consistency.py
 ├── run_newsletter.py
+├── run_qa.py                      # Q&A-Agent testen
 ├── run_full_pipeline.py           # Alles hintereinander
 └── run_all_tests.py               # Automatisierte Qualitäts-Checks
 ```
@@ -605,7 +713,8 @@ ki-kb/
 │   ├── consistency_checker.py
 │   ├── merger.py
 │   ├── changelog_trimmer.py
-│   └── newsletter.py
+│   ├── newsletter.py
+│   └── qa.py                      # On-Demand Q&A über die KB
 │
 ├── chapters/
 │   └── [13 Kapitel, nested, Vier-Zonen-Template]
@@ -704,6 +813,7 @@ Du tippst nie `python ...`. Du öffnest nie ein Terminal. Du reviewst Markdown, 
 | 2 | Ingest: RSS Poller, Web Archive Checker, GitHub Action | 1 Tag |
 | 3 | Agents: Abstraktionsschicht, Researcher→Writer→Critic→Resolver→Merger | 3-4 Tage |
 | 4 | Newsletter: Generator, Template, Approve/Reject, Consistency Checker | 1-2 Tage |
+| 4b | Q&A-Agent: On-Demand Fragen an die KB | 0.5-1 Tag |
 | 5 | Go Live: Secrets, Actions aktivieren, Kalibrierung (4-6 Wochen) | Laufend |
 | 6 | Erweiterungen: CN-Quellen, weitere Sources, Segmentierung | Laufend |
 
@@ -733,3 +843,6 @@ Du tippst nie `python ...`. Du öffnest nie ein Terminal. Du reviewst Markdown, 
 | 20 | Dashboard: Auto-generierte Landing Page mit Status + Links pro Kapitel |
 | 21 | Kapitel-Index: Auto-aktualisiert bei jedem Merge, Vier-Zonen-Template |
 | 22 | Globales Changelog: CHANGELOG.md, 3 Monate, kapitelübergreifend |
+| 23 | Strukturierte Vergleichsdaten: .data.yaml Companion-Dateien für tabellarische Seiten |
+| 24 | Q&A-Agent: On-Demand, antwortet nur aus KB-Inhalten, keine proaktiven Empfehlungen |
+| 25 | Keine Phasen-Seite: Kapitel sind phasenübergreifend relevant (Kommunikation ab Tag 1) |

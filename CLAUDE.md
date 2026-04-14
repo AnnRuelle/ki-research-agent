@@ -23,8 +23,8 @@ Die PL tippt keine Befehle. Du führst alles aus, du zeigst Ergebnisse.
 
 - **2 Config-Files im Root:** `config.yaml` (Steuerung) + `sources.yaml` (Quellen). Alles andere liest daraus.
 - **LLM-Abstraktionsschicht:** `agents/llm/provider.py` (ABC). Pro Agent individuell konfigurierbarer Provider.
-- **5+1 Agents:** Researcher → Writer → Critic → Resolver → Merger (Code) + Consistency Checker
-- **Content:** Markdown in `chapters/`, Vier-Zonen-Template (Überblick, Eigene Notizen, Schlüsselquellen, Changelog)
+- **5+1+1 Agents:** Researcher → Writer → Critic → Resolver → Merger (Code) + Consistency Checker + Q&A (On-Demand)
+- **Content:** Markdown in `chapters/`, Vier-Zonen-Template + `.data.yaml` Companion-Dateien für tabellarische Seiten
 - **Dashboard:** Auto-generierte Landing Page (`index.md`) mit Status, Frische-Indikator und Links pro Kapitel. Merger aktualisiert nach jedem Run.
 - **Kapitel-Index:** Jede `chapters/XX/index.md` wird automatisch aktualisiert (Unterseiten-Übersicht + letztes Update). Vier-Zonen-Template, "Eigene Notizen" geschützt.
 - **Globales Changelog:** `CHANGELOG.md` — kapitelübergreifend, 3 Monate, vom Merger gepflegt.
@@ -262,6 +262,20 @@ Zusammenfassung:
   Frage: Besser als der Writer-Draft?
 ```
 
+**Nach Q&A-Agent bauen:**
+```
+Ausgeführt: python tests/run_qa.py --question "Welche Kantone setzen Azure ein?"
+Output: tests/output/qa_answer.md
+
+Zusammenfassung:
+- Antwort basiert auf 3 Unterseiten (10/zuerich, 10/aargau, 07/bewertungsraster)
+- Alle Aussagen mit Quellenlinks belegt
+- 1 strukturierte Vergleichstabelle aus bewertungsraster.data.yaml eingebettet
+
+→ Bitte qa_answer.md öffnen und reviewen.
+  Fragen: Antwort korrekt? Quellen plausibel? Fehlende Infos?
+```
+
 **Nach Newsletter bauen:**
 ```
 Ausgeführt: python tests/run_newsletter.py
@@ -361,14 +375,17 @@ Baue einen Agent, teste, zeige Output, warte auf Feedback. Dann nächster Agent.
    WARTE AUF PL-FEEDBACK
 ```
 
-### Phase 4: Newsletter & Workflow
+### Phase 4: Newsletter, Q&A & Workflow
 ```
 1. agents/newsletter.py
 2. → teste → zeige newsletter_preview.html
    WARTE AUF PL-FEEDBACK
-3. .github/workflows/weekly-research.yaml
-4. .github/workflows/approve-reject.yaml
-5. → run_full_pipeline.py + run_all_tests.py → zeige alles
+3. agents/qa.py (On-Demand Q&A über KB-Inhalte + .data.yaml)
+4. → teste → zeige qa_answer.md
+   WARTE AUF PL-FEEDBACK
+5. .github/workflows/weekly-research.yaml
+6. .github/workflows/approve-reject.yaml
+7. → run_full_pipeline.py + run_all_tests.py → zeige alles
    WARTE AUF PL-FEEDBACK
 ```
 
@@ -384,6 +401,9 @@ Baue einen Agent, teste, zeige Output, warte auf Feedback. Dann nächster Agent.
 - Dashboard: alle 13 Kapitel gelistet, Links valide, Frische-Indikator korrekt
 - Kapitel-Index: Unterseiten-Liste stimmt mit Dateisystem überein
 - CHANGELOG.md: keine Einträge >3 Monate, chronologisch sortiert
+- `.data.yaml`-Dateien: valides YAML, schema_version vorhanden, Spalten konsistent
+- `.data.yaml` ↔ Markdown-Tabelle: Daten stimmen überein
+- Q&A-Agent: Antwort enthält mindestens 1 Quellenlink, keine Aussage ohne Belegstelle
 - Config-Parsing: config.yaml und sources.yaml fehlerfrei
 
 ### Weich (Warnungen)
@@ -393,6 +413,7 @@ Baue einen Agent, teste, zeige Output, warte auf Feedback. Dann nächster Agent.
 - Critic mindestens 1 Issue pro 5 Findings
 - Keine Duplikat-URLs in Schlüsselquellen
 - Changelog keine Einträge >3 Monate
+- Q&A-Agent: Antwort nicht länger als 1000 Wörter
 
 ## Konventionen
 
