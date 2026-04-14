@@ -2,9 +2,9 @@
 
 ## Überblick
 
-- **[Energieverbrauch LLM](energieverbrauch-llm.md)** -- Noch kein Update
+- **[Energieverbrauch LLM](energieverbrauch-llm.md)** -- Zuletzt: 2026-04-14
 - **[Green-IT-Beschaffungskriterien](green-it-beschaffungskriterien.md)** -- Zuletzt: 2026-04-14
-- **[RZ-Standort & CO2](rz-standort-co2.md)** -- Noch kein Update
+- **[RZ-Standort & CO2](rz-standort-co2.md)** -- Zuletzt: 2026-04-14
 
 ## Eigene Notizen
 

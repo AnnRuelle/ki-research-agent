@@ -8,15 +8,19 @@
 | [02 Use Cases](chapters/02-use-cases/index.md) | Die Priorisierung von KI-Anwendungen in kantonalen Verwaltun | 2026-04-14 | aktuell |
 | [03 Datenschutz & Informationssicherheit](chapters/03-datenschutz-informationssicherheit/index.md) | Datenklassifikation ist eine Kernaufgabe bei der Implementie | 2026-04-14 | aktuell |
 | [04 Governance & Betriebsmodell](chapters/04-governance-betriebsmodell/index.md) | Betriebsverantwortung für KI-Plattformen in kantonalen Verwa | 2026-04-14 | aktuell |
-| [05 Regulatorik](chapters/05-regulatorik/index.md) | Der EU AI Act ist seit Januar 2026 teilweise in Kraft und re | 2026-04-14 | aktuell |
+| [05 Regulatorik](chapters/05-regulatorik/index.md) | EU AI Act Risikoklassen und Relevanz fuer kantonale Verwaltu | 2026-04-14 | aktuell |
 | [06 Change Management](chapters/06-change-management/index.md) | Veränderungsbereitschaft ist ein kritischer Erfolgsfaktor be | 2026-04-15 | aktuell |
 | [07 Markt & Anbieter](chapters/07-markt-anbieter/index.md) | AWS Bedrock ist ein vollständig verwalteter Dienst von Amazo | 2026-04-14 | aktuell |
 | [08 Integration IT-Landschaft](chapters/08-integration-it-landschaft/index.md) | KI-Fachanwendungen gewinnen in kantonalen und kommunalen Ver | 2026-04-14 | aktuell |
-| [09 Kosten & Lizenzmodelle](chapters/09-kosten-lizenzmodelle/index.md) | Die Auswahl und Evaluierung von KI-Plattformen für kantonale | 2026-04-14 | aktuell |
+| [09 Kosten & Lizenzmodelle](chapters/09-kosten-lizenzmodelle/index.md) | Kostenvergleich der KI-Plattform-Anbieter
+
+| Anbieter | Setu | 2026-04-14 | aktuell |
 | [10 Referenzprojekte Kantone](chapters/10-referenzprojekte-kantone/index.md) | Nach aktuellem Recherche-Stand (April 2026) sind keine öffen | 2026-04-14 | aktuell |
 | [11 Erfolgsmessung](chapters/11-erfolgsmessung/index.md) | Die Definition und Messung von Key Performance Indicators (K | 2026-04-14 | aktuell |
-| [12 Beschaffung](chapters/12-beschaffung/index.md) | Ein Pflichtenheft für KI-Plattformen in kantonalen Verwaltun | 2025-11-15 | stark veraltet |
-| [13 Sustainable IT & KI](chapters/13-sustainable-it-ki/index.md) | Green-IT-Beschaffungskriterien sind für kantonale Verwaltung | 2026-04-14 | aktuell |
+| [12 Beschaffung](chapters/12-beschaffung/index.md) | Eignungskriterien für KI-Plattformen in kantonalen Verwaltun | 2026-04-14 | aktuell |
+| [13 Sustainable IT & KI](chapters/13-sustainable-it-ki/index.md) | ⚠️ FLAG FÜR PROJEKTLEITUNG (2026-04-14)
+
+ Der vorliegende Dr | 2026-04-14 | aktuell |
 
 Legende: aktuell (< 7d) -- veraltet (7-21d) -- stark veraltet (> 21d) -- nie aktualisiert
 

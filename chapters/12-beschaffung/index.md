@@ -2,10 +2,10 @@
 
 ## Überblick
 
-- **[Eignungskriterien](eignungskriterien.md)** -- Noch kein Update
-- **[IVoeB-Verfahrenswahl](ivoeb-verfahrenswahl.md)** -- Noch kein Update
+- **[Eignungskriterien](eignungskriterien.md)** -- Zuletzt: 2026-04-14
+- **[IVoeB-Verfahrenswahl](ivoeb-verfahrenswahl.md)** -- Zuletzt: 2026-04-14
 - **[Pflichtenheft KI](pflichtenheft-ki.md)** -- Zuletzt: 2025-11-15
-- **[Zuschlagskriterien](zuschlagskriterien.md)** -- Noch kein Update
+- **[Zuschlagskriterien](zuschlagskriterien.md)** -- Zuletzt: 2026-04-14
 
 ## Eigene Notizen
 
