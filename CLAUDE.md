@@ -29,10 +29,122 @@ Die PL tippt keine Befehle. Du führst alles aus, du zeigst Ergebnisse.
 
 ## Code-Stil
 
-- Python 3.10+, Type Hints überall
-- Minimal dependencies: `feedparser`, `anthropic`/`openai`, `pyyaml`, `jinja2`, `sendgrid`
+- Python 3.10+, Type Hints überall (erzwungen durch mypy strict)
+- Minimal dependencies: `feedparser`, `anthropic`/`openai`, `pyyaml`, `jinja2`, `sendgrid`, `pydantic`
 - Alle Config aus `config.yaml` und `sources.yaml` — keine hardcodierten Werte
 - Agents sind unabhängige Scripts, einzeln ausführbar
+- Kein `print()` — nur `logging` (structured, JSON-Format)
+- Alle öffentlichen Funktionen haben Docstrings
+- Max. Zeilenlänge: 120 Zeichen
+
+## Projekt-Tooling
+
+### Projekt-Setup
+- **`pyproject.toml`** als zentrale Konfiguration (Ruff, mypy, pytest, Projekt-Metadaten)
+- **`requirements.txt`** mit gepinnten Versionen (`==`) — reproduzierbare Builds
+- **`requirements-dev.txt`** für Entwicklungstools (ruff, mypy, pytest, pre-commit)
+- **`.env.example`** dokumentiert alle nötigen Umgebungsvariablen (API-Keys etc.)
+- **`.gitignore`** für: `.env`, `__pycache__/`, `.venv/`, `tests/output/`, `*.pyc`, `.mypy_cache/`, `.ruff_cache/`
+
+### Linting & Formatting
+- **Ruff** als Linter + Formatter (ersetzt flake8, isort, black)
+- **mypy** im strict mode — Type Hints ohne Checker sind nur Deko
+- **Pre-commit Hooks** via `pre-commit` — kein unformatierter Code wird committet:
+  - `ruff check --fix`
+  - `ruff format`
+  - `mypy`
+
+### CI-Pipeline
+Zusätzlich zu den operationalen Workflows (`daily-ingest`, `weekly-research`, `approve-reject`):
+- **`.github/workflows/ci.yaml`** — läuft bei jedem Push und PR:
+  1. `ruff check` + `ruff format --check`
+  2. `mypy --strict`
+  3. `pytest tests/` (Unit Tests)
+- Ohne grüne CI kein Merge.
+
+## Input-Validierung
+
+### Pydantic-Modelle für Konfiguration
+- `config.yaml` und `sources.yaml` werden beim Start gegen Pydantic-Modelle validiert
+- Tippfehler, fehlende Felder, falsche Typen → klarer Fehler beim Start, nicht zur Laufzeit
+- Agent-Outputs (Finding-JSON, Critic-JSON) ebenfalls gegen Pydantic-Schemas validiert
+
+### Startup-Checks
+- Beim Pipeline-Start: alle benötigten API-Keys vorhanden? → Klare Fehlermeldung statt kryptischem 401
+- Config-Validierung vor dem ersten LLM-Call
+
+## Error Handling & Resilience
+
+### Retry-Logik
+- LLM-API-Calls: Exponential Backoff mit max. 3 Retries (Rate Limits, Timeouts, 5xx)
+- Konfigurierbar pro Agent in `config.yaml`:
+  ```yaml
+  agents:
+    researcher: { provider: azure_openai, model: gpt-4o-mini, retries: 3, timeout: 60 }
+  ```
+
+### Circuit Breaker
+- Wenn ein Provider N-mal hintereinander fehlschlägt → Pipeline überspringt restliche Kapitel für diesen Agent, loggt Warnung
+- Kein blindes Retry gegen eine tote API für alle 13 Kapitel
+
+### Graceful Degradation
+- Fehler in einem Kapitel stoppt nicht die ganze Pipeline
+- Fehlgeschlagene Kapitel werden geloggt und im Newsletter als "übersprungen" markiert
+- Pipeline gibt am Ende eine Zusammenfassung: X erfolgreich, Y fehlgeschlagen, Z übersprungen
+
+### Fehlerklassen
+| Fehler | Verhalten |
+|---|---|
+| API-Key fehlt | Pipeline bricht sofort ab, klare Meldung |
+| Rate Limit (429) | Retry mit Backoff |
+| Timeout | Retry, dann Skip |
+| Invalider LLM-Output | Retry (1x), dann Skip mit Warning |
+| Config-Fehler | Pipeline startet nicht |
+| Netzwerk-Fehler | Retry mit Backoff |
+
+## Logging & Observability
+
+### Structured Logging
+- Alle Module nutzen `logging` mit JSON-Format (lesbar in GitHub Actions)
+- Jeder Pipeline-Run bekommt eine **Run-ID** (UUID), die durch alle Agents propagiert wird
+- Log-Level: `DEBUG` für Entwicklung, `INFO` für Produktion (konfigurierbar in `config.yaml`)
+
+### Cost Tracking
+- Jeder LLM-Call loggt: Agent, Modell, Input-Tokens, Output-Tokens, Kosten
+- Am Ende jedes Runs: Kosten-Zusammenfassung pro Agent und gesamt
+- Wird im Newsletter unter STATS angezeigt
+
+### Run-Artefakte
+```
+updates/
+└── YYYY-kwNN/
+    ├── run-log.json          # Strukturiertes Log des gesamten Runs
+    ├── cost-summary.json     # Token-Counts und Kosten pro Agent
+    ├── merged.json
+    ├── flagged.json
+    └── rejected.json
+```
+
+## Test-Strategie
+
+### Zwei Ebenen
+
+**1. Unit Tests (pytest, deterministisch, kein LLM)**
+- Vier-Zonen-Parser: korrekt trennen + zusammenfügen
+- Config-Loader: valide/invalide YAML, fehlende Felder
+- Merger: Changelog-Einträge, SUMMARY.md-Updates
+- Changelog-Trimmer: 3-Monats-Logik
+- Newsletter-Template-Rendering
+- Pydantic-Schema-Validierung
+- Retry/Backoff-Logik (mit Mocks)
+
+**2. Integrations-Tests (Output-Review, mit LLM)**
+- Das bestehende Test-Harness (`tests/run_*.py`)
+- Produziert echte Outputs für PL-Review
+
+### Testabdeckung
+- Ziel: 90%+ für deterministische Komponenten (Merger, Parser, Config, Trimmer)
+- LLM-Agents: nur Output-Struktur testbar (JSON-Schema, Zonen-Integrität), nicht Inhalt
 
 ## Vier-Zonen-Template
 
@@ -196,15 +308,26 @@ aber signifikant höhere Betriebskosten (vgl. Kap. 09)."
 
 ## Build-Reihenfolge
 
+### Phase 0: Projekt-Tooling
+```
+1. .gitignore
+2. pyproject.toml (Ruff, mypy, pytest Config)
+3. requirements.txt + requirements-dev.txt (gepinnte Versionen)
+4. .env.example
+5. .pre-commit-config.yaml
+6. .github/workflows/ci.yaml (Ruff + mypy + pytest)
+→ Zeige PL: Tooling-Setup, CI läuft grün
+```
+
 ### Phase 1: Skeleton
 ```
 1. Repo-Struktur erstellen
-2. config.yaml + sources.yaml
+2. config.yaml + sources.yaml + Pydantic-Modelle dafür
 3. Alle Kapitel-Stubs mit Vier-Zonen-Template
 4. SUMMARY.md
 5. templates/subpage.md + templates/newsletter.html
-6. requirements.txt
-→ Zeige PL: Kapitelstruktur + ein Beispiel-Stub
+6. Vier-Zonen-Parser mit Unit Tests
+→ Zeige PL: Kapitelstruktur + ein Beispiel-Stub + Tests grün
 ```
 
 ### Phase 2: Ingest
