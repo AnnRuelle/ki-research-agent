@@ -2,9 +2,13 @@
 
 ## Überblick
 
-- **[Energieverbrauch LLM](energieverbrauch-llm.md)** -- Noch kein Update
-- **[Green-IT-Beschaffungskriterien](green-it-beschaffungskriterien.md)** -- Zuletzt: 2026-04-14
-- **[RZ-Standort & CO2](rz-standort-co2.md)** -- Noch kein Update
+Dieses Kapitel beleuchtet Nachhaltigkeit im Kontext von KI: Energieverbrauch von LLMs, CO2-Bilanz verschiedener Rechenzentrumsstandorte und Green-IT-Kriterien die in Beschaffungsprozesse einfliessen sollten.
+
+### Unterseiten
+
+- **[Energieverbrauch LLM](energieverbrauch-llm.md)** -- Wird noch befuellt
+- **[Green-IT-Beschaffungskriterien](green-it-beschaffungskriterien.md)** -- Inhalt vorhanden
+- **[RZ-Standort & CO2](rz-standort-co2.md)** -- Wird noch befuellt
 
 ## Eigene Notizen
 

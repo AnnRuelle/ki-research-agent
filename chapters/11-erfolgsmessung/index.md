@@ -2,8 +2,12 @@
 
 ## Überblick
 
-- **[KPIs](kpis.md)** -- Zuletzt: 2026-04-14
-- **[Pilotauswertung](pilotauswertung.md)** -- Noch kein Update
+Dieses Kapitel definiert wie der Erfolg von KI-Projekten gemessen werden kann: Key Performance Indicators (KPIs) fuer verschiedene Dimensionen (Effizienz, Qualitaet, Akzeptanz) und Methoden zur Auswertung von Pilotprojekten.
+
+### Unterseiten
+
+- **[KPIs](kpis.md)** -- Inhalt vorhanden
+- **[Pilotauswertung](pilotauswertung.md)** -- Wird noch befuellt
 
 ## Eigene Notizen
 

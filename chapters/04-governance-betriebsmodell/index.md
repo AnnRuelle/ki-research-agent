@@ -2,9 +2,13 @@
 
 ## Überblick
 
-- **[Betriebsverantwortung](betriebsverantwortung.md)** -- Noch kein Update
-- **[Freigabeprozess](freigabeprozess.md)** -- Noch kein Update
-- **[Rollenmodell](rollenmodell.md)** -- Zuletzt: 2026-04-14
+Dieses Kapitel definiert Governance-Strukturen und Betriebsmodelle fuer KI-Plattformen: Rollenmodelle (wer entscheidet was), Freigabeprozesse fuer KI-Anwendungen und die organisatorische Verankerung der Betriebsverantwortung.
+
+### Unterseiten
+
+- **[Betriebsverantwortung](betriebsverantwortung.md)** -- Wird noch befuellt
+- **[Freigabeprozess](freigabeprozess.md)** -- Wird noch befuellt
+- **[Rollenmodell](rollenmodell.md)** -- Inhalt vorhanden
 
 ## Eigene Notizen
 
