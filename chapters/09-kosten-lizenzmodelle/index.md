@@ -2,12 +2,8 @@
 
 ## Überblick
 
-Dieses Kapitel analysiert die Kosten von KI-Plattformen: Total Cost of Ownership (TCO) Modelle, Vergleich der Lizenz- und Preismodelle verschiedener Anbieter und Empfehlungen fuer die Budgetplanung in kantonalen Verwaltungen.
-
-### Unterseiten
-
-- **[Anbietervergleich](anbietervergleich.md)** -- Wird noch befuellt
-- **[TCO-Modelle](tco-modelle.md)** -- Inhalt vorhanden
+- **[Anbietervergleich](anbietervergleich.md)** -- Noch kein Update
+- **[TCO-Modelle](tco-modelle.md)** -- Zuletzt: 2026-04-14
 
 ## Eigene Notizen
 

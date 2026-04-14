@@ -2,12 +2,8 @@
 
 ## Überblick
 
-Dieses Kapitel dokumentiert konkrete Anwendungsfaelle fuer KI in kantonalen Verwaltungen — von Chatbots im Buergerservice ueber automatisierte Dokumentenverarbeitung bis hin zu Entscheidungsunterstuetzung. Es umfasst einen Use-Case-Katalog und Kriterien zur Priorisierung von Pilotprojekten.
-
-### Unterseiten
-
-- **[Use-Case-Katalog](katalog.md)** -- Inhalt vorhanden
-- **[Priorisierung](priorisierung.md)** -- Wird noch befuellt
+- **[Use-Case-Katalog](katalog.md)** -- Zuletzt: 2025-12-03
+- **[Priorisierung](priorisierung.md)** -- Zuletzt: 2026-04-14
 
 ## Eigene Notizen
 

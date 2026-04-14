@@ -2,12 +2,8 @@
 
 ## Überblick
 
-Dieses Kapitel behandelt die menschliche Seite der KI-Einfuehrung: Veraenderungsbereitschaft foerdern, Multiplikatoren gewinnen, Stakeholder-Kommunikation planen und Schulungskonzepte entwickeln — von Train-the-Trainer bis Prompt Literacy.
-
-### Unterseiten
-
-- **[Multiplikatoren](multiplikatoren.md)** -- Wird noch befuellt
-- **[Veraenderungsbereitschaft](veraenderungsbereitschaft.md)** -- Inhalt vorhanden
+- **[Multiplikatoren](multiplikatoren.md)** -- Zuletzt: 2026-04-14
+- **[Veraenderungsbereitschaft](veraenderungsbereitschaft.md)** -- Zuletzt: 2026-04-15
 - **[Kommunikation](kommunikation/index.md)**
 - **[Schulung](schulung/index.md)**
 

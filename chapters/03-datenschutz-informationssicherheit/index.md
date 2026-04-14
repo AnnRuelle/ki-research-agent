@@ -2,13 +2,9 @@
 
 ## Überblick
 
-Dieses Kapitel behandelt Datenschutz und Informationssicherheit beim Einsatz von KI in der oeffentlichen Verwaltung: das revidierte Datenschutzgesetz (DSG/NDSG), Anforderungen an ISDS-Konzepte und Datenklassifikation im Kontext von LLM-Anwendungen.
-
-### Unterseiten
-
-- **[Datenklassifikation](datenklassifikation.md)** -- Wird noch befuellt
-- **[ISDS-Konzept](isds-konzept.md)** -- Wird noch befuellt
-- **[DSG (revidiertes Datenschutzgesetz)](ndsg.md)** -- Inhalt vorhanden
+- **[Datenklassifikation](datenklassifikation.md)** -- Zuletzt: 2026-04-14
+- **[ISDS-Konzept](isds-konzept.md)** -- Zuletzt: 2026-04-14
+- **[DSG (revidiertes Datenschutzgesetz)](ndsg.md)** -- Zuletzt: 2025-02-01
 
 ## Eigene Notizen
 

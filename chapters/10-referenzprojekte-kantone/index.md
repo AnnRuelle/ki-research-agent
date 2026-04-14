@@ -2,14 +2,10 @@
 
 ## Überblick
 
-Dieses Kapitel dokumentiert KI-Projekte in Schweizer Kantonen: Was haben Zuerich, Bern, Aargau und andere Kantone bereits umgesetzt? Welche Erfahrungen und Lessons Learned gibt es? Welche Anbieter und Architekturen werden eingesetzt?
-
-### Unterseiten
-
-- **[Aargau](aargau.md)** -- Wird noch befuellt
-- **[Bern](bern.md)** -- Wird noch befuellt
-- **[Weitere Kantone](weitere.md)** -- Inhalt vorhanden
-- **[Zuerich](zuerich.md)** -- Wird noch befuellt
+- **[Aargau](aargau.md)** -- Noch kein Update
+- **[Bern](bern.md)** -- Noch kein Update
+- **[Weitere Kantone](weitere.md)** -- Zuletzt: 2026-04-14
+- **[Zuerich](zuerich.md)** -- Noch kein Update
 
 ## Eigene Notizen
 
