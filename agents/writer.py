@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+from datetime import datetime, timezone
 from pathlib import Path
 
 from agents.llm.factory import create_provider
@@ -12,7 +13,7 @@ from agents.parser import FourZoneDocument, parse
 
 logger = logging.getLogger(__name__)
 
-SYSTEM_PROMPT = """\
+SYSTEM_PROMPT_TEMPLATE = """\
 Du bist ein Writer-Agent für eine Wissensdatenbank über KI-Plattformen für kantonale Verwaltungen in der Schweiz.
 
 Deine Aufgabe: Integriere einen neuen Fund in den bestehenden Überblick-Text einer Seite.
@@ -24,7 +25,10 @@ Regeln:
 - Halte das Soft-Limit von ~2000 Wörtern ein. Kürze wenn nötig ältere Details
 - Aktualisiere die Schlüsselquellen-Sektion mit den neuen Quellen
 - Ändere NIEMALS die "Eigene Notizen"-Zone — gib sie exakt so zurück wie sie ist
-- Bereite einen Changelog-Eintrag vor
+- Changelog-Eintrag im Format: - YYYY-MM-DD: Beschreibung (Auto-merged, Critic: pending)
+  WICHTIG: Das Datum im Changelog ist das RECHERCHE-DATUM (wann die Information gefunden wurde),
+  NICHT das Quell-Datum. Verwende {TODAY} als Recherche-Datum.
+  Die Quell-Daten gehören in die Schlüsselquellen-Sektion.
 - Sprache: Deutsch, Fachbegriffe auf Englisch okay
 
 Antwort-Format: Gib das komplette Markdown-Dokument zurück im Vier-Zonen-Format:
@@ -169,8 +173,10 @@ def write_draft(
 
     # Call LLM
     user_prompt = _build_user_prompt(original_doc, finding_json, finding_count)
+    today = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d")
+    system_prompt = SYSTEM_PROMPT_TEMPLATE.replace("{TODAY}", today)
     logger.info("Writer: drafting update for %s/%s", chapter_id, subpage)
-    response = provider.complete(system=SYSTEM_PROMPT, user=user_prompt, temperature=0.3)
+    response = provider.complete(system=system_prompt, user=user_prompt, temperature=0.3)
 
     # Parse response
     updated_doc = parse(response.content)

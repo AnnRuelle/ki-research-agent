@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+from datetime import datetime, timezone
 from pathlib import Path
 
 from agents.llm.factory import create_provider
@@ -12,7 +13,7 @@ from agents.parser import FourZoneDocument, parse
 
 logger = logging.getLogger(__name__)
 
-SYSTEM_PROMPT = """\
+SYSTEM_PROMPT_TEMPLATE = """\
 Du bist ein Resolver-Agent für eine Wissensdatenbank über KI-Plattformen für kantonale Verwaltungen.
 
 Deine Aufgabe: Überarbeite den Writer-Draft basierend auf dem Critic-Feedback.
@@ -23,7 +24,8 @@ Regeln:
 - "nit" Issues nur wenn sie die Qualität klar verbessern
 - Wenn der Critic "approve" sagt: Draft unverändert übernehmen
 - Die "Eigene Notizen"-Zone darf NIEMALS verändert werden
-- Bereite einen finalen Changelog-Eintrag vor
+- Changelog-Einträge verwenden das RECHERCHE-DATUM (heute: {TODAY}), NICHT das Quell-Datum
+  Format: - YYYY-MM-DD: Beschreibung
 - Wenn Issues nicht lösbar sind: markiere sie als Flag für die PL
 
 Antwort: Gib das komplette Markdown-Dokument zurück im Vier-Zonen-Format:
@@ -131,8 +133,10 @@ def resolve_draft(
 
     # Call LLM
     user_prompt = _build_user_prompt(draft_text, critic_json)
+    today = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d")
+    system_prompt = SYSTEM_PROMPT_TEMPLATE.replace("{TODAY}", today)
     logger.info("Resolver: resolving draft with critic feedback")
-    response = provider.complete(system=SYSTEM_PROMPT, user=user_prompt, temperature=0.2)
+    response = provider.complete(system=system_prompt, user=user_prompt, temperature=0.2)
 
     # Parse response
     final_doc = parse(response.content)

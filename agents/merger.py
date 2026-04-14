@@ -211,7 +211,9 @@ def _get_recent_changes() -> str:
     for chapter_dir in sorted(CHAPTERS_DIR.iterdir()):
         if not chapter_dir.is_dir():
             continue
-        chapter_name = chapter_dir.name.split("-", 1)[1].replace("-", " ").title() if "-" in chapter_dir.name else chapter_dir.name
+        chapter_name = (
+            chapter_dir.name.split("-", 1)[1].replace("-", " ").title() if "-" in chapter_dir.name else chapter_dir.name
+        )
         for md_file in chapter_dir.glob("**/*.md"):
             if md_file.name == "index.md":
                 continue

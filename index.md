@@ -16,7 +16,7 @@
 | [10 Referenzprojekte Kantone](chapters/10-referenzprojekte-kantone/index.md) | Die Schweizer Kantone befinden sich in unterschiedlichen Pha | 2026-04-14 | aktuell |
 | [11 Erfolgsmessung](chapters/11-erfolgsmessung/index.md) | Die Definition und Messung von Key Performance Indicators (K | 2026-04-14 | aktuell |
 | [12 Beschaffung](chapters/12-beschaffung/index.md) | Ein Pflichtenheft für KI-Plattformen in kantonalen Verwaltun | 2025-11-15 | stark veraltet |
-| [13 Sustainable IT & KI](chapters/13-sustainable-it-ki/index.md) | *Noch kein Inhalt* | -- | nie aktualisiert |
+| [13 Sustainable IT & KI](chapters/13-sustainable-it-ki/index.md) | Green-IT-Beschaffungskriterien sind für kantonale Verwaltung | 2026-04-14 | aktuell |
 
 Legende: aktuell (< 7d) -- veraltet (7-21d) -- stark veraltet (> 21d) -- nie aktualisiert
 
@@ -29,6 +29,7 @@ Legende: aktuell (< 7d) -- veraltet (7-21d) -- stark veraltet (> 21d) -- nie akt
 - **2026-04-14** [Kosten Lizenzmodelle: TCO-Modelle](chapters/09-kosten-lizenzmodelle/tco-modelle.md)
 - **2026-04-14** [Referenzprojekte Kantone: Weitere Kantone](chapters/10-referenzprojekte-kantone/weitere.md)
 - **2026-04-14** [Erfolgsmessung: KPIs](chapters/11-erfolgsmessung/kpis.md)
+- **2026-04-14** [Sustainable It Ki: Green-IT-Beschaffungskriterien](chapters/13-sustainable-it-ki/green-it-beschaffungskriterien.md)
 - **2026-03-31** [Regulatorik: CH-Rechtsgrundlagen](chapters/05-regulatorik/ch-rechtsgrundlagen.md)
 - **2025-12-15** [Plattform Architektur: Multi-Modell-Strategie](chapters/01-plattform-architektur/multi-modell-strategie.md)
 - **2025-12-03** [Use Cases: Use-Case-Katalog](chapters/02-use-cases/katalog.md)
