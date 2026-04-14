@@ -181,7 +181,59 @@ Konferenz-Inputs, interne Quellen, persönliche Einschätzungen.]
 [Letzte 3 Monate. Älteres in Git.]
 ```
 
-### 5.3 Soft-Limits
+### 5.3 Dashboard & Navigationsseiten
+
+Drei auto-generierte Seiten sorgen dafür, dass Stakeholder jederzeit den aktuellen Stand finden — ohne durch 13 Kapitel zu klicken.
+
+**Landing Page (`index.md` im Root / GitBook-Startseite)**
+```markdown
+# KI-Plattform für kantonale Verwaltung — Wissensdatenbank
+
+## Status Dashboard
+
+| Kapitel | Aktueller Fokus | Letzte Änderung | Frische |
+|---|---|---|---|
+| [01 Plattform-Architektur](chapters/01/index.md) | Azure AI Gateway: Prompt Caching senkt Latenz um bis zu 40% | 2026-04-14 | 🟢 |
+| [02 Use Cases](chapters/02/index.md) | Priorisierung abgeschlossen, 5 Piloten definiert | 2026-04-07 | 🟢 |
+| ... | ... | ... | ... |
+| [13 Sustainable IT](chapters/13/index.md) | Noch kein Agent-Update | — | ⚪ |
+
+🟢 < 7 Tage  🟡 7–21 Tage  🔴 > 21 Tage  ⚪ Nie aktualisiert
+
+## Was ist neu (letzte 4 Wochen)
+- **2026-04-14** [01 → AI Gateway](chapters/01/ai-gateway.md): Prompt Caching ergänzt (Quelle: Microsoft Tech Blog)
+- **2026-04-14** [05 → EU AI Act](chapters/05/eu-ai-act.md): Durchführungsverordnung aktualisiert
+- **2026-04-07** [10 → Zürich](chapters/10/zuerich.md): Pilotprojekt Chatbot Steuerverwaltung
+- ...
+
+[Vollständiges Changelog →](CHANGELOG.md)
+```
+
+Generiert vom Merger (kein LLM nötig). Daten kommen aus den Changelogs der einzelnen Unterseiten.
+
+**Kapitel-Index (`chapters/XX/index.md`)**
+
+Jede `index.md` pro Kapitel wird automatisch aktualisiert und enthält:
+```markdown
+# [Kapitelname]
+
+## Unterseiten
+- **[AI Gateway](ai-gateway.md)** — Prompt Caching, Latenzoptimierung, Kosten. Zuletzt: 2026-04-14
+- **[Multi-Modell-Strategie](multi-modell-strategie.md)** — Provider-Mix, Routing. Zuletzt: 2026-03-30
+- **[Cloud vs. Hybrid](cloud-vs-hybrid.md)** — Datensouveränität, Betriebskosten. Zuletzt: 2026-03-23
+
+## Eigene Notizen
+[PL-only — wird vom Auto-Update nicht berührt]
+```
+
+Die Kapitel-Index-Seiten folgen ebenfalls dem Vier-Zonen-Template. Die Unterseiten-Übersicht ist Teil der "Überblick"-Zone und wird bei jedem Merge automatisch aktualisiert. Die "Eigene Notizen"-Zone bleibt geschützt.
+
+**Globales Changelog (`CHANGELOG.md`)**
+- Chronologisch, kapitelübergreifend, alle Änderungen der letzten 3 Monate
+- Älteres nur in Git-History
+- Automatisch vom Merger gepflegt
+
+### 5.4 Soft-Limits
 
 | Element | Limit | Bei Überschreitung |
 |---|---|---|
@@ -207,7 +259,7 @@ Researcher ──► Writer ──► Critic ──► Resolver ──► Merger
 | **Writer** | Rewrite-Draft: Fund in bestehenden Text integrieren | Azure GPT-4o-mini |
 | **Critic** | Adversarial: Draft auf Fehler, Verzerrungen, Halluzinationen prüfen | Azure GPT-4o |
 | **Resolver** | Writer + Critic → finale Version oder Flag an PL | Azure GPT-4o |
-| **Merger** | Commit, Changelog, SUMMARY.md (kein LLM, nur Code) | — |
+| **Merger** | Commit, Changelog, SUMMARY.md, Dashboard, Kapitel-Index (kein LLM, nur Code) | — |
 | **Consistency Checker** | Kapitelübergreifende Widersprüche | Azure GPT-4o |
 
 Provider pro Agent jederzeit umstellbar: eine Zeile in config.yaml.
@@ -523,6 +575,7 @@ ki-kb/
 ├── sources.yaml                   # ← Admin: Quellen verwalten
 ├── CLAUDE.md                      # Claude Code Projektanweisungen
 ├── SUMMARY.md                     # GitBook TOC
+├── CHANGELOG.md                   # Globales Changelog (auto-generiert, 3 Monate)
 ├── README.md
 ├── requirements.txt
 │
@@ -618,6 +671,7 @@ Du tippst nie `python ...`. Du öffnest nie ein Terminal. Du reviewst Markdown, 
 | Critic + Resolver | Wöchentlich | So 07:00 |
 | Consistency Checker | Wöchentlich | So 08:00 |
 | Changelog-Trimming | Wöchentlich | So 08:30 |
+| Dashboard + Index-Update | Wöchentlich | So 08:30 (nach Merger) |
 | Newsletter + Versand | Wöchentlich | Mo 07:00 |
 | GitBook Sync | Bei jedem Push | Automatisch |
 
@@ -676,3 +730,6 @@ Du tippst nie `python ...`. Du öffnest nie ein Terminal. Du reviewst Markdown, 
 | 17 | Config: 2 Files im Root (config.yaml, sources.yaml) |
 | 18 | Entwicklung: Privater Laptop + Claude Code |
 | 19 | Test-Harness: Output-Review statt Code-Review |
+| 20 | Dashboard: Auto-generierte Landing Page mit Status + Links pro Kapitel |
+| 21 | Kapitel-Index: Auto-aktualisiert bei jedem Merge, Vier-Zonen-Template |
+| 22 | Globales Changelog: CHANGELOG.md, 3 Monate, kapitelübergreifend |

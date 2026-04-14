@@ -25,6 +25,9 @@ Die PL tippt keine Befehle. Du führst alles aus, du zeigst Ergebnisse.
 - **LLM-Abstraktionsschicht:** `agents/llm/provider.py` (ABC). Pro Agent individuell konfigurierbarer Provider.
 - **5+1 Agents:** Researcher → Writer → Critic → Resolver → Merger (Code) + Consistency Checker
 - **Content:** Markdown in `chapters/`, Vier-Zonen-Template (Überblick, Eigene Notizen, Schlüsselquellen, Changelog)
+- **Dashboard:** Auto-generierte Landing Page (`index.md`) mit Status, Frische-Indikator und Links pro Kapitel. Merger aktualisiert nach jedem Run.
+- **Kapitel-Index:** Jede `chapters/XX/index.md` wird automatisch aktualisiert (Unterseiten-Übersicht + letztes Update). Vier-Zonen-Template, "Eigene Notizen" geschützt.
+- **Globales Changelog:** `CHANGELOG.md` — kapitelübergreifend, 3 Monate, vom Merger gepflegt.
 - **Betrieb:** GitHub Actions, kein Server. API-Keys als GitHub Secrets.
 
 ## Code-Stil
@@ -352,8 +355,8 @@ Baue einen Agent, teste, zeige Output, warte auf Feedback. Dann nächster Agent.
    WARTE AUF PL-FEEDBACK
 6. agents/resolver.py → teste → zeige resolver_final.md + resolver_diff.md
    WARTE AUF PL-FEEDBACK
-7. agents/merger.py (Code, kein LLM)
-8. agents/changelog_trimmer.py
+7. agents/merger.py (Code, kein LLM) — inkl. Dashboard + Kapitel-Index-Update
+8. agents/changelog_trimmer.py — inkl. CHANGELOG.md global
 9. agents/consistency_checker.py → teste → zeige consistency_report.json
    WARTE AUF PL-FEEDBACK
 ```
@@ -378,6 +381,9 @@ Baue einen Agent, teste, zeige Output, warte auf Feedback. Dann nächster Agent.
 - Critic-Output: valides JSON mit verdict + issues
 - Resolver-Output: Changelog-Eintrag vorhanden
 - Newsletter-HTML: valide, Approve/Reject-Links vorhanden
+- Dashboard: alle 13 Kapitel gelistet, Links valide, Frische-Indikator korrekt
+- Kapitel-Index: Unterseiten-Liste stimmt mit Dateisystem überein
+- CHANGELOG.md: keine Einträge >3 Monate, chronologisch sortiert
 - Config-Parsing: config.yaml und sources.yaml fehlerfrei
 
 ### Weich (Warnungen)
