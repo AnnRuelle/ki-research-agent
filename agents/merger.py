@@ -147,37 +147,44 @@ Legende: aktuell (< 7d) -- veraltet (7-21d) -- stark veraltet (> 21d) -- nie akt
 
 
 def _get_chapter_status(chapter_dir: Path) -> tuple[str | None, str | None]:
-    """Get the most recent date and focus of a chapter."""
+    """Get the most recent date and focus (first sentence of overview) of a chapter."""
     latest_date: str | None = None
-    latest_entry: str | None = None
+    latest_page_overview: str | None = None
 
     for md_file in chapter_dir.glob("**/*.md"):
+        if md_file.name == "index.md":
+            continue
         try:
             doc = parse(md_file.read_text(encoding="utf-8"))
             date = _extract_last_date(doc.changelog)
             if date and (latest_date is None or date > latest_date):
                 latest_date = date
-                # Extract focus from changelog
-                for line in doc.changelog.split("\n"):
-                    if date in line:
-                        latest_entry = line.split(":", 2)[-1].strip()[:80] if ":" in line else None
-                        break
+                # Use first sentence of overview as focus
+                overview = doc.overview.strip()
+                if overview and overview != "*Noch kein Inhalt. Wird durch den Research-Agent befüllt.*":
+                    first_sentence = overview.split(".")[0].strip()
+                    # Remove markdown formatting for clean display
+                    clean = first_sentence.replace("**", "").replace("*", "").replace(">", "").strip()
+                    latest_page_overview = f"{clean[:60]}"
         except Exception:
             continue
 
-    return latest_date, latest_entry
+    return latest_date, latest_page_overview
 
 
 def _extract_last_date(changelog: str) -> str | None:
-    """Extract the most recent date from a changelog."""
-    for line in changelog.split("\n"):
-        line = line.strip()
-        if line.startswith("- ") and len(line) > 12:
-            # Try to extract YYYY-MM-DD
-            date_part = line[2:12]
-            if len(date_part) == 10 and date_part[4] == "-" and date_part[7] == "-":
-                return date_part
-    return None
+    """Extract the most recent date from a changelog.
+
+    Supports formats:
+    - 2026-04-14: description
+    - **2026-04-14**: description
+    - **2026-04-14: description**
+    """
+    import re
+
+    dates: list[str] = re.findall(r"(\d{4}-\d{2}-\d{2})", changelog)
+    # Return the most recent (first found, since changelogs are reverse-chronological)
+    return dates[0] if dates else None
 
 
 def _freshness_indicator(date_str: str | None, now: datetime) -> str:
@@ -198,34 +205,38 @@ def _freshness_indicator(date_str: str | None, now: datetime) -> str:
 
 def _get_recent_changes() -> str:
     """Collect recent changes from all chapters."""
-    changes: list[tuple[str, str, str]] = []  # (date, chapter/subpage, description)
+    # Collect one entry per subpage: (date, chapter_name, page_title, rel_link)
+    page_updates: dict[str, tuple[str, str, str, str]] = {}
 
     for chapter_dir in sorted(CHAPTERS_DIR.iterdir()):
         if not chapter_dir.is_dir():
             continue
+        chapter_name = chapter_dir.name.split("-", 1)[1].replace("-", " ").title() if "-" in chapter_dir.name else chapter_dir.name
         for md_file in chapter_dir.glob("**/*.md"):
+            if md_file.name == "index.md":
+                continue
             try:
                 doc = parse(md_file.read_text(encoding="utf-8"))
-                rel_path = md_file.relative_to(CHAPTERS_DIR)
-                for line in doc.changelog.split("\n"):
-                    line = line.strip()
-                    if line.startswith("- ") and len(line) > 12:
-                        date_part = line[2:12]
-                        desc = line[14:] if len(line) > 14 else ""
-                        changes.append((date_part, str(rel_path), desc))
+                date = _extract_last_date(doc.changelog)
+                if date:
+                    # Use forward slashes for links
+                    rel_path = str(md_file.relative_to(CHAPTERS_DIR)).replace("\\", "/")
+                    key = rel_path
+                    if key not in page_updates or date > page_updates[key][0]:
+                        page_updates[key] = (date, chapter_name, doc.title, rel_path)
             except Exception:
                 continue
 
-    # Sort by date descending, take last 4 weeks
-    changes.sort(key=lambda x: x[0], reverse=True)
-    recent = changes[:20]
+    # Sort by date descending
+    sorted_updates = sorted(page_updates.values(), key=lambda x: x[0], reverse=True)
+    recent = sorted_updates[:15]
 
     if not recent:
         return "*Noch keine Updates. Wird automatisch vom Merger befuellt.*"
 
     lines = []
-    for date, path, desc in recent:
-        lines.append(f"- **{date}** [{path}](chapters/{path}): {desc}")
+    for date, chapter_name, title, rel_path in recent:
+        lines.append(f"- **{date}** [{chapter_name}: {title}](chapters/{rel_path})")
     return "\n".join(lines)
 
 

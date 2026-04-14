@@ -3,7 +3,7 @@
 ## Überblick
 
 - **[Multiplikatoren](multiplikatoren.md)** -- Noch kein Update
-- **[Veraenderungsbereitschaft](veraenderungsbereitschaft.md)** -- Noch kein Update
+- **[Veraenderungsbereitschaft](veraenderungsbereitschaft.md)** -- Zuletzt: 2026-04-15
 - **[Kommunikation](kommunikation/index.md)**
 - **[Schulung](schulung/index.md)**
 

@@ -6,7 +6,7 @@
 - **[Azure OpenAI](azure-openai.md)** -- Noch kein Update
 - **[Bewertungsraster](bewertungsraster.md)** -- Noch kein Update
 - **[Google Vertex AI](google-vertex.md)** -- Noch kein Update
-- **[Swiss Anbieter](swiss-anbieter.md)** -- Noch kein Update
+- **[Swiss Anbieter](swiss-anbieter.md)** -- Zuletzt: 2026-04-14
 
 ## Eigene Notizen
 

@@ -2,7 +2,7 @@
 
 ## Überblick
 
-- **[Use-Case-Katalog](katalog.md)** -- Noch kein Update
+- **[Use-Case-Katalog](katalog.md)** -- Zuletzt: 2025-12-03
 - **[Priorisierung](priorisierung.md)** -- Noch kein Update
 
 ## Eigene Notizen

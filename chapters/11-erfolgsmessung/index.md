@@ -2,7 +2,7 @@
 
 ## Überblick
 
-- **[KPIs](kpis.md)** -- Noch kein Update
+- **[KPIs](kpis.md)** -- Zuletzt: 2026-04-14
 - **[Pilotauswertung](pilotauswertung.md)** -- Noch kein Update
 
 ## Eigene Notizen
