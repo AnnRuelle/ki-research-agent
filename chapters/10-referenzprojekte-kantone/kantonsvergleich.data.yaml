@@ -1,0 +1,47 @@
+schema_version: 1
+last_updated: "2026-04-14"
+description: "Vergleich der KI-Projekte in Schweizer Kantonen"
+
+columns:
+  - name: Kanton
+  - name: Anbieter
+  - name: Use Cases
+  - name: Status
+  - name: Plattform
+  - name: Lessons Learned
+
+rows:
+  - kanton: "Zuerich"
+    anbieter: "Azure OpenAI"
+    use_cases: "Chatbot Steuerverwaltung, Dokumentenanalyse"
+    status: "Pilot seit Q1/2026"
+    plattform: "Azure AI Gateway"
+    lessons_learned: "Latenz bei On-Premise-Gateway, Datenschutz-Freigabe dauerte 6 Monate"
+
+  - kanton: "Bern"
+    anbieter: "Azure OpenAI"
+    use_cases: "KI-Leitlinien, Verwaltungsassistent"
+    status: "Leitlinien gueltig ab Jan 2026"
+    plattform: "Azure Cloud"
+    lessons_learned: "Verbindliche Leitlinien als Referenzmodell fuer andere Kantone"
+
+  - kanton: "Aargau"
+    anbieter: "AWS Bedrock (Evaluation)"
+    use_cases: "Buergerservice-Automatisierung"
+    status: "Evaluation"
+    plattform: "tbd"
+    lessons_learned: "Multi-Cloud-Strategie in Pruefung"
+
+  - kanton: "Appenzell AR/AI, GR, TG, SG + FL"
+    anbieter: "Gemeinsame Plattform (Abraxas)"
+    use_cases: "Diverse kantonale Anwendungen"
+    status: "In Betrieb seit Fruehjahr 2026"
+    plattform: "Gemeinsame KI-Plattform"
+    lessons_learned: "Foederale Zusammenarbeit spart Kosten, gemeinsame Governance noetig"
+
+  - kanton: "6 Kantone + 100 Staedte (SSGI)"
+    anbieter: "BEGASOFT"
+    use_cases: "Souveraene KI-Plattform fuer oeffentliche Verwaltungen"
+    status: "Aufbau"
+    plattform: "Souveraene Private Cloud"
+    lessons_learned: "Datensouveraenitaet als Haupttreiber, Open-Source-Modelle"

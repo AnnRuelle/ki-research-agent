@@ -2,10 +2,10 @@
 
 ## Überblick
 
-- **[Aargau](aargau.md)** -- Noch kein Update
-- **[Bern](bern.md)** -- Noch kein Update
+- **[Aargau](aargau.md)** -- Zuletzt: 2026-04-14
+- **[Bern](bern.md)** -- Zuletzt: 2026-04-14
 - **[Weitere Kantone](weitere.md)** -- Zuletzt: 2026-04-14
-- **[Zuerich](zuerich.md)** -- Noch kein Update
+- **[Zuerich](zuerich.md)** -- Zuletzt: 2026-04-14
 
 ## Eigene Notizen
 

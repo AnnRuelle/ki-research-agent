@@ -65,10 +65,17 @@ class AnthropicProvider(LLMProvider):
         except Exception as e:
             raise LLMError(f"Anthropic error: {e}") from e
 
-        if not response.content or not response.content[0].text:
+        if not response.content:
             raise InvalidResponseError("Empty response from Anthropic")
 
-        content = response.content[0].text
+        # Extract text from first TextBlock
+        content = ""
+        for block in response.content:
+            if hasattr(block, "text"):
+                content = block.text
+                break
+        if not content:
+            raise InvalidResponseError("No text content in Anthropic response")
         input_tokens = response.usage.input_tokens
         output_tokens = response.usage.output_tokens
 

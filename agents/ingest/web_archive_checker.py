@@ -40,8 +40,8 @@ def _fetch_url(url: str) -> str | None:
         req = Request(url, headers={"User-Agent": USER_AGENT})
         with urlopen(req, timeout=TIMEOUT_SECONDS) as resp:
             content_bytes = resp.read(MAX_CONTENT_BYTES)
-            charset = resp.headers.get_content_charset() or "utf-8"
-            return content_bytes.decode(charset, errors="replace")
+            charset: str = resp.headers.get_content_charset() or "utf-8"
+            return str(content_bytes.decode(charset, errors="replace"))
     except (URLError, TimeoutError, OSError):
         logger.exception("Failed to fetch: %s", url)
         return None
@@ -66,7 +66,8 @@ def _load_hash_index(index_file: Path) -> dict[str, str]:
     """Load the hash index mapping URL -> last known content hash."""
     if index_file.exists():
         try:
-            return json.loads(index_file.read_text(encoding="utf-8"))
+            data: dict[str, str] = json.loads(index_file.read_text(encoding="utf-8"))
+            return data
         except json.JSONDecodeError:
             return {}
     return {}

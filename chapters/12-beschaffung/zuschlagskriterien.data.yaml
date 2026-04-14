@@ -1,0 +1,55 @@
+schema_version: 1
+last_updated: "2026-04-14"
+description: "Zuschlagskriterien fuer KI-Plattform-Beschaffung (IVoeB)"
+
+columns:
+  - name: Kriterium
+  - name: Gewichtung
+  - name: Beschreibung
+  - name: Messbarkeit
+
+rows:
+  - kriterium: "Datenhaltung Schweiz"
+    gewichtung: "20%"
+    beschreibung: "Datenverarbeitung und -speicherung in Schweizer Rechenzentren, keine Uebermittlung ins Ausland"
+    messbarkeit: "Nachweis CH-Region, vertragliche Garantie"
+
+  - kriterium: "Modellqualitaet und -vielfalt"
+    gewichtung: "15%"
+    beschreibung: "Breite des Modellportfolios, Qualitaet der Ergebnisse, Benchmark-Resultate"
+    messbarkeit: "PoC-Auswertung, Benchmark-Scores"
+
+  - kriterium: "Sicherheit und Compliance"
+    gewichtung: "15%"
+    beschreibung: "Zertifizierungen (ISO 27001, SOC 2), ISDS-Konzept, Audit-Faehigkeit"
+    messbarkeit: "Zertifikate, Audit-Berichte"
+
+  - kriterium: "Preis / TCO"
+    gewichtung: "15%"
+    beschreibung: "Gesamtkosten ueber 3-5 Jahre inkl. Setup, Betrieb, Skalierung"
+    messbarkeit: "TCO-Berechnung nach Vorgabe"
+
+  - kriterium: "Integration und Schnittstellen"
+    gewichtung: "10%"
+    beschreibung: "API-Qualitaet, Anbindung an bestehende IT-Landschaft, IAM-Integration"
+    messbarkeit: "PoC-Integration, API-Dokumentation"
+
+  - kriterium: "Support und SLA"
+    gewichtung: "10%"
+    beschreibung: "Reaktionszeiten, Verfuegbarkeitsgarantie, deutschsprachiger Support"
+    messbarkeit: "SLA-Vertrag, Referenzen"
+
+  - kriterium: "Nachhaltigkeit"
+    gewichtung: "5%"
+    beschreibung: "Energieeffizienz, CO2-Bilanz des Rechenzentrums, Green-IT-Massnahmen"
+    messbarkeit: "Nachhaltigkeitsbericht, PUE-Wert"
+
+  - kriterium: "Vendor Lock-in Risiko"
+    gewichtung: "5%"
+    beschreibung: "Portabilitaet, Standard-APIs, Exit-Strategie"
+    messbarkeit: "Vertragliche Exit-Klauseln, API-Kompatibilitaet"
+
+  - kriterium: "Referenzen oeffentliche Verwaltung"
+    gewichtung: "5%"
+    beschreibung: "Nachgewiesene Projekte in Schweizer oder europaeischen Verwaltungen"
+    messbarkeit: "Referenzliste, Kontaktpersonen"

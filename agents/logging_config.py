@@ -63,9 +63,9 @@ def get_logger(name: str, run_id: str | None = None, agent: str | None = None) -
         def record_factory(*args: Any, **kwargs: Any) -> logging.LogRecord:
             record = old_factory(*args, **kwargs)
             if run_id:
-                record.run_id = run_id  # type: ignore[attr-defined]
+                record.run_id = run_id
             if agent:
-                record.agent = agent  # type: ignore[attr-defined]
+                record.agent = agent
             return record
 
         logging.setLogRecordFactory(record_factory)

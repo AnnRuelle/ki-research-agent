@@ -1,0 +1,47 @@
+schema_version: 1
+last_updated: "2026-04-14"
+description: "EU AI Act Risikoklassen und Relevanz fuer kantonale Verwaltungen"
+
+columns:
+  - name: Risikoklasse
+  - name: Beschreibung
+  - name: Beispiele Verwaltung
+  - name: Anforderungen
+  - name: Relevanz Kanton
+  - name: Frist
+
+rows:
+  - risikoklasse: "Unannehmbares Risiko"
+    beschreibung: "Verbotene KI-Praktiken"
+    beispiele_verwaltung: "Social Scoring, biometrische Echtzeit-Fernidentifikation (mit Ausnahmen)"
+    anforderungen: "Verbot"
+    relevanz_kanton: "Hoch — sicherstellen dass keine verbotenen Praktiken eingesetzt werden"
+    frist: "Seit Februar 2025"
+
+  - risikoklasse: "Hohes Risiko"
+    beschreibung: "KI-Systeme mit erheblichem Einfluss auf Rechte"
+    beispiele_verwaltung: "Automatisierte Sozialhilfe-Entscheide, Bewerbungs-Screening, Strafverfolgung"
+    anforderungen: "Risikomanagement, Datenqualitaet, Transparenz, menschliche Aufsicht, Registrierung"
+    relevanz_kanton: "Sehr hoch — betrifft viele Verwaltungsanwendungen"
+    frist: "August 2026"
+
+  - risikoklasse: "Begrenztes Risiko"
+    beschreibung: "KI mit Interaktion/Transparenzpflicht"
+    beispiele_verwaltung: "Chatbots im Buergerservice, KI-generierte Zusammenfassungen"
+    anforderungen: "Transparenzpflicht: Nutzer muss wissen dass er mit KI interagiert"
+    relevanz_kanton: "Mittel — betrifft die meisten geplanten Use Cases"
+    frist: "August 2026"
+
+  - risikoklasse: "Minimales Risiko"
+    beschreibung: "KI ohne spezifische Regulierung"
+    beispiele_verwaltung: "Spam-Filter, interne Textvorschlaege, Uebersetzungstools"
+    anforderungen: "Keine spezifischen, freiwillige Verhaltenskodizes empfohlen"
+    relevanz_kanton: "Gering — freie Nutzung"
+    frist: "Keine"
+
+  - risikoklasse: "General Purpose AI (GPAI)"
+    beschreibung: "Grundlagenmodelle wie GPT-4, Claude, Gemini"
+    beispiele_verwaltung: "Alle LLM-basierten Anwendungen"
+    anforderungen: "Transparenz, technische Dokumentation, Copyright-Compliance, bei systemischem Risiko: zusaetzliche Pflichten"
+    relevanz_kanton: "Hoch — betrifft Anforderungen an Provider-Wahl"
+    frist: "August 2025 (Transparenz), August 2026 (vollstaendig)"

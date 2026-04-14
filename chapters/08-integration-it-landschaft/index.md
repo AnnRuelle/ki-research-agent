@@ -2,9 +2,9 @@
 
 ## Überblick
 
-- **[DMS-Schnittstellen](dms-schnittstellen.md)** -- Noch kein Update
+- **[KI-Fachanwendungen in kantonalen Verwaltungen](dms-schnittstellen.md)** -- Zuletzt: 2026-04-14
 - **[Fachanwendungen](fachanwendungen.md)** -- Zuletzt: 2026-04-14
-- **[IAM & SSO](iam-sso.md)** -- Noch kein Update
+- **[IAM & SSO](iam-sso.md)** -- Zuletzt: 2026-04-14
 
 ## Eigene Notizen
 

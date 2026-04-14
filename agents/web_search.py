@@ -44,7 +44,7 @@ def search(
         return []
 
     try:
-        from tavily import TavilyClient  # type: ignore[import-untyped]
+        from tavily import TavilyClient
 
         client = TavilyClient(api_key=api_key)
 
@@ -58,7 +58,7 @@ def search(
         if exclude_domains:
             kwargs["exclude_domains"] = exclude_domains
 
-        response = client.search(**kwargs)  # type: ignore[arg-type]
+        response = client.search(**kwargs)
 
     except ImportError:
         logger.error("tavily-python not installed: pip install tavily-python")

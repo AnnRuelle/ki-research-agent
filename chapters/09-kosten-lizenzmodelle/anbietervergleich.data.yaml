@@ -1,0 +1,47 @@
+schema_version: 1
+last_updated: "2026-04-14"
+description: "Kostenvergleich der KI-Plattform-Anbieter"
+
+columns:
+  - name: Anbieter
+  - name: Setup-Kosten
+  - name: Betrieb/Monat (geschaetzt)
+  - name: Preismodell
+  - name: Inklusivleistungen
+  - name: Skalierung
+
+rows:
+  - anbieter: "Azure OpenAI"
+    setup_kosten: "Gering (Enterprise Agreement)"
+    betrieb_monat: "$500-5'000 (abhaengig von Nutzung)"
+    preismodell: "Pay-per-Token"
+    inklusivleistungen: "SLA, Support, Security Center"
+    skalierung: "Automatisch, Token-basiert"
+
+  - anbieter: "AWS Bedrock"
+    setup_kosten: "Gering"
+    betrieb_monat: "$400-4'000"
+    preismodell: "Pay-per-Token + Provisioned Throughput"
+    inklusivleistungen: "CloudTrail, GuardRails"
+    skalierung: "Automatisch, Provisioned optional"
+
+  - anbieter: "Google Vertex AI"
+    setup_kosten: "Gering"
+    betrieb_monat: "$400-4'000"
+    preismodell: "Pay-per-Token + Committed Use"
+    inklusivleistungen: "Model Garden, Evaluation Tools"
+    skalierung: "Automatisch"
+
+  - anbieter: "BEGASOFT (CH)"
+    setup_kosten: "CHF 50'000-150'000"
+    betrieb_monat: "CHF 5'000-15'000"
+    preismodell: "Lizenz + Betriebspauschale"
+    inklusivleistungen: "Installation, Schulung, CH-Support"
+    skalierung: "Manuell, Infrastruktur-abhaengig"
+
+  - anbieter: "Abraxas (CH)"
+    setup_kosten: "Projektabhaengig"
+    betrieb_monat: "Kantonsabhaengig"
+    preismodell: "Leistungsvereinbarung"
+    inklusivleistungen: "Integration, Betrieb, kantonaler Support"
+    skalierung: "Vereinbarungsabhaengig"

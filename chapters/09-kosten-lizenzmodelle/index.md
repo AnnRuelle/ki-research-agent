@@ -2,7 +2,7 @@
 
 ## Überblick
 
-- **[Anbietervergleich](anbietervergleich.md)** -- Noch kein Update
+- **[Anbietervergleich](anbietervergleich.md)** -- Zuletzt: 2026-04-14
 - **[TCO-Modelle](tco-modelle.md)** -- Zuletzt: 2026-04-14
 
 ## Eigene Notizen

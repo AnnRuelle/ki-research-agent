@@ -2,54 +2,15 @@
 
 ## Überblick
 
-Der EU AI Act ist seit Januar 2026 teilweise in Kraft und regelt KI-Systeme nach Risikokategorien. Kantone, deren Systeme personenbezogene Daten von EU-Bürgern verarbeiten oder die Produkte/Dienste in der EU anbieten, können unter den Anwendungsbereich des EU AI Act fallen. Der Implementierungszeitplan sieht gestaffelte Compliance-Anforderungen bis 2027 vor.
+EU AI Act Risikoklassen und Relevanz fuer kantonale Verwaltungen
 
-**Risikokategorien des EU AI Act und kantonale Relevanz**
-
-Der EU AI Act unterscheidet vier Risikostufen mit unterschiedlichen Compliance-Anforderungen:
-
-- **Inakzeptables Risiko** (verboten): z.B. Social Scoring durch Behörden, manipulative KI-Systeme
-- **Hohes Risiko** (strenge Anforderungen): Systeme in den Bereichen Strafverfolgung, Sozialhilfe, Bildung, Personalverwaltung und kritische Infrastruktur – für Kantone besonders relevant, da Sozialhilfe-Algorithmen, automatisierte HR-Systeme und Entscheidungsunterstützung in diese Kategorie fallen können
-- **Begrenztes Risiko** (Transparenzpflichten): z.B. Chatbots, die sich als solche kennzeichnen müssen
-- **Minimales Risiko** (keine spezifischen Anforderungen): z.B. KI-gestützte Spam-Filter
-
-Kantone sollten ihre bestehenden und geplanten KI-Systeme systematisch gegen diese Kategorien prüfen.
-
-**Regulatorischer Kontext in der Schweiz**
-
-Auf Bundesebene hat sich die Schweiz für einen innovationsfreundlichen, grundrechtsgestützten Regulierungsansatz entschieden. Die Strategie Digitale Schweiz 2025 (Bundeskanzlei) dokumentiert den Bundesrat-Ansatz mit Fokus auf Grundrechtsschutz, Demokratie und Rechtsstaatlichkeit. Separat davon hat das Bundesamt für Kommunikation (BAKOM) eine umfassende Auslegeordnung zur KI-Regulierung veröffentlicht – zu beachten ist, dass die BAKOM-Publikation auf dem Server des Bundesamts für Justiz (bj.admin.ch) gehostet wird. Die Auslegeordnung zeigt Schnittstellen zum EU AI Act auf und verbindet Grundrechtsschutz, Innovationsförderung und Vertrauensbildung.
-
-Der Eidgenössische Datenschutz- und Öffentlichkeitsbeauftragte (EDÖB) hat 2025 konkrete Richtlinien zur Verwendung von KI-Systemen in Bundesbehörden veröffentlicht. Diese adressieren Datenschutz, Transparenz und Accountability und dienen als Referenz für kantonale Datenschutzbeauftragte und deren Implementierungspflichten.
-
-**Sicherheit und Governance**
-
-Das Nationale Zentrum für Cybersicherheit (NCSC) hat 2025 spezifische Sicherheitsstandards für KI-Systeme in öffentlichen Verwaltungen entwickelt. Diese Standards sind für kantonale IT-Governance und die Beschaffung von KI-Plattformen (z.B. BEGASOFT-Projekt) zentral. Die Bundeskanzlei koordiniert die digitale Transformation und IKT-Lenkung in der Bundesverwaltung und dokumentiert Governance-Strukturen und Standards, die für kantonale KI-Implementierung relevant sind.
-
-**Accountability und Risikobewertung**
-
-> ⚠️ **Flag für PL**: Die Quelle «AlgorithmWatch CH – Focus Attention on Accountability for AI» (https://algorithmwatch.ch/en/agi-and-longtermist-abstractions/) weist eine Diskrepanz zwischen Titel und URL-Slug auf: Der Slug verweist auf AGI/Longtermism, nicht auf ein Accountability-Framework für öffentliche Verwaltungen. Die inhaltliche Beschreibung im Finding kann nicht verifiziert werden. Der nachfolgende Abschnitt stützt sich bis zur Klärung nur auf die verifizierbaren AlgorithmWatch-Quellen.
-
-AlgorithmWatch CH (zivilgesellschaftliche NGO mit Fokus auf algorithmische Verantwortlichkeit) hat ein praktisches Impact Assessment Tool entwickelt, das Verwaltungen bei der Bewertung von KI-Risiken unterstützt und für die Evaluierung von KI-Projekten relevant ist. Dieses Tool kann als ergänzendes Instrument neben den behördlichen Vorgaben von EDÖB und NCSC eingesetzt werden.
-
-**Spezifische Risiken – zivilgesellschaftliche Perspektive**
-
-AlgorithmWatch CH dokumentiert aus NGO-Perspektive mehrere Risikobereiche, die für kantonale Verwaltungen relevant sein können:
-
-- **Diskriminierung in HR-Systemen**: AlgorithmWatch CH dokumentiert, wie KI-Systeme in Rekrutierungsprozessen zu Diskriminierung führen können. Viele Verwaltungen nutzen automatisierte HR-Systeme; das Research-Projekt bietet Lösungsansätze zur Risikominderung.
-
-- **Entscheidungsbeeinflussung durch KI-Chatbots**: AlgorithmWatch CH untersucht, wie KI-Chatbots Entscheidungsprozesse in Regierungen beeinflussen können. Dies adressiert Transparenz-, Accountability- und Manipulationsrisiken bei KI-Assistenten in kantonalen Verwaltungen.
-
-- **Infrastruktur und Datenschutz**: AlgorithmWatch CH analysiert die Infrastruktur-Anforderungen für KI-Systeme in Europa, einschliesslich Datenschutz und Souveränität. Dies ist relevant für Anforderungen an souveräne KI-Plattformen und Datenschutz-Compliance.
-
-- **Arbeitsrecht und Sozialschutz** *(internationale Perspektive, Übertragbarkeit auf CH-Kontext zu prüfen)*: AlgorithmWatch CH dokumentiert in einer global ausgerichteten Analyse, wie KI-Systeme zur Ausbeutung von Gig-Workern führen können. Dies kann als Hintergrundperspektive für Arbeitsrecht und Sozialschutz bei KI-gestützten Verwaltungsprozessen dienen.
-
-Die Einschätzungen von AlgorithmWatch CH sind als zivilgesellschaftliche Analysen zu verstehen und ergänzen – aber ersetzen nicht – die verbindlichen Vorgaben von EDÖB, NCSC und BAKOM.
-
-**Implementierungsperspektive**
-
-Kantone sollten ihre KI-Governance an den EDÖB-Richtlinien, NCSC-Sicherheitsstandards und der BAKOM-Auslegeordnung ausrichten. Das AlgorithmWatch-Impact-Assessment-Tool kann als praktisches Hilfsmittel für die Risikobewertung einzelner Projekte eingesetzt werden.
-
-> ⚠️ **Flag für PL**: Der «DVS-Umsetzungsplan 2026» wurde in einem früheren Entwurf als Koordinationsstruktur genannt, ist aber durch keinen der vorliegenden Funds belegt. Er wurde aus dem Fliesstext entfernt. Falls dieser Plan existiert, bitte entsprechende Quelle nachliefern.
+| Risikoklasse | Beschreibung | Beispiele Verwaltung | Anforderungen | Relevanz Kanton | Frist |
+|---|---|---|---|---|---|
+| Unannehmbares Risiko | Verbotene KI-Praktiken | Social Scoring, biometrische Echtzeit-Fernidentifikation (mit Ausnahmen) | Verbot | Hoch — sicherstellen dass keine verbotenen Praktiken eingesetzt werden | Seit Februar 2025 |
+| Hohes Risiko | KI-Systeme mit erheblichem Einfluss auf Rechte | Automatisierte Sozialhilfe-Entscheide, Bewerbungs-Screening, Strafverfolgung | Risikomanagement, Datenqualitaet, Transparenz, menschliche Aufsicht, Registrierung | Sehr hoch — betrifft viele Verwaltungsanwendungen | August 2026 |
+| Begrenztes Risiko | KI mit Interaktion/Transparenzpflicht | Chatbots im Buergerservice, KI-generierte Zusammenfassungen | Transparenzpflicht: Nutzer muss wissen dass er mit KI interagiert | Mittel — betrifft die meisten geplanten Use Cases | August 2026 |
+| Minimales Risiko | KI ohne spezifische Regulierung | Spam-Filter, interne Textvorschlaege, Uebersetzungstools | Keine spezifischen, freiwillige Verhaltenskodizes empfohlen | Gering — freie Nutzung | Keine |
+| General Purpose AI (GPAI) | Grundlagenmodelle wie GPT-4, Claude, Gemini | Alle LLM-basierten Anwendungen | Transparenz, technische Dokumentation, Copyright-Compliance, bei systemischem Risiko: zusaetzliche Pflichten | Hoch — betrifft Anforderungen an Provider-Wahl | August 2025 (Transparenz), August 2026 (vollstaendig) |
 
 ## Eigene Notizen
 

@@ -1,0 +1,75 @@
+schema_version: 1
+last_updated: "2026-04-14"
+description: "Vergleich der KI-Plattform-Anbieter fuer kantonale Verwaltungen"
+
+columns:
+  - name: Anbieter
+  - name: Deployment
+  - name: CH-Region
+  - name: Datenstandort
+  - name: Zertifizierungen
+  - name: Preismodell
+  - name: Modelle
+  - name: Staerken
+  - name: Schwaechen
+
+rows:
+  - anbieter: "Azure OpenAI Service"
+    deployment: "Cloud"
+    ch_region: "Switzerland North/West"
+    datenstandort: "Schweiz"
+    zertifizierungen: "ISO 27001, SOC 2, C5, ISAE 3402"
+    preismodell: "Pay-per-Token"
+    modelle: "GPT-4o, GPT-4o-mini, DALL-E, Whisper"
+    staerken: "CH-Region, Enterprise-Support, breites Modellportfolio, Bing Grounding"
+    schwaechen: "Vendor Lock-in, komplexe Kostenprognose"
+
+  - anbieter: "AWS Bedrock"
+    deployment: "Cloud"
+    ch_region: "Zuerich (eu-central-2)"
+    datenstandort: "Schweiz"
+    zertifizierungen: "ISO 27001, SOC 2, C5"
+    preismodell: "Pay-per-Token"
+    modelle: "Claude, Llama, Mistral, Titan"
+    staerken: "Multi-Modell-Zugang, CH-Region, gute API"
+    schwaechen: "Weniger Enterprise-Features als Azure"
+
+  - anbieter: "Google Vertex AI"
+    deployment: "Cloud"
+    ch_region: "Zuerich (europe-west6)"
+    datenstandort: "Schweiz"
+    zertifizierungen: "ISO 27001, SOC 2"
+    preismodell: "Pay-per-Token + Provisioned Throughput"
+    modelle: "Gemini Pro/Ultra, PaLM 2"
+    staerken: "Starke Multimodalitaet, Grounding, Search-Integration"
+    schwaechen: "Weniger Verwaltungs-Referenzen in CH"
+
+  - anbieter: "Anthropic (Claude)"
+    deployment: "Cloud (via AWS/GCP)"
+    ch_region: "Via AWS Zuerich oder GCP Zuerich"
+    datenstandort: "Abhaengig vom Hosting-Provider"
+    zertifizierungen: "SOC 2 Type II"
+    preismodell: "Pay-per-Token"
+    modelle: "Claude Opus, Sonnet, Haiku"
+    staerken: "Starke Textqualitaet, Constitutional AI, grosse Kontextfenster"
+    schwaechen: "Kein eigenes CH-Hosting, keine Bing Grounding"
+
+  - anbieter: "BEGASOFT (Schweiz)"
+    deployment: "Private Cloud / On-Premise"
+    ch_region: "Schweizer Rechenzentren"
+    datenstandort: "Schweiz (garantiert)"
+    zertifizierungen: "ISAE 3402, CH-spezifisch"
+    preismodell: "Lizenz + Betrieb"
+    modelle: "Diverse Open-Source (Llama, Mistral)"
+    staerken: "Volle Datensouveraenitaet, CH-Firma, oeV-Erfahrung, SSGI-Auftrag"
+    schwaechen: "Kleineres Modellportfolio, weniger Skalierung"
+
+  - anbieter: "Abraxas (Schweiz)"
+    deployment: "Private Cloud"
+    ch_region: "Schweizer Rechenzentren"
+    datenstandort: "Schweiz (garantiert)"
+    zertifizierungen: "ISO 27001, ISAE 3402"
+    preismodell: "Lizenz + Betrieb"
+    modelle: "Diverse, kantonal angepasst"
+    staerken: "Tiefe oeV-Integration, kantonale Referenzen, Ostschweizer Kantone"
+    schwaechen: "Regional fokussiert"
