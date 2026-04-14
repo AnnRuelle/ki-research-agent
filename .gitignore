@@ -31,6 +31,10 @@ htmlcov/
 # Test output (PL reviews these locally, not tracked in git)
 tests/output/
 
+# MkDocs build output
+site/
+docs/
+
 # OS
 Thumbs.db
 .DS_Store
