@@ -2,12 +2,14 @@
 
 ## Überblick
 
-- **[Zuerich](zuerich.md)** — *Noch kein Inhalt.*
-- **[Bern](bern.md)** — *Noch kein Inhalt.*
-- **[Aargau](aargau.md)** — *Noch kein Inhalt.*
-- **[Weitere Kantone](weitere.md)** — *Noch kein Inhalt.*
+- **[Aargau](aargau.md)** -- Noch kein Update
+- **[Bern](bern.md)** -- Noch kein Update
+- **[Weitere Kantone](weitere.md)** -- Noch kein Update
+- **[Zuerich](zuerich.md)** -- Noch kein Update
 
 ## Eigene Notizen
+
+
 
 ## Schlüsselquellen
 

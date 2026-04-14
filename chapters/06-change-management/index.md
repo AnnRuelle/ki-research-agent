@@ -2,12 +2,14 @@
 
 ## Überblick
 
-- **[Veraenderungsbereitschaft](veraenderungsbereitschaft.md)** — *Noch kein Inhalt.*
-- **[Multiplikatoren](multiplikatoren.md)** — *Noch kein Inhalt.*
-- **[Kommunikation](kommunikation/index.md)** — *Noch kein Inhalt.*
-- **[Schulung](schulung/index.md)** — *Noch kein Inhalt.*
+- **[Multiplikatoren](multiplikatoren.md)** -- Noch kein Update
+- **[Veraenderungsbereitschaft](veraenderungsbereitschaft.md)** -- Noch kein Update
+- **[Kommunikation](kommunikation/index.md)**
+- **[Schulung](schulung/index.md)**
 
 ## Eigene Notizen
+
+
 
 ## Schlüsselquellen
 

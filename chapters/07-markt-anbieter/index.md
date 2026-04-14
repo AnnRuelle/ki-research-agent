@@ -2,13 +2,15 @@
 
 ## Überblick
 
-- **[Azure OpenAI](azure-openai.md)** — *Noch kein Inhalt.*
-- **[AWS Bedrock](aws-bedrock.md)** — *Noch kein Inhalt.*
-- **[Google Vertex AI](google-vertex.md)** — *Noch kein Inhalt.*
-- **[Swiss Anbieter](swiss-anbieter.md)** — *Noch kein Inhalt.*
-- **[Bewertungsraster](bewertungsraster.md)** — *Noch kein Inhalt.*
+- **[AWS Bedrock](aws-bedrock.md)** -- Noch kein Update
+- **[Azure OpenAI](azure-openai.md)** -- Noch kein Update
+- **[Bewertungsraster](bewertungsraster.md)** -- Noch kein Update
+- **[Google Vertex AI](google-vertex.md)** -- Noch kein Update
+- **[Swiss Anbieter](swiss-anbieter.md)** -- Noch kein Update
 
 ## Eigene Notizen
+
+
 
 ## Schlüsselquellen
 

@@ -2,10 +2,12 @@
 
 ## Überblick
 
-- **[TCO-Modelle](tco-modelle.md)** — *Noch kein Inhalt.*
-- **[Anbietervergleich](anbietervergleich.md)** — *Noch kein Inhalt.*
+- **[Anbietervergleich](anbietervergleich.md)** -- Noch kein Update
+- **[TCO-Modelle](tco-modelle.md)** -- Noch kein Update
 
 ## Eigene Notizen
+
+
 
 ## Schlüsselquellen
 
