@@ -11,6 +11,14 @@ from pathlib import Path
 from agents.config_schema import load_config
 from agents.llm.factory import create_provider
 from agents.llm.provider import LLMProvider, LLMResponse
+from agents.source_verifier import verify_finding
+from agents.url_utils import (
+    canonicalize_url,
+    load_seen_urls,
+    mark_seen,
+    save_seen_urls,
+    trim_seen_urls,
+)
 from agents.web_search import search_for_chapter
 
 logger = logging.getLogger(__name__)
@@ -36,6 +44,7 @@ class Finding:
     geographic_origin: str
     operation: str
     tags: list[str]
+    verified: str = "pending"
 
 
 SYSTEM_PROMPT = """\
@@ -204,15 +213,22 @@ def research_chapter(
     chapter_content = _load_chapter_content(chapter_id)
     ingested_sources = _load_ingested_sources()
 
+    # Cross-run memory: skip URLs we've already produced findings for
+    seen = trim_seen_urls(load_seen_urls(chapter_id))
+
     # Web search for fresh results
     chapter_title = chapter_id.split("-", 1)[1].replace("-", " ").title() if "-" in chapter_id else chapter_id
     scope_config = config.chapter_scope.get(chapter_id)
     custom_queries = scope_config.search_queries if scope_config else []
-    web_search_results = search_for_chapter(
+    raw_results = search_for_chapter(
         chapter_id,
         chapter_title,
         custom_queries=custom_queries or None,
     )
+    web_search_results = [r for r in raw_results if canonicalize_url(r.url) not in seen]
+    skipped = len(raw_results) - len(web_search_results)
+    if skipped:
+        logger.info("Researcher %s: skipped %d already-seen web results", chapter_id, skipped)
     web_results_text = (
         "\n".join(f"- [{r.title}]({r.url}) (score: {r.score:.2f})\n  {r.content[:300]}" for r in web_search_results)
         if web_search_results
@@ -225,6 +241,32 @@ def research_chapter(
     response = provider.complete(system=SYSTEM_PROMPT, user=user_prompt, temperature=0.3)
 
     findings = _parse_findings(response, chapter_id)
+
+    # Source verification: fetch URL + LLM fact-check. Drop clear hallucinations.
+    verified_findings: list[Finding] = []
+    for finding in findings:
+        if not finding.source_url:
+            finding.verified = "failed"
+            verified_findings.append(finding)
+            continue
+        status = verify_finding(finding.summary, finding.source_url, provider)
+        finding.verified = status
+        if status == "unsupported":
+            logger.warning(
+                "Researcher %s: dropping unsupported finding '%s' (%s)",
+                chapter_id,
+                finding.title[:60],
+                finding.source_url,
+            )
+            continue
+        verified_findings.append(finding)
+    findings = verified_findings
+
+    # Persist finding URLs to seen-memory so next run skips them
+    finding_urls = [f.source_url for f in findings if f.source_url]
+    if finding_urls:
+        seen = mark_seen(seen, finding_urls)
+        save_seen_urls(chapter_id, seen)
 
     # Save output
     out_file = output_dir / "researcher_findings.json"
