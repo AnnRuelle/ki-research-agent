@@ -36,14 +36,39 @@ auto_merge:
   always_manual_origins: ["CN"]
 
 # Geographischer Scope pro Kapitel
+# search_queries (optional): wenn gesetzt, verwendet der Researcher diese spezifischen
+# Queries statt der generischen "KI Plattform {title} {geo} 2026"-Query.
 chapter_scope:
-  01-plattform-architektur:    { ch: true, dach: true, global: true,  chinese: true  }
+  01-plattform-architektur:
+    ch: true
+    dach: true
+    global: true
+    chinese: true
+    search_queries:
+      - "AI Gateway architecture enterprise 2026"
+      - "Azure AI Foundry Switzerland"
+      - "multi-model LLM orchestration"
   02-use-cases:                { ch: true, dach: true, global: true,  chinese: false }
   03-datenschutz:              { ch: true, dach: true, global: true,  chinese: false }
   04-governance:               { ch: true, dach: true, global: true,  chinese: true  }
   05-regulatorik:              { ch: true, dach: true, global: true,  chinese: true  }
   06-change-management:        { ch: true, dach: true, global: true,  chinese: false }
-  07-markt-anbieter:           { ch: true, dach: true, global: true,  chinese: true  }
+  07-markt-anbieter:
+    ch: true
+    dach: true
+    global: true
+    chinese: true
+    search_queries:
+      - "BEGASOFT Brandbot KI Verwaltung"
+      - "Evoya AI Schweiz Plattform"
+      - "CMI KI+ Gemeinde"
+      - "Abraxas KI Kanton"
+      - "Microsoft Copilot Studio Verwaltung"
+      - "Aleph Alpha PhariaAI 2026"
+      - "simap.ch KI-Plattform Ausschreibung"
+      - "KI Plattform öffentliche Verwaltung Schweiz"
+      - "enterprise AI platform government Switzerland"
+      - "LangChain RAG self-hosted government"
   08-integration:              { ch: true, dach: true, global: false, chinese: false }
   09-kosten:                   { ch: true, dach: true, global: true,  chinese: false }
   10-referenzprojekte:         { ch: true, dach: true, global: true,  chinese: true  }

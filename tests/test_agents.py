@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 
 from agents.llm.provider import LLMResponse
-from agents.researcher import _parse_findings
+from agents.researcher import _load_chapter_content, _parse_findings
 
 
 @pytest.mark.unit
@@ -77,6 +78,45 @@ class TestResearcherParsing:
         )
         findings = _parse_findings(response, "01")
         assert len(findings) == 1
+
+
+@pytest.mark.unit
+class TestLoadChapterContent:
+    """_load_chapter_content includes .md and .data.yaml companion files."""
+
+    def test_includes_markdown_and_data_yaml(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        chapter_dir = tmp_path / "chapters" / "07-markt-anbieter"
+        chapter_dir.mkdir(parents=True)
+        (chapter_dir / "index.md").write_text("# Markt\n\nText", encoding="utf-8")
+        (chapter_dir / "bewertungsraster.md").write_text("# Bewertungsraster", encoding="utf-8")
+        (chapter_dir / "bewertungsraster.data.yaml").write_text(
+            "schema_version: 1\ncolumns: [name, score]\n", encoding="utf-8"
+        )
+
+        monkeypatch.chdir(tmp_path)
+        content = _load_chapter_content("07-markt-anbieter")
+
+        assert "# Markt" in content
+        assert "# Bewertungsraster" in content
+        assert "bewertungsraster.data.yaml" in content
+        assert "schema_version: 1" in content
+        assert "strukturierte Daten" in content
+
+    def test_missing_chapter_dir(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.chdir(tmp_path)
+        content = _load_chapter_content("99-does-not-exist")
+        assert "nicht gefunden" in content
+
+    def test_chapter_without_data_yaml(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        chapter_dir = tmp_path / "chapters" / "02-use-cases"
+        chapter_dir.mkdir(parents=True)
+        (chapter_dir / "index.md").write_text("# Use Cases", encoding="utf-8")
+
+        monkeypatch.chdir(tmp_path)
+        content = _load_chapter_content("02-use-cases")
+
+        assert "# Use Cases" in content
+        assert "strukturierte Daten" not in content
 
 
 @pytest.mark.unit

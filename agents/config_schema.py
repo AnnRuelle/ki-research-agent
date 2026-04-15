@@ -63,6 +63,7 @@ class ChapterScope(BaseModel):
     dach: bool = True
     global_: bool = Field(True, alias="global")
     chinese: bool = False
+    search_queries: list[str] = Field(default_factory=list)
 
     model_config = {"populate_by_name": True}
 

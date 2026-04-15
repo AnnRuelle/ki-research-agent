@@ -82,17 +82,37 @@ def search(
     return results
 
 
-def search_for_chapter(chapter_id: str, chapter_title: str, scope: str = "ch") -> list[SearchResult]:
+def search_for_chapter(
+    chapter_id: str,
+    chapter_title: str,
+    scope: str = "ch",
+    custom_queries: list[str] | None = None,
+) -> list[SearchResult]:
     """Search for information relevant to a specific chapter.
 
     Args:
         chapter_id: Chapter identifier.
         chapter_title: Human-readable chapter title.
-        scope: Geographic scope (ch, dach, global).
+        scope: Geographic scope (ch, dach, global). Ignored when custom_queries is set.
+        custom_queries: Optional list of chapter-specific queries. If provided,
+            each query runs separately (max 3 results per query) and results are
+            deduplicated by URL. Overrides the generic fallback.
 
     Returns:
         List of search results.
     """
+    results: list[SearchResult] = []
+    seen_urls: set[str] = set()
+
+    if custom_queries:
+        for query in custom_queries:
+            for r in search(query, max_results=3):
+                if r.url not in seen_urls:
+                    results.append(r)
+                    seen_urls.add(r.url)
+        logger.info("Chapter search %s (custom): %d total results", chapter_id, len(results))
+        return results
+
     scope_terms = {
         "ch": "Schweiz kantonale Verwaltung",
         "dach": "Deutschland Österreich Schweiz öffentliche Verwaltung",
@@ -100,9 +120,8 @@ def search_for_chapter(chapter_id: str, chapter_title: str, scope: str = "ch") -
     }
     geo = scope_terms.get(scope, "")
 
-    query = f"KI Plattform {chapter_title} {geo} 2025 2026".strip()
+    query = f"KI Plattform {chapter_title} {geo} 2026".strip()
 
-    # Search with Swiss/gov focus
     swiss_domains = [
         "admin.ch",
         "digitale-verwaltung-schweiz.ch",
@@ -111,17 +130,11 @@ def search_for_chapter(chapter_id: str, chapter_title: str, scope: str = "ch") -
         "bk.admin.ch",
     ]
 
-    # Do two searches: one focused on Swiss gov, one broader
-    results: list[SearchResult] = []
-
-    # Swiss government search
     swiss_results = search(query, max_results=3, include_domains=swiss_domains)
     results.extend(swiss_results)
-
-    # Broader search
-    broad_results = search(query, max_results=5)
-    # Deduplicate by URL
     seen_urls = {r.url for r in results}
+
+    broad_results = search(query, max_results=5)
     for r in broad_results:
         if r.url not in seen_urls:
             results.append(r)

@@ -94,7 +94,7 @@ Nutze sowohl die Ingest-Quellen als auch die Web-Search-Ergebnisse."""
 
 
 def _load_chapter_content(chapter_id: str) -> str:
-    """Load all markdown content from a chapter directory."""
+    """Load all markdown and .data.yaml content from a chapter directory."""
     chapter_dir = Path("chapters") / chapter_id
     if not chapter_dir.exists():
         return "(Kapitel-Verzeichnis nicht gefunden)"
@@ -103,6 +103,10 @@ def _load_chapter_content(chapter_id: str) -> str:
     for md_file in sorted(chapter_dir.glob("**/*.md")):
         text = md_file.read_text(encoding="utf-8")
         content_parts.append(f"### {md_file.name}\n{text}")
+
+    for yaml_file in sorted(chapter_dir.glob("**/*.data.yaml")):
+        text = yaml_file.read_text(encoding="utf-8")
+        content_parts.append(f"### {yaml_file.name} (strukturierte Daten)\n```yaml\n{text}\n```")
 
     return "\n\n---\n\n".join(content_parts) if content_parts else "(Keine Inhalte)"
 
@@ -193,8 +197,8 @@ def research_chapter(
         output_dir = Path("tests/output")
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    config = load_config()
     if provider is None:
-        config = load_config()
         provider = create_provider(config.agents["researcher"])
 
     chapter_content = _load_chapter_content(chapter_id)
@@ -202,7 +206,13 @@ def research_chapter(
 
     # Web search for fresh results
     chapter_title = chapter_id.split("-", 1)[1].replace("-", " ").title() if "-" in chapter_id else chapter_id
-    web_search_results = search_for_chapter(chapter_id, chapter_title)
+    scope_config = config.chapter_scope.get(chapter_id)
+    custom_queries = scope_config.search_queries if scope_config else []
+    web_search_results = search_for_chapter(
+        chapter_id,
+        chapter_title,
+        custom_queries=custom_queries or None,
+    )
     web_results_text = (
         "\n".join(f"- [{r.title}]({r.url}) (score: {r.score:.2f})\n  {r.content[:300]}" for r in web_search_results)
         if web_search_results

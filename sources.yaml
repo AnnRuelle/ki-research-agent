@@ -97,5 +97,45 @@ archives:
     frequency: bimonthly
     chapters: [all]
 
+  # KI-Plattform-Anbieter Schweiz (ch07)
+  - name: "BEGASOFT Brandbot"
+    url: "https://brandbot.ch/"
+    frequency: weekly
+    chapters: ["07-markt-anbieter"]
+  - name: "BEGASOFT AI-Services"
+    url: "https://www.begasoft.ch/swiss-ai-services"
+    frequency: weekly
+    chapters: ["07-markt-anbieter"]
+  - name: "BEGASOFT Blog"
+    url: "https://www.begasoft.ch/themenbeitraege"
+    frequency: weekly
+    chapters: ["07-markt-anbieter"]
+  - name: "Evoya AI"
+    url: "https://evoya.ai/en/"
+    frequency: weekly
+    chapters: ["07-markt-anbieter"]
+  - name: "Abraxas"
+    url: "https://www.abraxas.ch/"
+    frequency: monthly
+    chapters: ["07-markt-anbieter"]
+  - name: "Elqano"
+    url: "https://elqano.com/"
+    frequency: monthly
+    chapters: ["07-markt-anbieter"]
+  - name: "SwissMadeSoftware AI"
+    url: "https://www.swissmadesoftware.org/en/produkte-und-services/liste/87fbc31f-c212-43ab-a4a6-a22a80f680fd/artificial-intelligence-ai/allgemein-ki.html"
+    frequency: monthly
+    chapters: ["07-markt-anbieter"]
+
+  # Hyperscaler CH-spezifisch
+  - name: "Azure OpenAI Docs"
+    url: "https://learn.microsoft.com/en-us/azure/ai-services/openai/whats-new"
+    frequency: weekly
+    chapters: ["01-plattform-architektur", "07-markt-anbieter"]
+  - name: "Microsoft Copilot Studio"
+    url: "https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio"
+    frequency: monthly
+    chapters: ["07-markt-anbieter"]
+
 gmail:
   enabled: false
