@@ -1,0 +1,61 @@
+name: Radar
+
+on:
+  schedule:
+    - cron: "0 7 * * 0"  # Sonntag 07:00 UTC - wöchentliche Radare
+    - cron: "0 7 * * *"  # Täglich 07:00 UTC - tägliche Radare (llm-news)
+  workflow_dispatch:
+    inputs:
+      radar:
+        description: "Single radar to run (blank = by schedule)"
+        required: false
+        default: ""
+
+env:
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+  TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+
+permissions:
+  contents: write
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Select radar mode
+        id: mode
+        run: |
+          if [ -n "${{ github.event.inputs.radar }}" ]; then
+            echo "arg=${{ github.event.inputs.radar }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 7 * * 0" ]; then
+            echo "arg=--weekly" >> "$GITHUB_OUTPUT"
+          else
+            echo "arg=--daily" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run radar
+        run: python -m agents.radar ${{ steps.mode.outputs.arg }}
+
+      - name: Commit results
+        run: |
+          git config user.name "ki-kb-bot"
+          git config user.email "ki-kb-bot@users.noreply.github.com"
+          git add radar/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "[agent:radar] $(date +%Y-%m-%d): ${{ steps.mode.outputs.arg }}"
+            git push
+          fi

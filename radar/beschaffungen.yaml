@@ -1,0 +1,13 @@
+schema_version: 1
+last_updated: "2026-04-15"
+description: "Radar: Öffentliche KI-Beschaffungen in der Schweiz (simap.ch, WTO)"
+
+columns:
+  - name: Auftraggeber
+  - name: Titel
+  - name: Verfahren
+  - name: Volumen
+  - name: Publiziert
+  - name: Quelle
+
+rows: []

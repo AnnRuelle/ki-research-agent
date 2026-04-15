@@ -77,6 +77,13 @@
   * [RZ-Standort & CO2](chapters/13-sustainable-it-ki/rz-standort-co2.md)
   * [Green-IT-Beschaffungskriterien](chapters/13-sustainable-it-ki/green-it-beschaffungskriterien.md)
 
+## Radare
+
+* [Übersicht](radar/index.md)
+* [Plattformen](radar/plattformen.md)
+* [Beschaffungen](radar/beschaffungen.md)
+* [LLM News](radar/llm-news.md)
+
 ## Meta
 
 * [Changelog](CHANGELOG.md)

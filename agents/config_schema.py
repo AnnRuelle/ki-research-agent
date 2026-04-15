@@ -75,6 +75,17 @@ class LoggingConfig(BaseModel):
     format: Literal["json", "text"] = "json"
 
 
+class RadarConfig(BaseModel):
+    """Configuration for a single radar (continuous monitoring stream)."""
+
+    enabled: bool = False
+    mode: Literal["list", "feed"] = "list"
+    schedule: str = "sunday 07:00"
+    agent: AgentConfig
+    search_queries: list[str] = Field(default_factory=list)
+    trim_days: int = 90
+
+
 class AppConfig(BaseModel):
     """Root configuration model for config.yaml."""
 
@@ -83,6 +94,7 @@ class AppConfig(BaseModel):
     newsletter: NewsletterConfig
     auto_merge: AutoMergeConfig = Field(default_factory=AutoMergeConfig)
     chapter_scope: dict[str, ChapterScope] = Field(default_factory=dict)
+    radars: dict[str, RadarConfig] = Field(default_factory=dict)
     logging: LoggingConfig = Field(default_factory=LoggingConfig)
 
     @field_validator("agents")

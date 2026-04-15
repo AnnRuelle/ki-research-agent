@@ -1,0 +1,54 @@
+schema_version: 1
+last_updated: "2026-04-15"
+description: "Radar: KI-Plattformen für kantonale Verwaltungen — kontinuierlich gepflegt"
+
+columns:
+  - name: Anbieter
+  - name: Ebene
+  - name: CH-Hosting
+  - name: Status
+  - name: Erstgesichtet
+  - name: Quelle
+
+rows:
+  - anbieter: "BEGASOFT Brandbot"
+    ebene: 2
+    ch_hosting: "ja"
+    status: "produktiv (6 Kantone, SSGI-Zuschlag)"
+    erstgesichtet: "2026-03-15"
+    quelle: "https://www.begasoft.ch/brandbot"
+
+  - anbieter: "Evoya AI"
+    ebene: 2
+    ch_hosting: "EU/CH"
+    status: "produktiv"
+    erstgesichtet: "2026-04-01"
+    quelle: "https://www.evoya.ai"
+
+  - anbieter: "CMI KI+"
+    ebene: 2
+    ch_hosting: "ja"
+    status: "produktiv (in CMI-Plattform)"
+    erstgesichtet: "2026-04-01"
+    quelle: "https://cmi.ch"
+
+  - anbieter: "Abraxas"
+    ebene: 2
+    ch_hosting: "ja"
+    status: "produktiv (Ostschweizer Kantone)"
+    erstgesichtet: "2026-04-01"
+    quelle: "https://www.abraxas.ch"
+
+  - anbieter: "Unique AG"
+    ebene: 2
+    ch_hosting: "ja"
+    status: "produktiv (Finanzsektor, oeV expandierend)"
+    erstgesichtet: "2026-04-01"
+    quelle: "https://www.unique.ch"
+
+  - anbieter: "Elqano"
+    ebene: 2
+    ch_hosting: "EU"
+    status: "produktiv"
+    erstgesichtet: "2026-04-01"
+    quelle: "https://www.elqano.com"

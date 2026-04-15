@@ -76,6 +76,67 @@ chapter_scope:
   12-beschaffung:              { ch: true, dach: true, global: false, chinese: false }
   13-sustainable-it:           { ch: true, dach: true, global: true,  chinese: true  }
 
+# Radare — kontinuierliche Monitoring-Streams (ausserhalb der 13 Kapitel)
+# mode: "list"  → YAML als Source of Truth, neue Einträge werden angehängt
+# mode: "feed"  → Markdown-Feed, neue Einträge werden oben eingefügt, 90-Tage-Trim
+radars:
+  plattformen:
+    enabled: true
+    mode: list
+    schedule: "sunday 07:00"
+    agent: { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
+    search_queries:
+      - "neue KI-Plattform Schweiz Verwaltung 2026"
+      - "Swiss AI platform cantonal government launch"
+      - "KI Plattform öffentliche Hand Schweiz neu"
+    trim_days: 90
+
+  beschaffungen:
+    enabled: true
+    mode: list
+    schedule: "sunday 07:00"
+    agent: { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
+    search_queries:
+      - "simap.ch KI Ausschreibung Kanton"
+      - "öffentliche Beschaffung KI-Plattform Schweiz"
+      - "WTO-Ausschreibung künstliche Intelligenz Verwaltung"
+    trim_days: 90
+
+  llm_news:
+    enabled: true
+    mode: feed
+    schedule: "daily 07:00"
+    agent: { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
+    search_queries:
+      - "LLM release new model 2026"
+      - "Anthropic OpenAI Google model announcement"
+      - "new foundation model benchmark 2026"
+    trim_days: 90
+
+  tools:
+    enabled: false
+    mode: list
+    schedule: "sunday 07:00"
+    agent: { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
+
+  rechenzentren:
+    enabled: false
+    mode: list
+    schedule: "sunday 07:00"
+    agent: { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
+
+  regulatorik:
+    enabled: false
+    mode: feed
+    schedule: "sunday 07:00"
+    agent: { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
+
+  benchmarks:
+    enabled: false
+    mode: feed
+    schedule: "sunday 07:00"
+    agent: { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
+
 # Logging
 logging:
   level: INFO
