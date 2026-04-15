@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from pathlib import Path
 
 import yaml
@@ -13,6 +14,118 @@ from agents.llm.provider import LLMProvider
 logger = logging.getLogger(__name__)
 
 CHAPTERS_DIR = Path("chapters")
+
+MAX_CHARS_PER_CHAPTER = 20_000
+
+STOPWORDS = frozenset(
+    {
+        "und",
+        "oder",
+        "aber",
+        "ist",
+        "sind",
+        "war",
+        "waren",
+        "wird",
+        "werden",
+        "was",
+        "wie",
+        "wer",
+        "wo",
+        "wann",
+        "warum",
+        "welche",
+        "welcher",
+        "welches",
+        "die",
+        "der",
+        "das",
+        "den",
+        "dem",
+        "des",
+        "ein",
+        "eine",
+        "einen",
+        "einem",
+        "einer",
+        "eines",
+        "von",
+        "vom",
+        "mit",
+        "fuer",
+        "für",
+        "auf",
+        "aus",
+        "bei",
+        "nach",
+        "ueber",
+        "über",
+        "unter",
+        "vor",
+        "hinter",
+        "zwischen",
+        "zu",
+        "zum",
+        "zur",
+        "am",
+        "im",
+        "ins",
+        "ans",
+        "kann",
+        "koennen",
+        "können",
+        "soll",
+        "sollen",
+        "muss",
+        "muessen",
+        "müssen",
+        "hat",
+        "haben",
+        "hatte",
+        "hatten",
+        "nicht",
+        "kein",
+        "keine",
+        "mehr",
+        "noch",
+        "auch",
+        "nur",
+        "schon",
+        "sehr",
+        "viel",
+        "viele",
+        "alle",
+        "gibt",
+        "gib",
+        "the",
+        "and",
+        "but",
+        "for",
+        "with",
+        "from",
+    }
+)
+
+TOKEN_RE = re.compile(r"[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9]{2,}")
+
+
+def _extract_keywords(text: str) -> set[str]:
+    """Extract lowercase keyword tokens from text, dropping stopwords."""
+    tokens = TOKEN_RE.findall(text.lower())
+    return {t for t in tokens if t not in STOPWORDS}
+
+
+def _score_file(path: Path, keywords: set[str]) -> int:
+    """Score a subpage by keyword hits in filename + first 500 chars."""
+    if not keywords:
+        return 0
+    haystack = path.stem.lower().replace("-", " ").replace("_", " ")
+    try:
+        haystack += " " + path.read_text(encoding="utf-8")[:500].lower()
+    except OSError:
+        return 0
+    return sum(1 for kw in keywords if kw in haystack)
+
 
 SYSTEM_PROMPT = """\
 Du bist ein Q&A-Agent fuer eine Wissensdatenbank ueber KI-Plattformen fuer kantonale Verwaltungen in der Schweiz.
@@ -87,29 +200,69 @@ def _select_relevant_chapters(question: str, max_chapters: int = 5) -> list[str]
     return selected
 
 
-def _load_chapter_content(chapter_id: str) -> str:
-    """Load all content from a chapter including .data.yaml files."""
+def _load_chapter_content(
+    chapter_id: str,
+    keywords: set[str] | None = None,
+    max_chars: int = MAX_CHARS_PER_CHAPTER,
+) -> str:
+    """Load scoped chapter content.
+
+    Always includes index.md and all .data.yaml files (structured, compact).
+    Other subpages are ranked by keyword hit count and included until max_chars
+    is reached. With no keywords, all subpages are included up to the cap.
+    """
     chapter_dir = CHAPTERS_DIR / chapter_id
     if not chapter_dir.exists():
         return ""
 
     parts: list[str] = []
+    char_budget = max_chars
 
-    # Markdown files
-    for md_file in sorted(chapter_dir.glob("**/*.md")):
-        text = md_file.read_text(encoding="utf-8")
-        rel_path = md_file.relative_to(CHAPTERS_DIR)
-        parts.append(f"=== {rel_path} ===\n{text}")
+    def _append(path: Path, text: str, tag: str = "") -> None:
+        nonlocal char_budget
+        rel_path = path.relative_to(CHAPTERS_DIR)
+        header = f"=== {rel_path}{tag} ===\n"
+        block = header + text
+        parts.append(block)
+        char_budget -= len(block)
 
-    # YAML data files
+    index_md = chapter_dir / "index.md"
+    if index_md.exists():
+        _append(index_md, index_md.read_text(encoding="utf-8"))
+
     for yaml_file in sorted(chapter_dir.glob("**/*.data.yaml")):
         try:
             data = yaml.safe_load(yaml_file.read_text(encoding="utf-8"))
-            rel_path = yaml_file.relative_to(CHAPTERS_DIR)
-            parts.append(f"=== {rel_path} (strukturierte Daten) ===\n{yaml.dump(data, allow_unicode=True)}")
         except yaml.YAMLError:
             continue
+        _append(yaml_file, yaml.dump(data, allow_unicode=True), tag=" (strukturierte Daten)")
 
+    subpages = [p for p in chapter_dir.glob("**/*.md") if p.name != "index.md"]
+    if keywords:
+        scored = [(_score_file(p, keywords), p) for p in subpages]
+        scored.sort(key=lambda sp: (-sp[0], sp[1].name))
+        ordered = [p for score, p in scored if score > 0]
+        ordered += [p for score, p in scored if score == 0]
+    else:
+        ordered = sorted(subpages, key=lambda p: p.name)
+
+    included = 0
+    for md_file in ordered:
+        if char_budget <= 0:
+            break
+        text = md_file.read_text(encoding="utf-8")
+        if len(text) > char_budget:
+            text = text[:char_budget] + "\n[...truncated...]"
+        _append(md_file, text)
+        included += 1
+
+    logger.info(
+        "qa: chapter %s loaded — index + %d .data.yaml + %d/%d subpages",
+        chapter_id,
+        sum(1 for p in parts if ".data.yaml" in p.split("\n", 1)[0]),
+        included,
+        len(subpages),
+    )
     return "\n\n".join(parts)
 
 
@@ -138,10 +291,11 @@ def ask(
     selected = _select_relevant_chapters(question, max_chapters)
     logger.info("Q&A: selected chapters %s for question: %s", selected, question[:80])
 
-    # Load content
+    # Load scoped content (keyword-filtered, per-chapter char cap)
+    keywords = _extract_keywords(question)
     context_parts: list[str] = []
     for chapter_id in selected:
-        content = _load_chapter_content(chapter_id)
+        content = _load_chapter_content(chapter_id, keywords=keywords)
         if content:
             context_parts.append(content)
 
