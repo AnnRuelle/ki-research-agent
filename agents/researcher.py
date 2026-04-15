@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from agents.config_schema import load_config
@@ -24,6 +25,11 @@ from agents.web_search import search_for_chapter
 logger = logging.getLogger(__name__)
 
 SOURCES_DIR = Path("sources")
+
+INGEST_WINDOW_DAYS = 14
+INGEST_MAX_ITEMS = 60
+
+DATE_IN_NAME_RE = re.compile(r"(\d{4}-\d{2}-\d{2})")
 
 
 @dataclass
@@ -120,32 +126,70 @@ def _load_chapter_content(chapter_id: str) -> str:
     return "\n\n---\n\n".join(content_parts) if content_parts else "(Keine Inhalte)"
 
 
-def _load_ingested_sources() -> str:
-    """Load recently ingested sources as context."""
+def _file_date(path: Path) -> date:
+    """Extract a date from 'YYYY-MM-DD' in the filename; fall back to mtime."""
+    m = DATE_IN_NAME_RE.search(path.name)
+    if m:
+        try:
+            return datetime.strptime(m.group(1), "%Y-%m-%d").date()
+        except ValueError:
+            pass
+    return datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc).date()
+
+
+def _files_in_window(directory: Path, pattern: str, window_days: int) -> list[Path]:
+    """Return files matching `pattern` whose embedded date is within `window_days`."""
+    if not directory.exists():
+        return []
+    cutoff = datetime.now(tz=timezone.utc).date() - timedelta(days=window_days)
+    fresh: list[tuple[date, Path]] = []
+    for f in directory.glob(pattern):
+        if _file_date(f) >= cutoff:
+            fresh.append((_file_date(f), f))
+    fresh.sort(key=lambda x: x[0], reverse=True)
+    return [f for _, f in fresh]
+
+
+def _load_ingested_sources(
+    window_days: int = INGEST_WINDOW_DAYS,
+    max_items: int = INGEST_MAX_ITEMS,
+) -> str:
+    """Load sources ingested within the last `window_days` days, capped at `max_items`."""
     parts: list[str] = []
+    remaining = max_items
 
-    # RSS items
-    newsletter_dir = SOURCES_DIR / "newsletters"
-    if newsletter_dir.exists():
-        for f in sorted(newsletter_dir.glob("*.json"), reverse=True)[:3]:
-            try:
-                items = json.loads(f.read_text(encoding="utf-8"))
-                for item in items[:10]:
-                    parts.append(f"- [{item.get('source_name', '?')}] {item.get('title', '?')} ({item.get('url', '')})")
-            except (json.JSONDecodeError, KeyError):
-                continue
+    for f in _files_in_window(SOURCES_DIR / "newsletters", "*.json", window_days):
+        if remaining <= 0:
+            break
+        try:
+            items = json.loads(f.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        for item in items:
+            if remaining <= 0:
+                break
+            parts.append(f"- [{item.get('source_name', '?')}] {item.get('title', '?')} ({item.get('url', '')})")
+            remaining -= 1
 
-    # Web changes
-    archive_dir = SOURCES_DIR / "web-archives"
-    if archive_dir.exists():
-        for f in sorted(archive_dir.glob("changes-*.json"), reverse=True)[:3]:
-            try:
-                changes = json.loads(f.read_text(encoding="utf-8"))
-                for change in changes:
-                    parts.append(f"- [WEB] {change.get('source_name', '?')}: {change.get('snippet', '')[:200]}")
-            except (json.JSONDecodeError, KeyError):
-                continue
+    for f in _files_in_window(SOURCES_DIR / "web-archives", "changes-*.json", window_days):
+        if remaining <= 0:
+            break
+        try:
+            changes = json.loads(f.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        for change in changes:
+            if remaining <= 0:
+                break
+            parts.append(f"- [WEB] {change.get('source_name', '?')}: {change.get('snippet', '')[:200]}")
+            remaining -= 1
 
+    logger.info(
+        "researcher: loaded %d ingested items from last %d days (cap %d)",
+        len(parts),
+        window_days,
+        max_items,
+    )
     return "\n".join(parts) if parts else "(Keine neuen Quellen)"
 
 
