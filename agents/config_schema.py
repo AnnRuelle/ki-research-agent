@@ -75,6 +75,12 @@ class LoggingConfig(BaseModel):
     format: Literal["json", "text"] = "json"
 
 
+class BudgetConfig(BaseModel):
+    """Per-run budget cap for LLM costs."""
+
+    max_usd_per_run: float | None = None
+
+
 class RadarConfig(BaseModel):
     """Configuration for a single radar (continuous monitoring stream)."""
 
@@ -95,6 +101,7 @@ class AppConfig(BaseModel):
     auto_merge: AutoMergeConfig = Field(default_factory=AutoMergeConfig)
     chapter_scope: dict[str, ChapterScope] = Field(default_factory=dict)
     radars: dict[str, RadarConfig] = Field(default_factory=dict)
+    budget: BudgetConfig = Field(default_factory=BudgetConfig)
     logging: LoggingConfig = Field(default_factory=LoggingConfig)
 
     @field_validator("agents")

@@ -109,7 +109,7 @@ def check_consistency(
         from agents.config_schema import load_config
 
         config = load_config()
-        provider = create_provider(config.agents["consistency_checker"])
+        provider = create_provider(config.agents["consistency_checker"], agent_name="consistency_checker")
 
     user_prompt = f"""\
 Prüfe die folgenden Kapitel auf kapitelübergreifende Widersprüche:

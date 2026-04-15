@@ -7,6 +7,8 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
+from agents import cost_tracker
+
 logger = logging.getLogger(__name__)
 
 
@@ -30,10 +32,11 @@ class LLMProvider(ABC):
     Agents construct their own prompts and use the provider generically.
     """
 
-    def __init__(self, model: str, retries: int = 3, timeout: int = 60) -> None:
+    def __init__(self, model: str, retries: int = 3, timeout: int = 60, agent_name: str = "unknown") -> None:
         self.model = model
         self.retries = retries
         self.timeout = timeout
+        self.agent_name = agent_name
 
     def complete(self, system: str, user: str, temperature: float = 0.3) -> LLMResponse:
         """Complete a prompt with retry logic and cost tracking.
@@ -58,13 +61,15 @@ class LLMProvider(ABC):
                 response.duration_seconds = time.monotonic() - start
 
                 logger.info(
-                    "LLM call success: model=%s, tokens=%d+%d, cost=$%.4f, duration=%.1fs",
+                    "LLM call success: agent=%s, model=%s, tokens=%d+%d, cost=$%.4f, duration=%.1fs",
+                    self.agent_name,
                     response.model,
                     response.input_tokens,
                     response.output_tokens,
                     response.cost_usd,
                     response.duration_seconds,
                 )
+                cost_tracker.track(self.agent_name, response.cost_usd)
                 return response
 
             except RateLimitError:

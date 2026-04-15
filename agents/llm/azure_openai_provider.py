@@ -29,8 +29,8 @@ PRICING: dict[str, tuple[float, float]] = {
 class AzureOpenAIProvider(LLMProvider):
     """Azure OpenAI LLM provider."""
 
-    def __init__(self, model: str, retries: int = 3, timeout: int = 60) -> None:
-        super().__init__(model=model, retries=retries, timeout=timeout)
+    def __init__(self, model: str, retries: int = 3, timeout: int = 60, agent_name: str = "unknown") -> None:
+        super().__init__(model=model, retries=retries, timeout=timeout, agent_name=agent_name)
 
         api_key = os.environ.get("AZURE_OPENAI_API_KEY", "")
         endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT", "")

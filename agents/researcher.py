@@ -208,7 +208,7 @@ def research_chapter(
 
     config = load_config()
     if provider is None:
-        provider = create_provider(config.agents["researcher"])
+        provider = create_provider(config.agents["researcher"], agent_name="researcher")
 
     chapter_content = _load_chapter_content(chapter_id)
     ingested_sources = _load_ingested_sources()

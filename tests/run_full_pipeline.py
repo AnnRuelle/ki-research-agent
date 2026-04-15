@@ -5,9 +5,21 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+from agents import cost_tracker
+from agents.config_schema import load_config
+from agents.cost_tracker import BudgetExceededError
 from agents.logging_config import setup_logging
 
 OUTPUT_DIR = Path("tests/output")
+
+
+def _print_cost_summary() -> None:
+    total = cost_tracker.total()
+    budget = cost_tracker.budget()
+    budget_str = f" / ${budget:.2f} cap" if budget is not None else ""
+    print(f"\nLLM cost this run: ${total:.4f}{budget_str}")
+    for agent, cost in sorted(cost_tracker.by_agent().items(), key=lambda kv: -kv[1]):
+        print(f"  {agent:20s}  ${cost:.4f}")
 
 
 def run_pipeline(chapter_id: str) -> None:
@@ -15,10 +27,24 @@ def run_pipeline(chapter_id: str) -> None:
     setup_logging(level="INFO")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+    config = load_config()
+    cost_tracker.reset(budget_usd=config.budget.max_usd_per_run)
+
     print(f"{'=' * 60}")
     print(f"Full Pipeline: {chapter_id}")
+    if config.budget.max_usd_per_run is not None:
+        print(f"Budget cap: ${config.budget.max_usd_per_run:.2f}")
     print(f"{'=' * 60}")
 
+    try:
+        _run_pipeline_inner(chapter_id)
+    except BudgetExceededError as e:
+        print(f"\n⛔ Pipeline stopped: {e}")
+    finally:
+        _print_cost_summary()
+
+
+def _run_pipeline_inner(chapter_id: str) -> None:
     # Step 1: Researcher
     print("\n[1/6] Researcher...")
     from agents.researcher import research_chapter

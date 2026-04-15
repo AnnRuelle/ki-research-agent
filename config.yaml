@@ -137,6 +137,12 @@ radars:
     schedule: "sunday 07:00"
     agent: { provider: anthropic, model: claude-haiku-4-5-20251001, retries: 3, timeout: 60 }
 
+# Budget-Cap pro Pipeline-Run (null = unbegrenzt)
+# Wenn während eines Runs die kumulierten LLM-Kosten diesen Wert überschreiten,
+# bricht der aktuelle Agent mit BudgetExceededError ab.
+budget:
+  max_usd_per_run: 5.0
+
 # Logging
 logging:
   level: INFO

@@ -134,7 +134,7 @@ def critique_draft(
         from agents.config_schema import load_config
 
         config = load_config()
-        provider = create_provider(config.agents["critic"])
+        provider = create_provider(config.agents["critic"], agent_name="critic")
 
     # Call LLM
     user_prompt = _build_user_prompt(original_text, draft_text, finding_json)

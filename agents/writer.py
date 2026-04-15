@@ -169,7 +169,7 @@ def write_draft(
         from agents.config_schema import load_config
 
         config = load_config()
-        provider = create_provider(config.agents["writer"])
+        provider = create_provider(config.agents["writer"], agent_name="writer")
 
     # Call LLM
     user_prompt = _build_user_prompt(original_doc, finding_json, finding_count)

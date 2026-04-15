@@ -153,7 +153,7 @@ def ask(
 
         config = load_config()
         qa_config = config.agents.get("qa", config.agents["researcher"])
-        provider = create_provider(qa_config)
+        provider = create_provider(qa_config, agent_name="qa")
 
     # Build prompt
     user_prompt = f"""\

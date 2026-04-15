@@ -35,8 +35,8 @@ PRICING: dict[str, tuple[float, float]] = {
 class AnthropicProvider(LLMProvider):
     """Anthropic Claude LLM provider."""
 
-    def __init__(self, model: str, retries: int = 3, timeout: int = 60) -> None:
-        super().__init__(model=model, retries=retries, timeout=timeout)
+    def __init__(self, model: str, retries: int = 3, timeout: int = 60, agent_name: str = "unknown") -> None:
+        super().__init__(model=model, retries=retries, timeout=timeout, agent_name=agent_name)
 
         api_key = os.environ.get("ANTHROPIC_API_KEY", "")
         if not api_key:

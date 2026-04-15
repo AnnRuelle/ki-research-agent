@@ -272,7 +272,7 @@ def run_radar(
         return 0
 
     if provider is None:
-        provider = create_provider(radar_config.agent)
+        provider = create_provider(radar_config.agent, agent_name=f"radar:{radar_name}")
 
     if radar_config.mode == "list":
         return run_list_radar(radar_name, radar_config, provider)

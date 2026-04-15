@@ -129,7 +129,7 @@ def resolve_draft(
         from agents.config_schema import load_config
 
         config = load_config()
-        provider = create_provider(config.agents["resolver"])
+        provider = create_provider(config.agents["resolver"], agent_name="resolver")
 
     # Call LLM
     user_prompt = _build_user_prompt(draft_text, critic_json)
