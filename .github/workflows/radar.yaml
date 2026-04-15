@@ -1,15 +1,20 @@
-name: Radar
+name: Radar (manual)
 
 on:
-  schedule:
-    - cron: "0 7 * * 0"  # Sonntag 07:00 UTC - wöchentliche Radare
-    - cron: "0 7 * * *"  # Täglich 07:00 UTC - tägliche Radare (llm-news)
   workflow_dispatch:
     inputs:
-      radar:
-        description: "Single radar to run (blank = by schedule)"
-        required: false
-        default: ""
+      target:
+        description: "Which radar(s) to run"
+        type: choice
+        required: true
+        default: "llm_news"
+        options:
+          - plattformen
+          - beschaffungen
+          - llm_news
+          - --daily
+          - --weekly
+          - --all-enabled
 
 env:
   ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -34,19 +39,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Select radar mode
-        id: mode
-        run: |
-          if [ -n "${{ github.event.inputs.radar }}" ]; then
-            echo "arg=${{ github.event.inputs.radar }}" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.event.schedule }}" = "0 7 * * 0" ]; then
-            echo "arg=--weekly" >> "$GITHUB_OUTPUT"
-          else
-            echo "arg=--daily" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Run radar
-        run: python -m agents.radar ${{ steps.mode.outputs.arg }}
+        run: python -m agents.radar ${{ github.event.inputs.target }}
 
       - name: Commit results
         run: |
@@ -56,6 +50,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "[agent:radar] $(date +%Y-%m-%d): ${{ steps.mode.outputs.arg }}"
+            git commit -m "[agent:radar] $(date +%Y-%m-%d): ${{ github.event.inputs.target }}"
             git push
           fi

@@ -1,9 +1,13 @@
-name: Daily Ingest
+name: Ingest (manual)
 
 on:
-  schedule:
-    - cron: "0 6 * * *"  # 06:00 UTC täglich
-  workflow_dispatch:       # Manuell auslösbar
+  workflow_dispatch:
+    inputs:
+      include_archive_check:
+        description: "Also run the Web Archive Checker"
+        type: boolean
+        required: false
+        default: true
 
 jobs:
   ingest:
@@ -23,8 +27,8 @@ jobs:
       - name: Run RSS Poller
         run: python -m agents.ingest.rss_poller
 
-      - name: Run Web Archive Checker (Sunday only)
-        if: github.event.schedule == '0 6 * * 0' || github.event_name == 'workflow_dispatch'
+      - name: Run Web Archive Checker
+        if: github.event.inputs.include_archive_check == 'true'
         run: python -m agents.ingest.web_archive_checker
 
       - name: Commit new sources
